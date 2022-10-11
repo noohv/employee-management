@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, AppBar, Typography, Grow, Grid } from '@mui/material'
+import { useDispatch } from "react-redux";
+
+import { getEmployees } from './actions/employees';
 
 import Employees from "./components/Employees/Employees";
 import Form from "./components/Form/Form";
-import logo from './images/logo.jpg';
-import useStyles from './styles';
 
 const App = () => {
-    const classes = useStyles();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getEmployees());
+    }, [dispatch])
 
     return (
         <Container>
-            <AppBar className={classes.appBar} position="static" color="inherit">
-                <Typography className={classes.heading} variant="h2" align="center">Employees</Typography>
-                <img className={classes.image} src={logo} alt="logo" height="60" />
+            <AppBar position="static" justify="space-between">
+                <Typography variant="h2" align="center">Employees</Typography>
             </AppBar>
             <Grow in>
                 <Container>

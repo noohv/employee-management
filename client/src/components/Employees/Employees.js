@@ -1,38 +1,58 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { CircularProgress } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { CircularProgress, TableBody, TableCell, TableRow } from "@mui/material";
+import useTable from "../Reusable/useTable";
 
 import Employee from "./Employee/Employee";
 
 const Employees = () => {
     const employees = useSelector((state) => state.employees);
 
-    const [pageSize, setPageSize] = React.useState(10);
-
-    const columns = [
-        {field: 'firstName', headerName: 'Vārds'},
-        {field: 'lastName', headerName: 'Uzvārds'},
-        {field: 'startDate', headerName: 'Sākuma Datums'}
+    const headCells = [
+        { id: 'firstName', label: 'Vārds' },
+        { id: 'lastName', label: 'Uzvārds' },
+        { id: 'startDate', label: 'Sākuma Datums', disableSorting:true }
     ]
 
+    const {
+        TblContainer,
+        TblHead,
+        TblPagination,
+        recordsAfterPagingAndSorting
+    } = useTable(employees, headCells);
 
 
     return (
-        !employees.length ? <CircularProgress /> : (
-            <DataGrid
-                rows={employees}
-                columns={columns}
-                checkboxSelection
-                autoHeight
-                getRowId={(row) => row._id }
-                pageSize={pageSize}
-                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                rowsPerPageOptions={[10, 25, 50, 100]}
-                pagination
-            />
-        )
-    );
+        <>
+            <TblContainer>
+                <TblHead />
+                <TableBody>
+                    {
+                        recordsAfterPagingAndSorting().map(item => {
+                            let shortDate=''
+                            if(item.startDate) {
+                                shortDate = item.startDate.slice(0,10)
+                            }
+
+
+                            return (
+                                <TableRow key={item._id}>
+                                    <TableCell>{item.firstName}</TableCell>
+                                    <TableCell>{item.lastName}</TableCell>
+                                    <TableCell>{shortDate}</TableCell>
+                                 </TableRow>
+                            )
+                        }
+                            
+
+
+                        )
+                    }
+                </TableBody>
+            </TblContainer>
+            <TblPagination />
+        </>
+    )
 }
 
 export default Employees;

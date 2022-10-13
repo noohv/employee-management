@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Table, TableHead, TableRow, TableCell, TablePagination, TableSortLabel } from '@mui/material';
 
-export default function useTable(records, headCells) {
+export default function useTable(records, headCells, filter) {
 
     const pages = [15,30,50,100];
     const [page,setPage] = useState(0);
@@ -98,7 +98,7 @@ export default function useTable(records, headCells) {
     }
 
     const recordsAfterPagingAndSorting = () => {
-        return stableSort(records,getComparator(order,orderBy))
+        return stableSort(filter.fn(records),getComparator(order,orderBy))
             .slice(page * rowsPerPage, (page +1 ) * rowsPerPage)
     }
 

@@ -16,19 +16,12 @@ const App = () => {
 
     return (
         <Container>
-            <AppBar position="static" justify="space-between">
+            <AppBar position="static" justify="space-between" sx={{m:2}}>
                 <Typography variant="h2" align="center">Employees</Typography>
             </AppBar>
             <Grow in>
                 <Container>
-                    <Grid container justify="space-around" alignItems="stretch">
-                        <Grid item xs={12} sm={7}>
-                            <Employees />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <Form />
-                        </Grid>
-                    </Grid>
+                    <Employees />
                 </Container>
             </Grow>
         </Container>

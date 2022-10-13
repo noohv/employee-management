@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { CircularProgress, InputAdornment, TableBody, TableCell, TableRow, Toolbar } from "@mui/material";
 import useTable from "../Reusable/useTable";
-import Controls from "../Reusable/controls/Controls"
-import { Search } from "@mui/icons-material"
+import Controls from "../Reusable/controls/Controls";
+import { Search } from "@mui/icons-material";
+import Popup from "../Reusable/Popup";
+import Form from "../Form/Form";
 
 import Employee from "./Employee/Employee";
 
@@ -11,7 +13,7 @@ const Employees = () => {
     const employees = useSelector((state) => state.employees);
     
     const [filter, setFilter] = useState({fn: items => { return items; }});
-
+    const [openPopup, setOpenPopup] = useState(false);
 
     const headCells = [
         { id: 'firstName', label: 'Vārds' },
@@ -47,7 +49,7 @@ const Employees = () => {
         <>
             <Toolbar>
                 <Controls.Input
-                    label="Meklēt darbinieku"
+                    label="Meklēt"
                     InputProps={{
                         startAdornment:(
                             <InputAdornment position="start">
@@ -60,6 +62,10 @@ const Employees = () => {
                         width:'35%'
                     }}
                     onChange={handleSearch}
+                />
+                <Controls.Button 
+                    text= "Pievienot"
+                    onClick={() => setOpenPopup(true)}
                 />
             </Toolbar>
             <TblContainer>
@@ -84,6 +90,13 @@ const Employees = () => {
                 </TableBody>
             </TblContainer>
             <TblPagination />
+            <Popup
+                title="Pievienot darbinieku"
+                openPopup= {openPopup}
+                setOpenPopup= {setOpenPopup}
+            >
+                <Form />
+            </Popup>
         </>
     )
 }

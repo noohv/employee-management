@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dialog, DialogContent, DialogTitle, Typography } from "@mui/material";
 import Controls from "../Reusable/controls/Controls";
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function Popup(props) {
 
@@ -14,15 +15,15 @@ export default function Popup(props) {
                     {title}
                 </Typography>
                     
-                <Controls.Button
-                color="error"
-                text= "X"
-                sx={{
-                    width:"20px"
-                }}
-            >
-
-            </Controls.Button>
+                <Controls.ActionButton
+                    color="#90EE90"
+                    sx={{
+                        width:"20px",
+                    }}
+                    onClick = {() => {setOpenPopup(false)}}
+                >
+                    <CloseIcon />
+                </Controls.ActionButton>
             </div>
         </DialogTitle>
 

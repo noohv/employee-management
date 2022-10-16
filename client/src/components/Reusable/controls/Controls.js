@@ -1,9 +1,11 @@
 import Input from "./Input";
 import Button from "./Button";
+import ActionButton from "./ActionButton";
 
 const Controls = {
     Input,
-    Button
+    Button,
+    ActionButton
 }
 
 export default Controls;

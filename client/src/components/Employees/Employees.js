@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { CircularProgress, InputAdornment, TableBody, TableCell, TableRow, Toolbar } from "@mui/material";
+import { InputAdornment, TableBody, TableCell, TableRow, Toolbar, Skeleton } from "@mui/material";
 import useTable from "../Reusable/useTable";
 import Controls from "../Reusable/controls/Controls";
 import { Search } from "@mui/icons-material";
@@ -10,8 +10,9 @@ import Form from "../Form/Form";
 import Employee from "./Employee/Employee";
 
 const Employees = () => {
-    const employees = useSelector((state) => state.employees);
-    
+    const employees = useSelector((state) => state.employees.eventData);
+    const showLoading = useSelector((state) => state)
+    console.log(showLoading)
     const [filter, setFilter] = useState({fn: items => { return items; }});
     const [openPopup, setOpenPopup] = useState(false);
 
@@ -32,9 +33,9 @@ const Employees = () => {
         let target = e.target;
         setFilter({
             fn: items => {
-                if(target.value =="")
+                if(target.value ==="")
                     return items;
-                else if(target.value==" ")
+                else if(target.value===" ")
                     return [];
                 else
                     return items.filter(x => {
@@ -92,8 +93,8 @@ const Employees = () => {
             <TblPagination />
             <Popup
                 title="Pievienot darbinieku"
-                openPopup= {openPopup}
-                setOpenPopup= {setOpenPopup}
+                openPopup={openPopup}
+                setOpenPopup={setOpenPopup}
             >
                 <Form />
             </Popup>

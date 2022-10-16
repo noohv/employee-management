@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { getEmployees } from './actions/employees';
 
 import Employees from "./components/Employees/Employees";
-import Form from "./components/Form/Form";
 
 const App = () => {
     const dispatch = useDispatch();

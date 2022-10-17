@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import EmployeeProfile from '../models/employeeProfile.js';
 
 export const getEmployees = async (req, res) => {
@@ -21,4 +22,15 @@ export const createEmployee = async (req, res) => {
     } catch (error) {
         res.status(409).json({ message:error.message })
     }
+}
+
+export const updatePost = async (req, res) => {
+    const { id: _id } = req.params;
+    const employee = req.body;
+
+    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send("No post with ID");
+
+    const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(_id, employee, { new: true });
+
+    res.json(updatePost)
 }

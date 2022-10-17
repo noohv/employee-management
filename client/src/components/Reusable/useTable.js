@@ -3,7 +3,7 @@ import { Table, TableHead, TableRow, TableCell, TablePagination, TableSortLabel 
 
 export default function useTable(records, headCells, filter) {
 
-    const pages = [15,30,50,100];
+    const pages = [10,25,50,100];
     const [page,setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(pages[page])
     const [orderBy,setOrderBy] = useState();

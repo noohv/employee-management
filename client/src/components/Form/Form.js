@@ -1,22 +1,34 @@
-import React, { useState } from "react";
-import { Container, TextField, Button, Typography, Modal, Fade, Box, Backdrop } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { createEmployee } from "../../actions/employees";
+import React, { useState, useEffect } from "react";
+import { Container, TextField, Button } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { createEmployee, updateEmployee } from "../../actions/employees";
 
 
-const Form = () => {
-    const [employeeData, setEmployeeData] = useState({ firstName:'', lastName:'', startDate: '', tags:'' })
+export default function Form({currentId, setCurrentId}) {
+    const initialData = { firstName:'', lastName:'', startDate: '', tags:'' }
+    const [employeeData, setEmployeeData] = useState(initialData)
+    const employee = useSelector((state) => currentId ? state.employees.eventData.find((x) => x._id === currentId) : null)
     const dispatch = useDispatch();
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        dispatch(createEmployee(employeeData));
+        
+        if(currentId){
+            dispatch(updateEmployee(currentId,employeeData));
+        } else {
+            dispatch(createEmployee(employeeData));
+        }
+        clear()
     }
-
     const clear = () => {
-
+        setCurrentId(null)
+        setEmployeeData(initialData)
     }
+
+    useEffect(() => {
+        if(employee) setEmployeeData(employee);
+    }, [employee])
 
     return (
         <Container>
@@ -31,5 +43,3 @@ const Form = () => {
         </Container>
     );
 }
-
-export default Form;

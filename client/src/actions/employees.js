@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE, SHOW_LOADER, HIDE_LOADER } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER } from '../constants/actionTypes';
 import * as api from '../api';
 
 // Action Creators 

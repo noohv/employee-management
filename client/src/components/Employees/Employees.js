@@ -1,7 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import EmployeesList from "./EmployeesList";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Grow } from '@mui/material';
+import { Container } from '@mui/material';
 import { getEmployees } from '../../actions/employees';
 
 export default function Employees() {
@@ -13,8 +13,7 @@ export default function Employees() {
         if(!currentId) {
             dispatch(getEmployees());
         }
-    }, [currentId, dispatch])
-
+    }, [currentId, dispatch]);
 
     return (
         <Container>

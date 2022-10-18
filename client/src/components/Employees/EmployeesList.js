@@ -11,7 +11,7 @@ import Popup from "../Reusable/Popup";
 import Form from "../Form/Form";
 
 export default function EmployeesList({ currentId, setCurrentId, employees}) {
-    const showLoading = useSelector((state) => state.employees.loading)
+    const showLoading = useSelector((state) => state.employees.loading);
     const [filter, setFilter] = useState({fn: items => { return items; }});
     const [openPopup, setOpenPopup] = useState(false);
 
@@ -20,7 +20,7 @@ export default function EmployeesList({ currentId, setCurrentId, employees}) {
         { id: 'lastName', label: 'Uzvārds' },
         { id: 'startDate', label: 'Sākuma Datums'},
         { id: 'actions', label:'Darbības', disableSorting:true}
-    ]
+    ];
 
     const {
         TblContainer,
@@ -44,7 +44,7 @@ export default function EmployeesList({ currentId, setCurrentId, employees}) {
                     })
             }
         })
-    }
+    };
 
     return (
         <>

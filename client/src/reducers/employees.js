@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE, SHOW_LOADER, HIDE_LOADER } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER } from '../constants/actionTypes';
 
 let initialState = { 
     loading:false,
@@ -12,6 +12,7 @@ export default (employees = initialState , action) => {
                 ...employees,
                 eventData: action.payload,
             }
+
         case CREATE:
             return {
                 eventData: [...employees.eventData, action.payload],
@@ -19,9 +20,7 @@ export default (employees = initialState , action) => {
 
         case UPDATE:
             return{
-
                 eventData : [...employees.eventData, employees.eventData.map((employee) => employee._id === action.payload._id ? action.payload : employee)]
-
             } 
             
         case HIDE_LOADER:
@@ -29,11 +28,13 @@ export default (employees = initialState , action) => {
                 ...employees,
                 loading: false,
             }
+
         case SHOW_LOADER:
             return {
                 ...employees,
                 loading: true,
             }
+
         default:
             return employees;
     }

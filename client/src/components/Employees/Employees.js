@@ -1,21 +1,28 @@
 import React, {useState, useEffect } from 'react';
 import EmployeesList from "./EmployeesList";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { Container, Grow } from '@mui/material';
 import { getEmployees } from '../../actions/employees';
-export default function Employees() {
 
+export default function Employees() {
+    const employees = useSelector((state) => state.employees.eventData);
     const [currentId, setCurrentId] = useState(null)
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getEmployees());
-    }, [currentId,dispatch])
+        if(!currentId) {
+            dispatch(getEmployees());
+        }
+    }, [currentId, dispatch])
 
 
     return (
-        <>
-            <EmployeesList currentId={currentId} setCurrentId={setCurrentId} />
-        </>
+        <Container>
+            <EmployeesList 
+                currentId={currentId}
+                setCurrentId={setCurrentId}
+                employees={employees}    
+            />
+        </Container>
     )
 }

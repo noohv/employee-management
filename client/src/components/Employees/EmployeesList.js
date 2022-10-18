@@ -10,8 +10,7 @@ import EmployeesLoadingSkeleton from "./EmployeesLoadingSkeleton";
 import Popup from "../Reusable/Popup";
 import Form from "../Form/Form";
 
-export default function EmployeesList({ currentId, setCurrentId}) {
-    const employees = useSelector((state) => state.employees.eventData);
+export default function EmployeesList({ currentId, setCurrentId, employees}) {
     const showLoading = useSelector((state) => state.employees.loading)
     const [filter, setFilter] = useState({fn: items => { return items; }});
     const [openPopup, setOpenPopup] = useState(false);
@@ -120,7 +119,7 @@ export default function EmployeesList({ currentId, setCurrentId}) {
                     openPopup={openPopup}
                     setOpenPopup={setOpenPopup}
                     >
-                    <Form currentId={currentId} setCurrentId= {setCurrentId} />
+                    <Form currentId={currentId} setCurrentId= {setCurrentId} setOpenPopup={setOpenPopup} />
                 </Popup>
             </>
         : <EmployeesLoadingSkeleton />}

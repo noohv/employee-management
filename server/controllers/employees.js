@@ -4,8 +4,7 @@ import EmployeeProfile from '../models/employeeProfile.js';
 export const getEmployees = async (req, res) => {
     try {
         const employeeProfile =  await EmployeeProfile.find();
-        console.log(employeeProfile);
-
+        
         res.status(200).json(employeeProfile)
     } catch (error) {
         res.status(404).json({ message: error.message })
@@ -24,7 +23,7 @@ export const createEmployee = async (req, res) => {
     }
 }
 
-export const updatePost = async (req, res) => {
+export const updateEmployee = async (req, res) => {
     const { id: _id } = req.params;
     const employee = req.body;
 
@@ -32,5 +31,5 @@ export const updatePost = async (req, res) => {
 
     const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(_id, employee, { new: true });
 
-    res.json(updatePost)
+    res.json(updatedEmployee)
 }

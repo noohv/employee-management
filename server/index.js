@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import employeeRoutes from './routes/employees.js';
+import userRoutes from './routes/user.js';
 
 const app = express();
 dotenv.config();
@@ -13,7 +14,8 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-app.use('/employees', employeeRoutes)
+app.use('/employees', employeeRoutes);
+app.use('/user', userRoutes);
 
 
 const PORT = process.env.PORT || 5000;

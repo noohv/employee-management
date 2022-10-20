@@ -3,10 +3,7 @@ import { Dialog, DialogContent, DialogTitle, Typography } from "@mui/material";
 import Controls from "../Reusable/controls/Controls";
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function Popup(props) {
-
-    const {title, children, openPopup, setOpenPopup} = props
-
+export default function Popup({ title, children, openPopup, setOpenPopup, setCurrentId }) {
   return (
     <Dialog open={openPopup}>
         <DialogTitle>
@@ -20,7 +17,10 @@ export default function Popup(props) {
                     sx={{
                         width:"20px",
                     }}
-                    onClick = {() => {setOpenPopup(false)}}
+                    onClick = {() => {
+                        setOpenPopup(false)
+                        setCurrentId(null)
+                    }}
                 >
                     <CloseIcon />
                 </Controls.ActionButton>

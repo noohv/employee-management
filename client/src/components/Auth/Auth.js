@@ -14,7 +14,7 @@ export default function Auth() {
     const [isSignup, setIsSignup] = useState(false);
     const [formData, setFormData] = useState(initialData);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    let navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault()

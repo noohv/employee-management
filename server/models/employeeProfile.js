@@ -4,7 +4,6 @@ const employeeSchema = mongoose.Schema({
     firstName: String,
     lastName: String,
     startDate: Date,
-    tags: [String],
     createdAt: {
         type: Date,
         default: new Date()

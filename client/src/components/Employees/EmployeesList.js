@@ -82,6 +82,7 @@ export default function EmployeesList({ currentId, setCurrentId, employees}) {
                 <TblContainer>
                     <TblHead />
                     <TableBody>
+                        {console.log(recordsAfterPagingAndSorting())}
                         {
                             recordsAfterPagingAndSorting().map(item => {
                                 let shortDate=''
@@ -118,8 +119,9 @@ export default function EmployeesList({ currentId, setCurrentId, employees}) {
                     title="Pievienot darbinieku"
                     openPopup={openPopup}
                     setOpenPopup={setOpenPopup}
-                    >
-                    <Form currentId={currentId} setCurrentId= {setCurrentId} setOpenPopup={setOpenPopup} />
+                    setCurrentId={setCurrentId}
+                >
+                    <Form currentId={currentId} setCurrentId={setCurrentId} setOpenPopup={setOpenPopup} />
                 </Popup>
             </>
         : <EmployeesLoadingSkeleton />}

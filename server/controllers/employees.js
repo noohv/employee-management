@@ -24,12 +24,12 @@ export const createEmployee = async (req, res) => {
 }
 
 export const updateEmployee = async (req, res) => {
-    const { id: _id } = req.params;
+    const { id } = req.params;
     const employee = req.body;
 
-    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send("No post with ID");
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No post with ID");
 
-    const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(_id, employee, { new: true });
+    const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(id, employee, { new: true });
 
     res.json(updatedEmployee)
 }

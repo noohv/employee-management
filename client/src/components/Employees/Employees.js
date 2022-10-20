@@ -8,12 +8,11 @@ export default function Employees() {
     const employees = useSelector((state) => state.employees.eventData);
     const [currentId, setCurrentId] = useState(null)
     const dispatch = useDispatch();
+    const [statete, setStatete] = useState(null);
 
     useEffect(() => {
-        if(!currentId) {
-            dispatch(getEmployees());
-        }
-    }, [currentId, dispatch]);
+        dispatch(getEmployees());
+    }, []);
 
     return (
         <Container>

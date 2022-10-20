@@ -5,7 +5,7 @@ import * as api from '../api';
 export const getEmployees = () => async (dispatch) => {
     try {
         dispatch(showLoader())
-        const { data } = await api.fetchPosts();
+        const { data } = await api.fetchEmployees();
         dispatch({ type: FETCH_ALL, payload: data });
         dispatch(hideLoader())
     } catch (error) {

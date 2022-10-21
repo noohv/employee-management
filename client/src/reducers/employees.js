@@ -19,9 +19,14 @@ export default (employees = initialState , action) => {
             }
 
         case UPDATE:
-            return{
-                eventData : [...employees.eventData, employees.eventData.map((employee) => employee._id === action.payload._id ? employee: action.payload)]
-            } 
+            return {
+                eventData: employees.eventData.map((employee)=> {
+                if(employee._id === action.payload._id) {
+                    return {...employee, ...action.payload}
+                } else {
+                    return employee
+                }
+            })}
             
         case HIDE_LOADER:
             return {

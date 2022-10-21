@@ -33,7 +33,7 @@ export default function Form({currentId, setCurrentId,setOpenPopup}) {
     return (
         <Container>
                 <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                    <TextField sx={{m:0.5}} name="firstName" variant="outlined" label="Vārds" fullWidth required value={employeeData.firstName} onChange={(e) => setEmployeeData({ ...employeeData, firstName: e.target.value })} />
+                    <TextField sx={{m:0.5}} name="firstName" variant="outlined" label="Vārds" fullWidth autoFocus required value={employeeData.firstName} onChange={(e) => setEmployeeData({ ...employeeData, firstName: e.target.value })} />
                     <TextField sx={{m:0.5}} name="lastName" variant="outlined" label="Uzvārds" fullWidth required value={employeeData.lastName} onChange={(e) => setEmployeeData({ ...employeeData, lastName: e.target.value })} />
                     <TextField sx={{m:0.5}} name="startDate" variant="outlined" label="Sākuma datums" type="date" required InputLabelProps={{shrink:true}} fullWidth value={employeeData.startDate.slice(0,10)} onChange={(e) => setEmployeeData({ ...employeeData, startDate: e.target.value })} />
                     <Button sx={{m:0.5}} variant="contained" color="primary" size="large" type="submit" fullWidth>Izveidot</Button>

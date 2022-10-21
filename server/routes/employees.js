@@ -6,7 +6,7 @@ import auth from "../middleware/auth.js";
 const router = express.Router();
 
 router.get('/', getEmployees);
-router.post('/', createEmployee);
-router.patch('/:id', updateEmployee);
+router.post('/',auth, createEmployee);
+router.patch('/:id',auth, updateEmployee);
 
 export default router;

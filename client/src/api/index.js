@@ -12,6 +12,7 @@ API.interceptors.request.use((req) => {
 export const fetchEmployees = () => API.get('/employees');
 export const createEmployee = (newEmployee) => API.post('/employees', newEmployee);
 export const updateEmployee = (id,updatedData) => API.patch(`/employees/${id}`, updatedData);
+export const getEmployee = (id) => API.get(`/employees/${id}`)
 
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);

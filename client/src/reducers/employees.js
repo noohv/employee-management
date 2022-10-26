@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_ONE } from '../constants/actionTypes';
 
 let initialState = { 
     loading:false,
@@ -12,6 +12,12 @@ export default (employees = initialState , action) => {
                 ...employees,
                 eventData: action.payload,
             }
+
+        case FETCH_ONE:
+            return {
+                eventData: action.payload
+            }
+        
 
         case CREATE:
             return {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { AppBar, Container, Toolbar, Button, Typography, Avatar } from '@mui/material';
+import { AppBar, Container, Toolbar, Button, Typography, Avatar, Tooltip } from '@mui/material';
 import { useDispatch } from 'react-redux';
+import { borderRadius } from '@mui/system';
 
 export default function Navbar() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
@@ -20,25 +21,22 @@ export default function Navbar() {
     }, [location]);
 
     return (
-        <AppBar position="static" sx={{mb:4}}>
-            <Container maxWidth="xl">
-            </Container>
+        <AppBar sx={{ bgcolor: '#01E08F', color: "#013870", mb:4}} position="static">
+
             <Toolbar>
                 {user ? (
-                    <Container>
-                        <Avatar alt={user.result.name} src={user.result.imageUrl}>
-                            {user.result.name.charAt(0)}
-                        </Avatar>
-                        <Typography>
-                            {user.result.name}
-                        </Typography>
-                        <Button onClick={logout} variant='contained'>Iziet</Button>
+                    <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'end'}} >
+                        <Tooltip title={user.result.name}>
+                            <Avatar alt={user.result.name} src={user.result.imageUrl}>
+                                {user.result.name.charAt(0)}
+                            </Avatar>
+                        </Tooltip>
+                        <Button sx={{ m:1, color: '#013870', fontWeight: 'bold', borderRadius:0 }} onClick={logout} variant='text'>Iziet</Button>
                     </Container>
-
                 ) : (
                     <Button sx={{
-                        bgcolor: 'white',
-                        color: 'black',
+                        bgcolor: '#013870',
+                        color: 'white',
                         '&:hover': {
                             bgcolor:'gray',
                             color: 'black'

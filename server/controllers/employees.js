@@ -11,6 +11,17 @@ export const getEmployees = async (req, res) => {
     }
 }
 
+export const getEmployee = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const employee = await EmployeeProfile.findById(id)
+
+        res.status(200).json(employee)
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
+
 export const createEmployee = async (req, res) => {
     const employee = req.body;
     

@@ -9,6 +9,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import EmployeesLoadingSkeleton from "./EmployeesLoadingSkeleton";
 import Popup from "../Reusable/Popup";
 import Form from "../Form/Form";
+import { Link } from "react-router-dom";
 
 export default function EmployeesList({ currentId, setCurrentId, employees}) {
     const showLoading = useSelector((state) => state.employees.loading);
@@ -104,9 +105,11 @@ export default function EmployeesList({ currentId, setCurrentId, employees}) {
                                                     }}
                                                 />
                                             </Controls.ActionButton>
-                                            <Controls.ActionButton>
-                                                <SettingsIcon />
-                                            </Controls.ActionButton>
+                                            <Link to={`/employees/${item._id}`}>
+                                                <Controls.ActionButton >
+                                                    <SettingsIcon />
+                                                </Controls.ActionButton>
+                                            </Link>
                                         </TableCell>
                                     </TableRow>
                                 )

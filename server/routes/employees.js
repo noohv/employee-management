@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/', getEmployees);
 router.get('/:id', getEmployee);
-router.post('/',auth, createEmployee);
-router.patch('/:id',auth, updateEmployee);
+router.post('/', createEmployee);
+router.patch('/:id', updateEmployee);
 
 export default router;

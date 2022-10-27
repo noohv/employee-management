@@ -13,9 +13,9 @@ const App = () => {
         <BrowserRouter>
             <Navbar />
             <Routes>
-                <Route exact path="/"  element={<Employees />} />
-                <Route exact path="/employees/:employeeId" element={<Employee />} />
-                <Route exact path="/auth" element={<Auth />} />
+                <Route path="/"  element={<Employees />} />
+                <Route path="/employees/:id" element={<Employee />} />
+                <Route path="/auth" element={<Auth />} />
             </Routes>
         </BrowserRouter>
     )

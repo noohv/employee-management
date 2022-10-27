@@ -2,24 +2,26 @@ import React, { useState , useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { getEmployee } from '../../../actions/employees';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import Button from '../../Reusable/controls/Button';
 
 export default function Employee() {
-  const employee = useSelector((state) => state.employees.eventData);
+  const { employee, employees, isLoading } = useSelector((state) => state.employees)
   const dispatch = useDispatch();
-  let { employeeId } = useParams()
+  let { id } = useParams()
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getEmployee(employeeId));
-  }, []);
+    dispatch(getEmployee(id));
+  }, [id]);
 
-  console.log(employee)
+  if(!employee) return null
+
+  if(isLoading) return null
 
   return (
     <div>
-      <Link to="/">Contacts</Link>
-      {employee.firstName} {employee.lastName}
+      {employee.firstName}
     </div>
   )
 }

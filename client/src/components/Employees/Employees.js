@@ -5,7 +5,7 @@ import { Container } from '@mui/material';
 import { getEmployees } from '../../actions/employees';
 
 export default function Employees() {
-    const employees = useSelector((state) => state.employees.eventData);
+    const employees = useSelector((state) => state.employees.data);
     const [currentId, setCurrentId] = useState(null)
     const dispatch = useDispatch();
 

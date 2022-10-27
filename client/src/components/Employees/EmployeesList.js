@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { InputAdornment, TableBody, TableCell, TableRow, Toolbar } from "@mui/material";
+import { InputAdornment, TableBody, TableCell, TableRow, Toolbar, Button } from "@mui/material";
 import useTable from "../Reusable/useTable";
 import Controls from "../Reusable/controls/Controls";
 import { Search } from "@mui/icons-material";
@@ -12,7 +12,7 @@ import Form from "../Form/Form";
 import { Link } from "react-router-dom";
 
 export default function EmployeesList({ currentId, setCurrentId, employees}) {
-    const showLoading = useSelector((state) => state.employees.loading);
+    const showLoading = useSelector((state) => state.employees.isLoading);
     const [filter, setFilter] = useState({fn: items => { return items; }});
     const [openPopup, setOpenPopup] = useState(false);
 
@@ -83,7 +83,6 @@ export default function EmployeesList({ currentId, setCurrentId, employees}) {
                 <TblContainer>
                     <TblHead />
                     <TableBody>
-                        {console.log(recordsAfterPagingAndSorting())}
                         {
                             recordsAfterPagingAndSorting().map(item => {
                                 let shortDate=''
@@ -105,11 +104,9 @@ export default function EmployeesList({ currentId, setCurrentId, employees}) {
                                                     }}
                                                 />
                                             </Controls.ActionButton>
-                                            <Link to={`/employees/${item._id}`}>
-                                                <Controls.ActionButton >
-                                                    <SettingsIcon />
-                                                </Controls.ActionButton>
-                                            </Link>
+                                            <Button component={Link} to={`/employees/${item._id}`}>
+                                                <SettingsIcon />
+                                            </Button>
                                         </TableCell>
                                     </TableRow>
                                 )

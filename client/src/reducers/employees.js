@@ -1,32 +1,32 @@
-import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_ONE } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_EMPLOYEE } from '../constants/actionTypes';
 
 let initialState = { 
-    loading:false,
-    eventData: [] 
+    isLoading: true,
+    data: [] 
 }
 
-export default (employees = initialState , action) => {
+export default (state = initialState , action) => {
     switch(action.type) {
         case FETCH_ALL:
             return {
-                ...employees,
-                eventData: action.payload,
+                ...state,
+                data: action.payload,
             }
 
-        case FETCH_ONE:
+        case FETCH_EMPLOYEE:
             return {
-                eventData: action.payload
+                ...state,
+                employee: action.payload
             }
         
-
         case CREATE:
             return {
-                eventData: [...employees.eventData, action.payload],
+                data: [...state.data, action.payload],
             }
 
         case UPDATE:
             return {
-                eventData: employees.eventData.map((employee)=> {
+                data: state.data.map((employee)=> {
                 if(employee._id === action.payload._id) {
                     return {...employee, ...action.payload}
                 } else {
@@ -36,17 +36,17 @@ export default (employees = initialState , action) => {
             
         case HIDE_LOADER:
             return {
-                ...employees,
-                loading: false,
+                ...state,
+                isLoading: false,
             }
 
         case SHOW_LOADER:
             return {
-                ...employees,
-                loading: true,
+                ...state,
+                isLoading: true,
             }
 
         default:
-            return employees;
+            return state;
     }
 }

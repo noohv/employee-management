@@ -1,4 +1,4 @@
-import { FETCH_ALL, FETCH_ONE, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER } from '../constants/actionTypes';
+import { FETCH_ALL, FETCH_EMPLOYEE, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER } from '../constants/actionTypes';
 import * as api from '../api';
 
 // Action Creators 
@@ -16,8 +16,8 @@ export const getEmployees = () => async (dispatch) => {
 export const getEmployee = (id) => async (dispatch) => {
     try {
         dispatch(showLoader())
-        const { data } = await api.getEmployee(id);
-        dispatch({ type: FETCH_ONE, payload: data });
+        const { data } = await api.fetchEmployee(id);
+        dispatch({ type: FETCH_EMPLOYEE, payload: data });
         dispatch(hideLoader())
     } catch (error) {
         console.log(error.message)

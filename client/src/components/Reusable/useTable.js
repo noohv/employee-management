@@ -20,7 +20,7 @@ export default function useTable(records, headCells, filter) {
         </Table>
     )
 
-    const TblHead = props => {
+    const TblHead = (props) => {
 
         const handleSortReq = cellid => {
             const isAsc = orderBy === cellid && order === "asc";

@@ -7,7 +7,7 @@ import { createEmployee, updateEmployee } from "../../actions/employees";
 export default function Form({currentId, setCurrentId,setOpenPopup}) {
     const initialData = { firstName:'', lastName:'', phone: '', email:'', address: '',  startDate: ''}
     const [employeeData, setEmployeeData] = useState(initialData)
-    const employee = useSelector((state) => currentId ? state.employees.eventData.find((x) => x._id === currentId) : null)
+    const employee = useSelector((state) => currentId ? state.employees.data.find((x) => x._id === currentId) : null)
     
     const dispatch = useDispatch();
 

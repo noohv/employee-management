@@ -5,7 +5,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import Button from '../../Reusable/controls/Button';
 
 export default function Employee() {
-  const { employee, employees, isLoading } = useSelector((state) => state.employees)
+  const { employee, isLoading } = useSelector((state) => state.employees)
   const dispatch = useDispatch();
   let { id } = useParams()
 
@@ -15,13 +15,25 @@ export default function Employee() {
     dispatch(getEmployee(id));
   }, [id]);
 
+  // const absences = employee.absence.map(item => {
+  //   return <div>{item.reason}</div>
+  // })
+
+  console.log(employee)
+
   if(!employee) return null
 
   if(isLoading) return null
 
   return (
-    <div>
-      {employee.firstName}
-    </div>
+    <>
+      <div>
+        {employee.firstName}
+        {employee.lastName}
+      </div>
+      <div>
+        {/* {absences} */}
+      </div>
+    </>
   )
 }

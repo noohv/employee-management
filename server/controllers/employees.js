@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import EmployeeProfile from '../models/employeeProfile.js';
+import EmployeeAbsence from "../models/employeeAbsence.js";
 
 export const getEmployees = async (req, res) => {
     try {
@@ -15,7 +16,7 @@ export const getEmployee = async (req, res) => {
     const { id } = req.params;
     
     try {
-        const employee = await EmployeeProfile.findById(id)
+        const employee = await EmployeeProfile.findById(id).populate("absence");
 
         res.status(200).json(employee)
     } catch (error) {
@@ -44,4 +45,17 @@ export const updateEmployee = async (req, res) => {
     const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(id, employee, { new: true });
 
     res.json(updatedEmployee)
+}
+
+export const createAbsence = async (req, res) => {
+    const { id } = req.params;
+    const absence = req.body;
+    
+    const newAbsence = new EmployeeAbsence(absence)
+    try {
+        await newAbsence.save();
+        res.status(201).json(newAbsence);
+    } catch (error) {
+        res.status(409).json({ message:error.message })
+    }
 }

@@ -6,11 +6,11 @@ const employeeSchema = mongoose.Schema({
     phone: { type: String }, 
     email: { type: String },
     address: { type: String },
-    leaves: [{ type: String, startDate: Date, endDate: Date, reason: String }],
+    absence: [{ type: mongoose.Schema.Types.ObjectId, ref: "Absence" }],
     startDate: { type: Date, required: true },
     createdAt: { type: Date, default: new Date() }
 });
 
-const employeeProfile = mongoose.model('EmployeeProfile', employeeSchema)
+const employeeAbsence = mongoose.model('EmployeeProfile', employeeSchema)
 
-export default employeeProfile;
+export default employeeAbsence;

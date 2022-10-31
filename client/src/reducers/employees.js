@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_EMPLOYEE, CREATE_ABSENCE } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_EMPLOYEE, NEW_ABSENCE, GET_ABSENCES } from '../constants/actionTypes';
 
 let initialState = { 
     isLoading: true,
@@ -34,7 +34,7 @@ export default (state = initialState , action) => {
                 }
             })}
 
-        case CREATE_ABSENCE:
+        case NEW_ABSENCE:
             return {
                 data: state.data.map((employee)=> {
                 if(employee._id === action.payload._id) {
@@ -43,7 +43,13 @@ export default (state = initialState , action) => {
                     return employee
                 }
             })}
-            
+
+        case GET_ABSENCES:
+            return {
+                ...state,
+                data: action.payload,
+            }
+        
         case HIDE_LOADER:
             return {
                 ...state,

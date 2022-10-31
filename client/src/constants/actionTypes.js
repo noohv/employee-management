@@ -11,7 +11,8 @@ export const FETCH_ALL = 'FETCH_ALL';
 export const FETCH_EMPLOYEE = 'FETCH_EMPLOYEE';
 export const SHOW_LOADER = 'SHOW_LOADER';
 export const HIDE_LOADER = 'HIDE_LOADER';
-export const CREATE_ABSENCE = 'CREATE_ABSENCE';
+export const NEW_ABSENCE = 'NEW_ABSENCE';
+export const GET_ABSENCES = 'GET_ABSENCES';
 
 // Constants for Authorization
 

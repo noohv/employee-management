@@ -40,7 +40,7 @@ export const updateEmployee = async (req, res) => {
     const { id } = req.params;
     const employee = req.body;
 
-    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No post with ID");
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No employee with ID");
 
     const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(id, employee, { new: true });
 
@@ -49,12 +49,16 @@ export const updateEmployee = async (req, res) => {
 
 export const createAbsence = async (req, res) => {
     const { id } = req.params;
-    const absence = req.body;
-    
-    const newAbsence = new EmployeeAbsence(absence)
+    const data = req.body;
+    console.log(data)
+
     try {
-        await newAbsence.save();
-        res.status(201).json(newAbsence);
+        const absence = await EmployeeAbsence.create(data)
+        const employee = await EmployeeProfile.findById(id)
+        console.log(employee)
+        employee.absence.push(absence._id)    
+        await employee.save()
+        res.status(201).json(absence);
     } catch (error) {
         res.status(409).json({ message:error.message })
     }

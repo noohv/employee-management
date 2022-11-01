@@ -9,7 +9,7 @@ import { createAbsence } from '../../../actions/employees';
 export default function Employee() {
   const initialData = { absenceType:'', startDate:'', endDate: '', reason:''}
   const [absenceData, setAbsenceData] = useState(initialData)
-  const { employee } = useSelector((state) => state.employees)
+  const { employee, isLoading } = useSelector((state) => state.employees)
   const dispatch = useDispatch();
   let { id } = useParams()
 
@@ -40,7 +40,7 @@ const clear = () => {
 
   if(!employee) return null
 
-  // if(isLoading) return null
+  if(isLoading) return null
 
   return (
     <>

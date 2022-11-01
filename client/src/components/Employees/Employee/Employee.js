@@ -1,54 +1,77 @@
 import React, { useState , useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployee, getEmployees } from '../../../actions/employees';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Container, TextField, Button } from '@mui/material';
-import { createAbsence } from '../../../actions/employees';
+import { getEmployee, deleteEmployee } from '../../../actions/employees';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Container, Button, Typography, Divider } from '@mui/material';
 import Popup from "../../Reusable/Popup";
 import AbsenceForm from './AbsenceForm';
+import AbsenceList from './AbsenceList';
 
 
 export default function Employee() {
   const { employee, isLoading } = useSelector((state) => state.employees)
+  const statee = useSelector(state => state)
   const [openPopup, setOpenPopup] = useState(false);
   const dispatch = useDispatch();
   let { id } = useParams()
 
   const navigate = useNavigate();
 
+  console.log(employee)
+  console.log(statee)
+
   useEffect(() => {
     dispatch(getEmployee(id));
   }, [id]);
 
-
-
-
-  console.log(employee)
-
   if(!employee) return null
 
+  // Have to create Skeleton component for this
   if(isLoading) return null
+
+  const shortDate = (data) => {
+    let temp = ''
+    return temp = data.slice(0,10);
+  }
+
+  const handleClick = () => {
+    dispatch(deleteEmployee(id))
+    navigate('/')
+  }
 
   return (
     <>
-      <div>
-        {employee.firstName}
-        {employee.lastName}
-      </div>
-    <Button
-      onClick = {() => {
-        setOpenPopup(true)
-      }}
-    >
-      Pievienot
-    </Button>
-
+    <Button onClick={()=> navigate('/')}>Atpakaļ</Button>
+    <Container sx={{display: 'flex', justifyContent: 'space-between'}}>
       <Container>
-        {employee.absence.map(item => {
-          return <div key={item._id}>{item.reason}</div>
-        })}
+        <Typography variant='h4'>{`${employee.firstName} ${employee.lastName}`}</Typography>
+        <Divider />
+        <Typography sx={{mt:2}}><b>Epasts:</b> {employee.email}</Typography>
+        <Typography><b>Tālr. nr:</b> {employee.phone}</Typography>
+        <Typography><b>Adrese:</b> {employee.address}</Typography>
+        <Typography><b>Sākšanas dat.:</b> {shortDate(employee.startDate)}</Typography>
       </Container>
 
+      <Container sx={{display: 'flex', flexDirection: 'column'}}>
+        <Button>Test</Button>
+        <Button>Rediģēt</Button>
+        <Button onClick={ handleClick }>Dzēst</Button>
+      </Container>
+    </Container>
+      <Container>
+        <Button
+          onClick = {() => { setOpenPopup(true) }}>
+          Pievienot
+        </Button>
+
+    {employee.absence.length === 0 ? 
+      <Typography>Nav prombūtnes</Typography>
+      :
+        <AbsenceList absences={employee.absence}/>
+      }
+      </Container>
+
+    
       <Popup
         title="Pievienot prombūtni"
         openPopup={openPopup}

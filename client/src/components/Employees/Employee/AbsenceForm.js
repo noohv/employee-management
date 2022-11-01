@@ -30,7 +30,6 @@ export default function AbsenceForm({id, setOpenPopup}) {
   return (
     <form onSubmit={handleSubmit}>
         <TextField sx={{m:0.5}} name="absenceType" variant="outlined" label="Veids" fullWidth autoFocus required value={absenceData.absenceType} onChange={handleChange} />
-        <TextField sx={{m:0.5}} name="reason" variant="outlined" label="Iemesls" fullWidth required value={absenceData.reason} onChange={handleChange} />
         <TextField sx={{m:0.5}} name="startDate" variant="outlined" label="Sākuma datums" type="date" required InputLabelProps={{shrink:true}} fullWidth value={absenceData.startDate.slice(0,10)} onChange={handleChange} />
         <TextField sx={{m:0.5}} name="endDate" variant="outlined" label="Beigu datums" type="date" required InputLabelProps={{shrink:true}} fullWidth value={absenceData.endDate.slice(0,10)} onChange={handleChange} />
         <Button sx={{m:0.5}} variant="contained" color="primary" size="large" type="submit" fullWidth>Izveidot</Button>

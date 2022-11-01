@@ -55,11 +55,37 @@ export const createAbsence = async (req, res) => {
     try {
         const absence = await EmployeeAbsence.create(data)
         const employee = await EmployeeProfile.findById(id)
-        console.log(employee)
         employee.absence.push(absence._id)    
         await employee.save()
         res.status(201).json(absence);
     } catch (error) {
         res.status(409).json({ message:error.message })
+    }
+}
+
+export const deleteAbsence = async (req,res) => {
+    try {
+        
+    } catch (error) {
+        res.status(404).json({ message: error.message})
+    }
+}
+
+export const deleteEmployee = async (req,res) => {
+    const { id } = req.params;
+
+    try {
+        const employee = await EmployeeProfile.findById(id)
+        const absences = employee.absence
+
+        await employee.remove()
+
+        for(let i = 0; i < absences.length; i++) {
+            const abs = await EmployeeAbsence.findById(absences[i])
+            await abs.remove()
+        }
+        res.status(204)
+    } catch (error) {
+        res.status(404).json({ message: error.message})
     }
 }

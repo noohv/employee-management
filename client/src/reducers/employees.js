@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_EMPLOYEE, CREATE_ABSENCE } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_EMPLOYEE, CREATE_ABSENCE, DELETE_EMPLOYEE } from '../constants/actionTypes';
 
 let initialState = { 
     isLoading: true,
@@ -19,6 +19,13 @@ export default (state = initialState , action) => {
                 employee: action.payload
             }
         
+        case DELETE_EMPLOYEE:
+            return {
+                ...state,
+                data: [ ...state.data.filter((i) => i._id === action.payload) ],
+                employee: {}
+            }
+
         case CREATE:
             return {
                 data: [...state.data, action.payload],

@@ -9,6 +9,8 @@ export default function Employees() {
     const [currentId, setCurrentId] = useState(null)
     const dispatch = useDispatch();
 
+    console.log(employees)
+
     useEffect(() => {
         dispatch(getEmployees());
     }, []);

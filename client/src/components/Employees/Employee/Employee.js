@@ -4,12 +4,13 @@ import { getEmployee, getEmployees } from '../../../actions/employees';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Container, TextField, Button } from '@mui/material';
 import { createAbsence } from '../../../actions/employees';
+import Popup from "../../Reusable/Popup";
+import AbsenceForm from './AbsenceForm';
 
 
 export default function Employee() {
-  const initialData = { absenceType:'', startDate:'', endDate: '', reason:''}
-  const [absenceData, setAbsenceData] = useState(initialData)
   const { employee, isLoading } = useSelector((state) => state.employees)
+  const [openPopup, setOpenPopup] = useState(false);
   const dispatch = useDispatch();
   let { id } = useParams()
 
@@ -20,21 +21,7 @@ export default function Employee() {
   }, [id]);
 
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
 
-    setAbsenceData({ ...absenceData, [name]:value })
-}
-
-const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createAbsence(id,absenceData));
-    clear();
-}
-
-const clear = () => {
-    setAbsenceData(initialData)
-}
 
   console.log(employee)
 
@@ -48,21 +35,27 @@ const clear = () => {
         {employee.firstName}
         {employee.lastName}
       </div>
-      <Container>
-              <form onSubmit={handleSubmit}>
-                  <TextField sx={{m:0.5}} name="absenceType" variant="outlined" label="Veids" fullWidth autoFocus required value={absenceData.absenceType} onChange={handleChange} />
-                  <TextField sx={{m:0.5}} name="reason" variant="outlined" label="Iemesls" fullWidth required value={absenceData.reason} onChange={handleChange} />
-                  <TextField sx={{m:0.5}} name="startDate" variant="outlined" label="Sākuma datums" type="date" required InputLabelProps={{shrink:true}} fullWidth value={absenceData.startDate.slice(0,10)} onChange={handleChange} />
-                  <TextField sx={{m:0.5}} name="endDate" variant="outlined" label="Beigu datums" type="date" required InputLabelProps={{shrink:true}} fullWidth value={absenceData.endDate.slice(0,10)} onChange={handleChange} />
-                  <Button sx={{m:0.5}} variant="contained" color="primary" size="large" type="submit" fullWidth>Izveidot</Button>
-              </form>
-      </Container>
+    <Button
+      onClick = {() => {
+        setOpenPopup(true)
+      }}
+    >
+      Pievienot
+    </Button>
 
       <Container>
         {employee.absence.map(item => {
           return <div key={item._id}>{item.reason}</div>
         })}
       </Container>
+
+      <Popup
+        title="Pievienot prombūtni"
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <AbsenceForm id={id} setOpenPopup={setOpenPopup}/>
+      </Popup>
     </>
   )
 }

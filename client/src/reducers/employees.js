@@ -2,7 +2,7 @@ import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_EMPLOYEE, CR
 
 let initialState = { 
     isLoading: true,
-    data: [] 
+    data: [],
 }
 
 export default (state = initialState , action) => {
@@ -36,13 +36,9 @@ export default (state = initialState , action) => {
 
         case CREATE_ABSENCE:
             return {
-                data: state.data.map((employee)=> {
-                if(employee._id === action.payload._id) {
-                    return {...employee, ...action.payload}
-                } else {
-                    return employee
-                }
-            })}
+                ...state,
+                employee: {...state.employee, absence: [...state.employee.absence, action.payload]}
+            }
             
         case HIDE_LOADER:
             return {

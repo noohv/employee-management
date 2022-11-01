@@ -1,16 +1,15 @@
 import React, { useState , useEffect} from 'react'
-import { useSelector, useDispatch } from 'react-redux';
-import { getEmployee } from '../../../actions/employees';
+import { useDispatch, useSelector } from 'react-redux';
+import { getEmployee, getEmployees } from '../../../actions/employees';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import Button from '../../Reusable/controls/Button';
-import { Container, TextField } from '@mui/material';
+import { Container, TextField, Button } from '@mui/material';
 import { createAbsence } from '../../../actions/employees';
 
 
 export default function Employee() {
   const initialData = { absenceType:'', startDate:'', endDate: '', reason:''}
   const [absenceData, setAbsenceData] = useState(initialData)
-  const { employee, isLoading } = useSelector((state) => state.employees)
+  const { employee } = useSelector((state) => state.employees)
   const dispatch = useDispatch();
   let { id } = useParams()
 
@@ -20,11 +19,6 @@ export default function Employee() {
     dispatch(getEmployee(id));
   }, [id]);
 
-  const absences = employee.absence.map(item => {
-    return <div key={item._id}>{item.reason}</div>
-  })
-
-  console.log(absenceData)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -34,9 +28,7 @@ export default function Employee() {
 
 const handleSubmit = (e) => {
     e.preventDefault();
-
     dispatch(createAbsence(id,absenceData));
-
     clear();
 }
 
@@ -48,7 +40,7 @@ const clear = () => {
 
   if(!employee) return null
 
-  if(isLoading) return null
+  // if(isLoading) return null
 
   return (
     <>
@@ -67,7 +59,9 @@ const clear = () => {
       </Container>
 
       <Container>
-        {absences}
+        {employee.absence.map(item => {
+          return <div key={item._id}>{item.reason}</div>
+        })}
       </Container>
     </>
   )

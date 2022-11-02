@@ -1,10 +1,7 @@
-import React, { useState , useEffect} from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { getEmployee, getEmployees } from '../../../actions/employees';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Container, TextField, Button } from '@mui/material';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { TextField, Button } from '@mui/material';
 import { createAbsence } from '../../../actions/employees';
-
 
 export default function AbsenceForm({id, setOpenPopup}) {
     const initialData = { absenceType:'', startDate:'', endDate: '', reason:''}

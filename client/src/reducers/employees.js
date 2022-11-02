@@ -11,6 +11,7 @@ export default (state = initialState , action) => {
             return {
                 ...state,
                 data: action.payload,
+                employee: null
             }
 
         case FETCH_EMPLOYEE:
@@ -22,8 +23,8 @@ export default (state = initialState , action) => {
         case DELETE_EMPLOYEE:
             return {
                 ...state,
-                data: [ ...state.data.filter((i) => i._id === action.payload) ],
-                employee: {}
+                data: state.data.filter((i) => i._id !== action.payload),
+                employee: null
             }
 
         case CREATE:
@@ -39,7 +40,9 @@ export default (state = initialState , action) => {
                 } else {
                     return employee
                 }
-            })}
+            }),
+                employee: action.payload
+        }
 
         case CREATE_ABSENCE:
             return {

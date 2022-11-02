@@ -6,19 +6,16 @@ import { Container, Button, Typography, Divider } from '@mui/material';
 import Popup from "../../Reusable/Popup";
 import AbsenceForm from './AbsenceForm';
 import AbsenceList from './AbsenceList';
-
+import Form from '../../Form/Form';
 
 export default function Employee() {
   const { employee, isLoading } = useSelector((state) => state.employees)
-  const statee = useSelector(state => state)
   const [openPopup, setOpenPopup] = useState(false);
+  const [popupType, setOpenPopupType] = useState();
   const dispatch = useDispatch();
   let { id } = useParams()
 
   const navigate = useNavigate();
-
-  console.log(employee)
-  console.log(statee)
 
   useEffect(() => {
     dispatch(getEmployee(id));
@@ -30,8 +27,7 @@ export default function Employee() {
   if(isLoading) return null
 
   const shortDate = (data) => {
-    let temp = ''
-    return temp = data.slice(0,10);
+    return data.slice(0,10);
   }
 
   const handleClick = () => {
@@ -54,13 +50,22 @@ export default function Employee() {
 
       <Container sx={{display: 'flex', flexDirection: 'column'}}>
         <Button>Test</Button>
-        <Button>Rediģēt</Button>
+        <Button 
+          onClick={() => {
+              setOpenPopup(true)
+              setOpenPopupType('employeeEdit')
+          }}
+        >
+          Rediģēt </Button>
         <Button onClick={ handleClick }>Dzēst</Button>
       </Container>
     </Container>
       <Container>
         <Button
-          onClick = {() => { setOpenPopup(true) }}>
+          onClick = {() => {
+            setOpenPopup(true)
+            setOpenPopupType('absence')
+          }}>
           Pievienot
         </Button>
 
@@ -77,7 +82,12 @@ export default function Employee() {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <AbsenceForm id={id} setOpenPopup={setOpenPopup}/>
+          {popupType==='absence' ?
+            <AbsenceForm id={id} setOpenPopup={setOpenPopup}/>
+           :
+            <Form currentId={id} setOpenPopup={setOpenPopup} />
+          }
+
       </Popup>
     </>
   )

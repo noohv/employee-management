@@ -5,7 +5,7 @@
 // Constants for employees
 
 export const CREATE = 'CREATE';
-export const UPDATE = 'UPADTE';
+export const UPDATE = 'UPDATE';
 // export const DELETE = 'DELETE';
 export const FETCH_ALL = 'FETCH_ALL';
 export const FETCH_EMPLOYEE = 'FETCH_EMPLOYEE';

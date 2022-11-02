@@ -7,6 +7,7 @@ import Popup from "../../Reusable/Popup";
 import AbsenceForm from './AbsenceForm';
 import AbsenceList from './AbsenceList';
 import Form from '../../Form/Form';
+import EmployeeSkeleton from './EmployeeSkeleton';
 
 export default function Employee() {
   const { employee, isLoading } = useSelector((state) => state.employees)
@@ -14,6 +15,8 @@ export default function Employee() {
   const [popupType, setOpenPopupType] = useState();
   const dispatch = useDispatch();
   let { id } = useParams()
+
+  console.log(isLoading)
 
   const navigate = useNavigate();
 
@@ -24,8 +27,6 @@ export default function Employee() {
   if(!employee) return null
 
   // Have to create Skeleton component for this
-  if(isLoading) return null
-
   const shortDate = (data) => {
     return data.slice(0,10);
   }
@@ -37,8 +38,10 @@ export default function Employee() {
 
   return (
     <>
-    <Button onClick={()=> navigate('/')}>Atpakaļ</Button>
-    <Container sx={{display: 'flex', justifyContent: 'space-between'}}>
+    {!isLoading ?
+    <> 
+      <Button onClick={()=> navigate('/')}>Atpakaļ</Button>
+      <Container sx={{display: 'flex', justifyContent: 'space-between'}}>
       <Container>
         <Typography variant='h4'>{`${employee.firstName} ${employee.lastName}`}</Typography>
         <Divider />
@@ -89,6 +92,10 @@ export default function Employee() {
           }
 
       </Popup>
+    </>
+    :
+     <EmployeeSkeleton />
+    }
     </>
   )
 }

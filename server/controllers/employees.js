@@ -63,8 +63,12 @@ export const createAbsence = async (req, res) => {
 }
 
 export const deleteAbsence = async (req,res) => {
+    const { id } = req.params;
     try {
+        const absence = await EmployeeAbsence.findById(id)
+        await absence.remove()
         
+        res.status(200).json(id)
     } catch (error) {
         res.status(404).json({ message: error.message})
     }

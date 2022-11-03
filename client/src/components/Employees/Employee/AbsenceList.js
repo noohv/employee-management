@@ -1,14 +1,21 @@
 import React, { useState } from 'react'
-import { TableBody, TableCell, TableRow } from "@mui/material";
+import { TableBody, TableCell, TableRow, Button } from "@mui/material";
+import { deleteAbsence } from '../../../actions/employees';
 import useTable from "../../Reusable/useTable";
+import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 
-export default function AbsenceList({absences}) {
+
+export default function AbsenceList({absences, setOpenPopup, setOpenPopupType }) {
     const [filter, setFilter] = useState({fn: items => { return items; }});
+    const [currentId, setCurrentId] = useState();
+    const dispatch = useDispatch()
 
     const headCells = [
         { id: 'absenceType', label: 'Veids' },
         { id: 'startDate', label: 'No'},
-        { id: 'endDate', label:'Līdz' }
+        { id: 'endDate', label:'Līdz' },
+        { id: 'actions', label: 'Darbības'}
     ];
 
     const {
@@ -30,6 +37,13 @@ export default function AbsenceList({absences}) {
                             <TableCell>{item.absenceType}</TableCell>
                             <TableCell>{item.startDate.slice(0,10)}</TableCell>
                             <TableCell>{item.endDate.slice(0,10)}</TableCell>
+                            <TableCell>
+                                <Button onClick={() => {
+                                    dispatch(deleteAbsence(item._id))
+                                }}>
+                                    DEL
+                                </Button>
+                            </TableCell>
                         </TableRow>
                     )
                 })

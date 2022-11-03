@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_EMPLOYEE, CREATE_ABSENCE, DELETE_EMPLOYEE } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_EMPLOYEE, CREATE_ABSENCE, DELETE_EMPLOYEE, DELETE_ABSENCE } from '../constants/actionTypes';
 
 let initialState = { 
     isLoading: true,
@@ -50,6 +50,19 @@ export default (state = initialState , action) => {
                 employee: {...state.employee, absence: [...state.employee.absence, action.payload]}
             }
             
+        case DELETE_ABSENCE:
+            return {
+                ...state,
+                data: state.data.map((employee) => {
+                    if(employee._id === state.employee._id) {
+                        employee.absence.filter((i) => i._id !== action.payload)
+                    } else {
+                        return employee
+                    }
+                }),
+                employee: state.employee.absence.filter((i) => i._id !== action.payload)
+            }
+
         case HIDE_LOADER:
             return {
                 ...state,

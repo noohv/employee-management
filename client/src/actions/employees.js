@@ -1,4 +1,4 @@
-import { FETCH_ALL, FETCH_EMPLOYEE, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, CREATE_ABSENCE, DELETE_EMPLOYEE } from '../constants/actionTypes';
+import { FETCH_ALL, FETCH_EMPLOYEE, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, CREATE_ABSENCE, DELETE_EMPLOYEE, DELETE_ABSENCE } from '../constants/actionTypes';
 import * as api from '../api';
 
 // Action Creators 
@@ -30,6 +30,15 @@ export const deleteEmployee = (id) => async (dispatch) => {
         dispatch({ type: DELETE_EMPLOYEE, payload: id });
     } catch (error) {
         console.log(error.message)
+    }
+}
+
+export const deleteAbsence = (id) => async (dispatch) => {
+    try {
+        await api.deleteAbsence(id)
+        dispatch({ type: DELETE_ABSENCE, payload: id })
+    } catch (error) {
+        console.log(error.message)   
     }
 }
 

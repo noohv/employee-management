@@ -75,7 +75,7 @@ export default function Employee() {
     {employee.absence.length === 0 ? 
       <Typography>Nav prombūtnes</Typography>
       :
-        <AbsenceList absences={employee.absence}/>
+        <AbsenceList absences={employee.absence} setOpenPopup={setOpenPopup} setOpenPopupType={setOpenPopupType}/>
       }
       </Container>
 

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { AppBar, Container, Toolbar, Button, Typography, Avatar, Tooltip } from '@mui/material';
+import { AppBar, Container, Toolbar, Button, Avatar, Tooltip } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { borderRadius } from '@mui/system';
 
 export default function Navbar() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));

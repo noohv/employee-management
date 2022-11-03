@@ -4,7 +4,6 @@ const absenceSchema = mongoose.Schema({
     absenceType: String, 
     startDate: Date,
     endDate: Date, 
-    reason: String,
     createdAt: { type: Date, default: new Date() }
 });
 

@@ -4,14 +4,13 @@ import { InputAdornment, TableBody, TableCell, TableRow, Toolbar, Button } from 
 import useTable from "../Reusable/useTable";
 import Controls from "../Reusable/controls/Controls";
 import { Search } from "@mui/icons-material";
-import EditIcon from '@mui/icons-material/Edit';
 import SettingsIcon from '@mui/icons-material/Settings';
 import EmployeesLoadingSkeleton from "./EmployeesLoadingSkeleton";
 import Popup from "../Reusable/Popup";
 import Form from "../Form/Form";
 import { Link } from "react-router-dom";
 
-export default function EmployeesList({ currentId, setCurrentId, employees}) {
+export default function EmployeesList({ employees}) {
     const showLoading = useSelector((state) => state.employees.isLoading);
     const [filter, setFilter] = useState({fn: items => { return items; }});
     const [openPopup, setOpenPopup] = useState(false);
@@ -96,14 +95,6 @@ export default function EmployeesList({ currentId, setCurrentId, employees}) {
                                         <TableCell>{item.lastName}</TableCell>
                                         <TableCell>{shortDate}</TableCell>
                                         <TableCell>
-                                            <Controls.ActionButton>
-                                                <EditIcon
-                                                    onClick = {() => {
-                                                        setCurrentId(item._id)
-                                                        setOpenPopup(true)
-                                                    }}
-                                                />
-                                            </Controls.ActionButton>
                                             <Button component={Link} to={`/employees/${item._id}`}>
                                                 <SettingsIcon />
                                             </Button>
@@ -119,9 +110,8 @@ export default function EmployeesList({ currentId, setCurrentId, employees}) {
                     title="Pievienot darbinieku"
                     openPopup={openPopup}
                     setOpenPopup={setOpenPopup}
-                    setCurrentId={setCurrentId}
                 >
-                    <Form currentId={currentId} setCurrentId={setCurrentId} setOpenPopup={setOpenPopup} />
+                    <Form setOpenPopup={setOpenPopup} />
                 </Popup>
             </>
         : <EmployeesLoadingSkeleton />}

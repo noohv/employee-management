@@ -4,11 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createEmployee, updateEmployee } from "../../actions/employees";
 
 
-export default function Form({currentId, setCurrentId,setOpenPopup}) {
+export default function Form({currentId,setOpenPopup}) {
     const initialData = { firstName:'', lastName:'', phone: '', email:'', address: '',  startDate: ''}
     const [employeeData, setEmployeeData] = useState(initialData)
-    const employee = useSelector((state) => currentId ? state.employees.data.find((x) => x._id === currentId) : null)
-    
+    const { employee } = useSelector((state) => state.employees)
     const dispatch = useDispatch();
 
     const handleChange = (e) => {
@@ -31,7 +30,6 @@ export default function Form({currentId, setCurrentId,setOpenPopup}) {
     }
 
     const clear = () => {
-        setCurrentId(null)
         setEmployeeData(initialData)
     }
 

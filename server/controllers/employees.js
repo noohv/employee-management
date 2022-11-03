@@ -26,7 +26,6 @@ export const getEmployee = async (req, res) => {
 
 export const createEmployee = async (req, res) => {
     const employee = req.body;
-    
     const newEmployee = new EmployeeProfile(employee)
     try {
         await newEmployee.save();
@@ -42,7 +41,7 @@ export const updateEmployee = async (req, res) => {
 
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No employee with ID");
 
-    const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(id, employee, { new: true });
+    const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(id, employee, { new: true }).populate("absence");
 
     res.json(updatedEmployee)
 }
@@ -50,16 +49,48 @@ export const updateEmployee = async (req, res) => {
 export const createAbsence = async (req, res) => {
     const { id } = req.params;
     const data = req.body;
-    console.log(data)
 
     try {
         const absence = await EmployeeAbsence.create(data)
         const employee = await EmployeeProfile.findById(id)
-        console.log(employee)
         employee.absence.push(absence._id)    
         await employee.save()
         res.status(201).json(absence);
     } catch (error) {
         res.status(409).json({ message:error.message })
+    }
+}
+
+export const deleteAbsence = async (req,res) => {
+    const { id, empId } = req.params;
+    try {
+        const absence = await EmployeeAbsence.findById(id)
+        const employee = await EmployeeProfile.findById(empId).populate("absence")
+        employee.absence = employee.absence.filter((i) => i.id !== id)
+
+        await absence.remove()
+        await employee.save()
+        res.status(200).json(id)
+    } catch (error) {
+        res.status(404).json({ message: error.message})
+    }
+}
+
+export const deleteEmployee = async (req,res) => {
+    const { id } = req.params;
+
+    try {
+        const employee = await EmployeeProfile.findById(id)
+        const absences = employee.absence
+
+        await employee.remove()
+
+        for(let i = 0; i < absences.length; i++) {
+            const abs = await EmployeeAbsence.findById(absences[i])
+            await abs.remove()
+        }
+        res.status(200).json(id)
+    } catch (error) {
+        res.status(404).json({ message: error.message})
     }
 }

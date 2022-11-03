@@ -26,7 +26,6 @@ export const getEmployee = async (req, res) => {
 
 export const createEmployee = async (req, res) => {
     const employee = req.body;
-    
     const newEmployee = new EmployeeProfile(employee)
     try {
         await newEmployee.save();
@@ -63,11 +62,14 @@ export const createAbsence = async (req, res) => {
 }
 
 export const deleteAbsence = async (req,res) => {
-    const { id } = req.params;
+    const { id, empId } = req.params;
     try {
         const absence = await EmployeeAbsence.findById(id)
+        const employee = await EmployeeProfile.findById(empId).populate("absence")
+        employee.absence = employee.absence.filter((i) => i.id !== id)
+
         await absence.remove()
-        
+        await employee.save()
         res.status(200).json(id)
     } catch (error) {
         res.status(404).json({ message: error.message})

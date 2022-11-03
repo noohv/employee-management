@@ -6,9 +6,8 @@ import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 
 
-export default function AbsenceList({absences, setOpenPopup, setOpenPopupType }) {
+export default function AbsenceList({empId, absences }) {
     const [filter, setFilter] = useState({fn: items => { return items; }});
-    const [currentId, setCurrentId] = useState();
     const dispatch = useDispatch()
 
     const headCells = [
@@ -39,7 +38,7 @@ export default function AbsenceList({absences, setOpenPopup, setOpenPopupType })
                             <TableCell>{item.endDate.slice(0,10)}</TableCell>
                             <TableCell>
                                 <Button onClick={() => {
-                                    dispatch(deleteAbsence(item._id))
+                                    dispatch(deleteAbsence(item._id, empId))
                                 }}>
                                     DEL
                                 </Button>

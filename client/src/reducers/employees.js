@@ -53,14 +53,11 @@ export default (state = initialState , action) => {
         case DELETE_ABSENCE:
             return {
                 ...state,
-                data: state.data.map((employee) => {
-                    if(employee._id === state.employee._id) {
-                        employee.absence.filter((i) => i._id !== action.payload)
-                    } else {
-                        return employee
-                    }
-                }),
-                employee: state.employee.absence.filter((i) => i._id !== action.payload)
+                employee:{
+                    ...state.employee,
+                    absence: state.employee.absence.filter((i) => i._id !== action.payload),
+                } 
+
             }
 
         case HIDE_LOADER:

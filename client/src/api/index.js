@@ -15,8 +15,8 @@ export const updateEmployee = (id,updatedData) => API.patch(`/employees/${id}`, 
 export const fetchEmployee = (id) => API.get(`/employees/${id}`);
 export const deleteEmployee = (id) => API.delete(`/employees/${id}`);
 
-export const createAbsence = (id, absence) => API.post(`employees/${id}/absence`, absence);
-export const deleteAbsence = (id) => API.delete(`/employees/${id}/absence`)
+export const createAbsence = (id, absence) => API.post(`/employees/${id}/absence`, absence);
+export const deleteAbsence = (id, empId) => API.delete(`/employees/${empId}/${id}/absence`)
 
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);

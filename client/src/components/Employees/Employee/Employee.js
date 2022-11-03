@@ -16,8 +16,6 @@ export default function Employee() {
   const dispatch = useDispatch();
   let { id } = useParams()
 
-  console.log(isLoading)
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,7 +73,7 @@ export default function Employee() {
     {employee.absence.length === 0 ? 
       <Typography>Nav prombūtnes</Typography>
       :
-        <AbsenceList absences={employee.absence} setOpenPopup={setOpenPopup} setOpenPopupType={setOpenPopupType}/>
+        <AbsenceList empId={employee._id} absences={employee.absence} setOpenPopup={setOpenPopup} setOpenPopupType={setOpenPopupType}/>
       }
       </Container>
 

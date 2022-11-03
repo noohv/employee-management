@@ -10,7 +10,7 @@ router.get('/:id', getEmployee);
 router.post('/', createEmployee);
 router.patch('/:id', updateEmployee);
 router.post('/:id/absence', createAbsence)
-router.delete('/:id/absence', deleteAbsence)
+router.delete('/:empId/:id/absence', deleteAbsence)
 router.delete('/:id', deleteEmployee)
 
 export default router;

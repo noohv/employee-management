@@ -16,7 +16,7 @@ export const getEmployee = async (req, res) => {
     const { id } = req.params;
     
     try {
-        const employee = await EmployeeProfile.findById(id).populate("absence");
+        const employee = await EmployeeProfile.findById(id).populate("absences");
 
         res.status(200).json(employee)
     } catch (error) {
@@ -41,7 +41,7 @@ export const updateEmployee = async (req, res) => {
 
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No employee with ID");
 
-    const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(id, employee, { new: true }).populate("absence");
+    const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(id, employee, { new: true }).populate("absences");
 
     res.json(updatedEmployee)
 }
@@ -53,7 +53,7 @@ export const createAbsence = async (req, res) => {
     try {
         const absence = await EmployeeAbsence.create(data)
         const employee = await EmployeeProfile.findById(id)
-        employee.absence.push(absence._id)    
+        employee.absences.push(absence._id)    
         await employee.save()
         res.status(201).json(absence);
     } catch (error) {
@@ -65,8 +65,8 @@ export const deleteAbsence = async (req,res) => {
     const { id, empId } = req.params;
     try {
         const absence = await EmployeeAbsence.findById(id)
-        const employee = await EmployeeProfile.findById(empId).populate("absence")
-        employee.absence = employee.absence.filter((i) => i.id !== id)
+        const employee = await EmployeeProfile.findById(empId).populate("absences")
+        employee.absences = employee.absences.filter((i) => i.id !== id)
 
         await absence.remove()
         await employee.save()
@@ -81,7 +81,7 @@ export const deleteEmployee = async (req,res) => {
 
     try {
         const employee = await EmployeeProfile.findById(id)
-        const absences = employee.absence
+        const absences = employee.absences
 
         await employee.remove()
 

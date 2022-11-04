@@ -47,7 +47,7 @@ export default (state = initialState , action) => {
         case CREATE_ABSENCE:
             return {
                 ...state,
-                employee: {...state.employee, absence: [...state.employee.absence, action.payload]}
+                employee: {...state.employee, absences: [...state.employee.absences, action.payload]}
             }
             
         case DELETE_ABSENCE:
@@ -55,7 +55,7 @@ export default (state = initialState , action) => {
                 ...state,
                 employee:{
                     ...state.employee,
-                    absence: state.employee.absence.filter((i) => i._id !== action.payload),
+                    absences: state.employee.absences.filter((i) => i._id !== action.payload),
                 } 
 
             }

@@ -7,6 +7,6 @@ const absenceSchema = mongoose.Schema({
     createdAt: { type: Date, default: new Date() }
 });
 
-const employeeProfile = mongoose.model('Absence', absenceSchema)
+const employeeAbsence = mongoose.model('Absence', absenceSchema)
 
-export default employeeProfile;
+export default employeeAbsence;

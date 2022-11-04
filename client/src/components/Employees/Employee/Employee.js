@@ -70,10 +70,10 @@ export default function Employee() {
           Pievienot
         </Button>
 
-    {employee.absence.length === 0 ? 
+    {employee.absences.length === 0 ? 
       <Typography>Nav prombūtnes</Typography>
       :
-        <AbsenceList empId={employee._id} absences={employee.absence} setOpenPopup={setOpenPopup} setOpenPopupType={setOpenPopupType}/>
+        <AbsenceList empId={employee._id} absences={employee.absences} setOpenPopup={setOpenPopup} setOpenPopupType={setOpenPopupType}/>
       }
       </Container>
 

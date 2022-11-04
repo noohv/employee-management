@@ -46,6 +46,27 @@ export const updateEmployee = async (req, res) => {
     res.json(updatedEmployee)
 }
 
+export const deleteEmployee = async (req,res) => {
+    const { id } = req.params;
+
+    try {
+        const employee = await EmployeeProfile.findById(id)
+        const absences = employee.absences
+
+        await employee.remove()
+
+        for(let i = 0; i < absences.length; i++) {
+            const abs = await EmployeeAbsence.findById(absences[i])
+            await abs.remove()
+        }
+        res.status(200).json(id)
+    } catch (error) {
+        res.status(404).json({ message: error.message})
+    }
+}
+
+// Absence controller functions
+
 export const createAbsence = async (req, res) => {
     const { id } = req.params;
     const data = req.body;
@@ -70,25 +91,6 @@ export const deleteAbsence = async (req,res) => {
 
         await absence.remove()
         await employee.save()
-        res.status(200).json(id)
-    } catch (error) {
-        res.status(404).json({ message: error.message})
-    }
-}
-
-export const deleteEmployee = async (req,res) => {
-    const { id } = req.params;
-
-    try {
-        const employee = await EmployeeProfile.findById(id)
-        const absences = employee.absences
-
-        await employee.remove()
-
-        for(let i = 0; i < absences.length; i++) {
-            const abs = await EmployeeAbsence.findById(absences[i])
-            await abs.remove()
-        }
         res.status(200).json(id)
     } catch (error) {
         res.status(404).json({ message: error.message})

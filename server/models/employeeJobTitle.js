@@ -6,6 +6,6 @@ const jobTitleSchema = mongoose.Schema({
     createdAt: { type: Date, default: new Date() }
 });
 
-const employeeProfile = mongoose.model('JobTitle', jobTitleSchema)
+const jobTitle = mongoose.model('JobTitle', jobTitleSchema)
 
-export default employeeProfile;
+export default jobTitle;

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import EmployeeProfile from '../models/employeeProfile.js';
 import EmployeeAbsence from "../models/employeeAbsence.js";
+import JobTitle from '../models/employeeJobTitle.js';
 
 export const getEmployees = async (req, res) => {
     try {
@@ -27,7 +28,11 @@ export const getEmployee = async (req, res) => {
 export const createEmployee = async (req, res) => {
     const employee = req.body;
     const newEmployee = new EmployeeProfile(employee)
+    
     try {
+        const jt = await JobTitle.findById(employee.jobTitle)
+        jt.employees.push(newEmployee._id);
+        await jt.save()
         await newEmployee.save();
         res.status(201).json(newEmployee);
     } catch (error) {

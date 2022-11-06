@@ -6,20 +6,24 @@ import { Container, Button, Typography, Divider } from '@mui/material';
 import Popup from "../../Reusable/Popup";
 import AbsenceForm from './AbsenceForm';
 import AbsenceList from './AbsenceList';
-import Form from '../../Form/Form';
+import Form from '../Form/Form';
 import EmployeeSkeleton from './EmployeeSkeleton';
 
 export default function Employee() {
   const { employee, isLoading } = useSelector((state) => state.employees)
   const [openPopup, setOpenPopup] = useState(false);
   const [popupType, setOpenPopupType] = useState();
+  const [title, setTitle] = useState("Darbinieks");
   const dispatch = useDispatch();
   let { id } = useParams()
+
+
 
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getEmployee(id));
+    document.title = title
   }, [id]);
 
   if(!employee) return null

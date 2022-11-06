@@ -16,7 +16,10 @@ export const fetchEmployee = (id) => API.get(`/employees/${id}`);
 export const deleteEmployee = (id) => API.delete(`/employees/${id}`);
 
 export const createAbsence = (id, absence) => API.post(`/employees/${id}/absence`, absence);
-export const deleteAbsence = (id, empId) => API.delete(`/employees/${empId}/${id}/absence`)
+export const deleteAbsence = (id, empId) => API.delete(`/employees/${empId}/${id}/absence`);
+
+export const createJobTitle = (newJobTitle) => API.post(`/manage/jobtitle`,newJobTitle);
+export const fetchJobTitles = () => API.get('/manage/jobtitle')
 
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);

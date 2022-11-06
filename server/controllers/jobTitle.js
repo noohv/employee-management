@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
-import EmployeeProfile from '../models/employeeProfile.js';
 import JobTitle from '../models/employeeJobTitle.js';
 
 export const createJobTitle = async (req, res) => {
     const data = req.body;
-    const newJobTitle = new EmployeeProfile(data)
+    const newJobTitle = new JobTitle(data)
     try {
         await newJobTitle.save();
         res.status(201).json(newJobTitle);
@@ -13,11 +12,24 @@ export const createJobTitle = async (req, res) => {
     }
 }
 
-export const updateJobTitle = async (req, res) => {
-    const newData = req.body;
+export const getJobTitles = async (req, res) => {
     try {
-        res.status(200).json()
+        const jobTitles =  await JobTitle.find();
+        
+        res.status(200).json(jobTitles)
     } catch (error) {
-        res.status(409).json({ message:error.message }) 
+        res.status(404).json({ message: error.message })
+    }
+}
+
+export const getJobTitle = async (req, res) => {
+    const { id } = req.params;
+    
+    try {
+        const jobTitle = await JobTitle.findById(id);
+
+        res.status(200).json(jobTitle)
+    } catch (error) {
+        res.status(404).json({ message: error.message })
     }
 }

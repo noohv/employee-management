@@ -17,7 +17,7 @@ app.use(cors());
 
 app.use('/user', userRoutes);
 app.use('/employees', employeeRoutes);
-app.use('/jobtitle', jobTitleRoutes)
+app.use('/manage/jobtitle', jobTitleRoutes)
 
 
 const PORT = process.env.PORT || 5000;

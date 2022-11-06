@@ -33,15 +33,6 @@ export const deleteEmployee = (id) => async (dispatch) => {
     }
 }
 
-export const deleteAbsence = (id, empId) => async (dispatch) => {
-    try {
-        await api.deleteAbsence(id, empId)
-
-        dispatch({ type: DELETE_ABSENCE, payload: id })
-    } catch (error) {
-        console.log(error.message)   
-    }
-}
 
 export const createEmployee = (employee) => async (dispatch) => {
     try {
@@ -69,6 +60,16 @@ export const createAbsence = (id, absence) => async (dispatch) => {
         dispatch({ type: CREATE_ABSENCE, payload: data });
     } catch (error) {
         console.log(error.message)
+    }
+}
+
+export const deleteAbsence = (id, empId) => async (dispatch) => {
+    try {
+        await api.deleteAbsence(id, empId)
+
+        dispatch({ type: DELETE_ABSENCE, payload: id })
+    } catch (error) {
+        console.log(error.message)   
     }
 }
 

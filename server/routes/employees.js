@@ -8,9 +8,10 @@ const router = express.Router();
 router.get('/', getEmployees);
 router.get('/:id', getEmployee);
 router.post('/', createEmployee);
+router.delete('/:id', deleteEmployee);
 router.patch('/:id', updateEmployee);
-router.post('/:id/absence', createAbsence)
-router.delete('/:empId/:id/absence', deleteAbsence)
-router.delete('/:id', deleteEmployee)
+
+router.post('/:id/absence', createAbsence);
+router.delete('/:empId/:id/absence', deleteAbsence);
 
 export default router;

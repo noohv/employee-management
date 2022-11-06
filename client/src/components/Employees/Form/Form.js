@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Container, TextField, Button } from '@mui/material';
+import { Container, TextField, Button, Select, MenuItem, FormControl } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { createEmployee, updateEmployee } from "../../actions/employees";
+import { createEmployee, updateEmployee } from "../../../actions/employees";
 
 
 export default function Form({currentId,setOpenPopup}) {
-    const initialData = { firstName:'', lastName:'', phone: '', email:'', address: '',  startDate: ''}
+    const initialData = { firstName:'', lastName:'', phone: '', email:'', address: '',  startDate: '', jobTitle:'' }
     const [employeeData, setEmployeeData] = useState(initialData)
     const { employee } = useSelector((state) => state.employees)
+    const jobTitleList = useSelector((state) => state.jobTitle.data)
     const dispatch = useDispatch();
 
     const handleChange = (e) => {
@@ -18,6 +19,7 @@ export default function Form({currentId,setOpenPopup}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
 
         if(currentId){
             dispatch(updateEmployee(currentId,employeeData));
@@ -47,6 +49,14 @@ export default function Form({currentId,setOpenPopup}) {
                     <TextField sx={{m:0.5}} name="email" variant="outlined" label="E-pasts" type="email" fullWidth value={employeeData.email} onChange={handleChange} />
                     <TextField sx={{m:0.5}} name="address" variant="outlined" label="Adrese" type="text" fullWidth value={employeeData.address} onChange={handleChange} />
                     <TextField sx={{m:0.5}} name="startDate" variant="outlined" label="Sākuma datums" type="date" required InputLabelProps={{shrink:true}} fullWidth value={employeeData.startDate.slice(0,10)} onChange={handleChange} />
+                    <FormControl>
+                        <Select name="jobTitle" onChange={handleChange} value={employeeData.jobTitle}>
+                            {jobTitleList.map((item) => (
+                                <MenuItem key={item._id} value={item._id}>{item.name}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+
                     <Button sx={{m:0.5}} variant="contained" color="primary" size="large" type="submit" fullWidth>Izveidot</Button>
                     <Button sx={{m:0.5}} variant="contained" color="secondary" size="small" onClick={() => {
                         clear()

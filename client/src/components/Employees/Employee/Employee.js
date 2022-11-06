@@ -1,6 +1,7 @@
 import React, { useState , useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployee, deleteEmployee } from '../../../actions/employees';
+import { getJobTitles } from '../../../actions/jobTitle';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Button, Typography, Divider } from '@mui/material';
 import Popup from "../../Reusable/Popup";
@@ -17,12 +18,11 @@ export default function Employee() {
   const dispatch = useDispatch();
   let { id } = useParams()
 
-
-
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getEmployee(id));
+    dispatch(getJobTitles())
     document.title = title
   }, [id]);
 

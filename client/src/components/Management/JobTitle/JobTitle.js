@@ -20,7 +20,7 @@ export default function JobTitle() {
   return (
     <>
         <div>
-            Test
+            Darbinieku amati
           <Button
             onClick = {() => {
               setOpenPopup(true)
@@ -30,22 +30,16 @@ export default function JobTitle() {
 
         </div>
 
-
-
         <JobTitleList jobTitles={data} />
         
-
-        <Popup
+      <Popup
         title="Pievienot prombūtni"
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
         <JobTitleForm setOpenPopup={setOpenPopup} />
 
-
       </Popup>
-
-
     </>
   )
 }

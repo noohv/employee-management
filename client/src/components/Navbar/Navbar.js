@@ -46,6 +46,7 @@ export default function Navbar() {
                 )}
 
                 <Button component={Link}  to='/schedules'>Grafiks</Button>
+                <Button component={Link}  to='/stats'>Statistika</Button>
             </Toolbar>
         </AppBar>
     )

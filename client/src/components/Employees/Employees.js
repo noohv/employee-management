@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Container } from '@mui/material';
 import { getEmployees } from '../../actions/employees';
 import { getJobTitles } from '../../actions/jobTitle'
-import ActiveStats from './Stats/Stats';
+import Stats from './Stats/Stats';
 
 export default function Employees() {
     const employees = useSelector((state) => state.employees.data);
@@ -18,6 +18,7 @@ export default function Employees() {
 
     return (
         <Container>
+            <Stats employees={employees} /> 
             <EmployeesList employees={employees} />
         </Container>
     )

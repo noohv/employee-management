@@ -18,7 +18,6 @@ export default function Employees() {
 
     return (
         <Container>
-            <ActiveStats employees={employees} />
             <EmployeesList employees={employees} />
         </Container>
     )

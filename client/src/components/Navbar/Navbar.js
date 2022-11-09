@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { AppBar, Container, Toolbar, Button, Avatar, Tooltip } from '@mui/material';
+import { AppBar, Container, Toolbar, Button, Avatar, Tooltip, IconButton, Stack } from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import { useDispatch } from 'react-redux';
 
 export default function Navbar() {
@@ -11,7 +13,7 @@ export default function Navbar() {
 
     const logout = () => {
         dispatch({ type: 'LOG_OUT' });
-        navigate('/');
+        navigate("/auth", { replace: true })
         setUser(null);
     }
 
@@ -20,33 +22,24 @@ export default function Navbar() {
     }, [location]);
 
     return (
-        <AppBar sx={{ bgcolor: '#01E08F', color: "#013870", mb:4}} position="static">
-
-            <Toolbar>
-                {user ? (
-                    <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'end'}} >
+        <AppBar color='primary' position="static">
+            <Toolbar sx={{display: 'flex', justifyContent:'space-between'}}>
+                <Container>
+                    <IconButton color='secondary' size='large' edge="start" component={Link}  to='/'>
+                        <HomeRoundedIcon />
+                    </IconButton>
+                </Container>
+                {user && (
+                    <Stack direction='row' spacing={2}>
+                        <Button color='secondary' component={Link}  to='/schedules'>Grafiks</Button>
+                        <IconButton color="secondary" onClick={logout}><LogoutIcon /></IconButton>
                         <Tooltip title={user.result.name}>
                             <Avatar alt={user.result.name} src={user.result.imageUrl}>
                                 {user.result.name.charAt(0)}
                             </Avatar>
                         </Tooltip>
-                        <Button sx={{ m:1, color: '#013870', fontWeight: 'bold', borderRadius:0 }} onClick={logout} variant='text'>Iziet</Button>
-                    </Container>
-                ) : (
-                    <Button sx={{
-                        bgcolor: '#013870',
-                        color: 'white',
-                        '&:hover': {
-                            bgcolor:'gray',
-                            color: 'black'
-                        }
-                    }} component={Link} to='/auth'>
-                        Ielogoties
-                    </Button>
+                    </Stack>
                 )}
-
-                <Button component={Link}  to='/schedules'>Grafiks</Button>
-                <Button component={Link}  to='/stats'>Statistika</Button>
             </Toolbar>
         </AppBar>
     )

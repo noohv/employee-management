@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { InputAdornment, TableBody, TableCell, TableRow, Toolbar, Button } from "@mui/material";
+import { InputAdornment, TableBody, TableCell, TableRow, Toolbar, IconButton, Button, TextField } from "@mui/material";
 import useTable from "../Reusable/useTable";
 import Controls from "../Reusable/controls/Controls";
 import { Search } from "@mui/icons-material";
@@ -54,8 +54,8 @@ export default function EmployeesList({ employees}) {
                     display:'flex',
                     justifyContent: 'space-between'
                 }}>
-                    <Controls.Input
-                        label="Meklēt"
+                    <Button size="large" variant="contained" onClick={() => setOpenPopup(true)}>Pievienot</Button>
+                    <TextField label="Meklēt"
                         InputProps={{
                             startAdornment:(
                                 <InputAdornment position="start">
@@ -63,20 +63,8 @@ export default function EmployeesList({ employees}) {
                                 </InputAdornment>
                             )
                         }}
-
-                        sx={{
-                            width:'35%'
-                        }}
+                        sx={{ width:'35%' }}
                         onChange={handleSearch}
-                    />
-                    <Controls.Button 
-                        sx={{
-                            display:'flex',
-                            justifyContent:'flex-end',
-                            alignItems: 'flex-end'
-                        }}
-                        text= "Pievienot"
-                        onClick={() => setOpenPopup(true)}
                     />
                 </Toolbar>
                 <TblContainer>
@@ -95,9 +83,9 @@ export default function EmployeesList({ employees}) {
                                         <TableCell>{item.lastName}</TableCell>
                                         <TableCell>{shortDate}</TableCell>
                                         <TableCell>
-                                            <Button component={Link} to={`/employees/${item._id}`}>
+                                            <IconButton component={Link} to={`/employees/${item._id}`}>
                                                 <SettingsIcon />
-                                            </Button>
+                                            </IconButton>
                                         </TableCell>
                                     </TableRow>
                                 )

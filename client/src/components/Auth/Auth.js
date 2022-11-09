@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Button, Grid, Container, Typography } from '@mui/material';
@@ -33,12 +33,18 @@ export default function Auth() {
     const switchMode = () => setIsSignup(prev => !prev);
     const handleShowPassword = () => setShowPassword(prev => !prev);
 
+    useEffect(() => {
+        document.title = "Autorizācija"
+    }, [])
+
     return (
-        <Container component='main' maxWidth='xs'>
-            <Avatar>
-                <LockOutlinedIcon />
-            </Avatar>
-            <Typography variant="h5">{isSignup ? 'Reģistrēties' : 'Ielogoties'}</Typography>
+        <Container sx={{mt:10}} component='main' maxWidth='sm'>
+            <Container sx={{display:'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center'}}>
+                <Avatar>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography sx={{mb:2}} variant="h5">{isSignup ? 'Reģistrēties' : 'Ielogoties'}</Typography>
+            </Container>
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                     {
@@ -53,7 +59,7 @@ export default function Auth() {
                     <Input name="password" label="Parole" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
                     {isSignup && <Input name="confirmPassword" label="Atkārtota parole" handleChange={handleChange} type="password" />}
                 </Grid>
-                <Button type="submit" fullWidth variant='contained' >
+                <Button sx={{mt:2}} type="submit" fullWidth variant='contained' >
                     {isSignup ? 'Reģistrēties' : 'Ielogoties'}
                 </Button>
                 <Grid container justify="flex-end">

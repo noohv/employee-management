@@ -4,6 +4,7 @@ import { getEmployee, deleteEmployee } from '../../../actions/employees';
 import { getJobTitles } from '../../../actions/jobTitle';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Button, Typography, Divider } from '@mui/material';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import Popup from "../../Reusable/Popup";
 import AbsenceForm from './AbsenceForm';
 import AbsenceList from './AbsenceList';
@@ -42,7 +43,7 @@ export default function Employee() {
     <>
     {!isLoading ?
     <> 
-      <Button onClick={()=> navigate('/')}>Atpakaļ</Button>
+      <Button variant='text' onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></Button>
       <Container sx={{display: 'flex', justifyContent: 'space-between'}}>
       <Container>
         <Typography variant='h4'>{`${employee.firstName} ${employee.lastName}`}</Typography>
@@ -53,16 +54,14 @@ export default function Employee() {
         <Typography><b>Sākšanas dat.:</b> {shortDate(employee.startDate)}</Typography>
       </Container>
 
-      <Container sx={{display: 'flex', flexDirection: 'column'}}>
-        <Button>Test</Button>
-        <Button 
+      <Container sx={{display: 'flex', flexDirection: 'column', mt:5}}>
+        <Button variant='outlined' 
           onClick={() => {
               setOpenPopup(true)
               setOpenPopupType('employeeEdit')
           }}
-        >
-          Rediģēt </Button>
-        <Button onClick={ handleClick }>Dzēst</Button>
+        > Rediģēt </Button>
+        <Button variant='outlined' onClick={ handleClick }>Dzēst</Button>
       </Container>
     </Container>
       <Container>

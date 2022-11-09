@@ -5,7 +5,7 @@ import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post('/', createJobTitle);
-router.get('/', getJobTitles);
+router.post('/', auth, createJobTitle);
+router.get('/', auth, getJobTitles);
 
 export default router;

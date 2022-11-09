@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, TextField, Button, Select, MenuItem, FormControl } from '@mui/material';
+import { Container, TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { createEmployee, updateEmployee } from "../../../actions/employees";
 
@@ -45,12 +45,13 @@ export default function Form({currentId,setOpenPopup}) {
                 <form onSubmit={handleSubmit}>
                     <TextField sx={{m:0.5}} name="firstName" variant="outlined" label="Vārds" fullWidth autoFocus required value={employeeData.firstName} onChange={handleChange} />
                     <TextField sx={{m:0.5}} name="lastName" variant="outlined" label="Uzvārds" fullWidth required value={employeeData.lastName} onChange={handleChange} />
-                    <TextField sx={{m:0.5}} name="phone" variant="outlined" label="Tālr. nr." type="text" min="8" fullWidth value={employeeData.phone} onChange={handleChange} />
+                    <TextField sx={{m:0.5}} inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} name="phone" variant="outlined" label="Tālr. nr." type="text" min="8" fullWidth value={employeeData.phone} onChange={handleChange} />
                     <TextField sx={{m:0.5}} name="email" variant="outlined" label="E-pasts" type="email" fullWidth value={employeeData.email} onChange={handleChange} />
                     <TextField sx={{m:0.5}} name="address" variant="outlined" label="Adrese" type="text" fullWidth value={employeeData.address} onChange={handleChange} />
                     <TextField sx={{m:0.5}} name="startDate" variant="outlined" label="Sākuma datums" type="date" required InputLabelProps={{shrink:true}} fullWidth value={employeeData.startDate.slice(0,10)} onChange={handleChange} />
-                    <FormControl>
-                        <Select name="jobTitle" onChange={handleChange} value={employeeData.jobTitle}>
+                    <FormControl sx={{m:0.5}} required fullWidth>
+                        <InputLabel htmlFor="jobTitle">Amats</InputLabel>
+                        <Select labelId="jobTitle" label="Amats" name="jobTitle" onChange={handleChange} value={employeeData.jobTitle}>
                             {jobTitleList.map((item) => (
                                 <MenuItem key={item._id} value={item._id}>{item.name}</MenuItem>
                             ))}

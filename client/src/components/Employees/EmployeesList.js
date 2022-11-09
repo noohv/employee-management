@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { InputAdornment, TableBody, TableCell, TableRow, Toolbar, IconButton, Button, TextField } from "@mui/material";
 import useTable from "../Reusable/useTable";
-import Controls from "../Reusable/controls/Controls";
 import { Search } from "@mui/icons-material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import EmployeesLoadingSkeleton from "./EmployeesLoadingSkeleton";

@@ -7,9 +7,7 @@ import Input from './Input';
 import { signin, signup } from  '../../actions/auth';
 
 export default function Auth() {
-
     const initialData = { firstName:'', lastName:'', email:'', password:'', confirmPassword:'' };
-
     const [showPassword, setShowPassword] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
     const [formData, setFormData] = useState(initialData);
@@ -19,16 +17,13 @@ export default function Auth() {
     const handleSubmit = (e) => {
         e.preventDefault()
         
-        if(isSignup) {
-            dispatch(signup(formData, navigate))
-        } else {
-            dispatch(signin(formData, navigate))
-        }
-    };
+        if(isSignup) dispatch(signup(formData, navigate))
+        else dispatch(signin(formData, navigate))
+    }
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
-    };
+    }
 
     const switchMode = () => setIsSignup(prev => !prev);
     const handleShowPassword = () => setShowPassword(prev => !prev);

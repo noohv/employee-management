@@ -10,7 +10,6 @@ export default function AbsenceForm({id, setOpenPopup}) {
 
     const handleChange = (e) => {
         const { name, value } = e.target
-    
         setAbsenceData({ ...absenceData, [name]:value })
     }
     

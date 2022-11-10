@@ -1,4 +1,4 @@
-import { AUTH, LOG_OUT } from '../constants/actionTypes';
+import { AUTH, LOG_OUT} from '../constants/actionTypes';
 
 const initialState = {
     authData: null

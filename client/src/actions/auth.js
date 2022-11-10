@@ -1,10 +1,14 @@
 import { AUTH } from '../constants/actionTypes';
 import * as api from '../api';
 
+const EXPIRY_TIME = 0.0166667
+
 export const signin = (formData, navigate) => async (dispatch) => {
+    let expiryDate = new Date();
     try {
-        const { data } = await api.signIn(formData);
-        
+        let { data } = await api.signIn(formData);
+        data = {...data, expDate: expiryDate}
+
         dispatch({ type: AUTH, data });
 
         navigate('/')
@@ -14,8 +18,10 @@ export const signin = (formData, navigate) => async (dispatch) => {
 };
 
 export const signup = (formData, navigate) => async (dispatch) => {
+    let expiryDate = new Date(Date.now() + EXPIRY_TIME * (60 * 60 * 1000) );
     try {
-        const { data } = await api.signUp(formData);
+        let { data } = await api.signUp(formData);
+        data = {...data, expDate: expiryDate}
         
         dispatch({ type: AUTH, data });
 

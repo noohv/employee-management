@@ -7,9 +7,13 @@ import { useDispatch } from 'react-redux';
 
 export default function Navbar() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const [time, setTime] = useState(new Date())
     const dispatch = useDispatch();
     let navigate = useNavigate();
     let location = useLocation();
+
+    console.log(time.toISOString())
+    console.log(user)
 
     const logout = () => {
         dispatch({ type: 'LOG_OUT' });
@@ -19,6 +23,14 @@ export default function Navbar() {
 
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem('profile')));
+        setTime(new Date())
+        if(user) {
+            if(time.toISOString() >= user.expDate) {
+                console.log("Tu tiec izlogots!")
+                logout()
+            }
+        }
+        console.log("a")
     }, [location]);
 
     return (

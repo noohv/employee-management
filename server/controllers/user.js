@@ -18,7 +18,7 @@ export const signin = async (req, res) => {
         
         if(!isPasswordCorrect) return res.status(400).json({ message: "Nepareizi dati!" });
         
-        const token = jwt.sign({ email:existingUser.email, id:existingUser._id }, process.env.TOKEN, {expiresIn: '1min' });
+        const token = jwt.sign({ email:existingUser.email, id:existingUser._id }, process.env.TOKEN, {expiresIn: '8h' });
         
         res.status(200).json({ result: existingUser, token });
     } catch (error) {
@@ -40,7 +40,7 @@ export const signup = async (req, res) => {
 
         const result = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
 
-        const token = jwt.sign({ email:result.email, id:result._id }, process.env.TOKEN, {expiresIn: '1min'} )
+        const token = jwt.sign({ email:result.email, id:result._id }, process.env.TOKEN, {expiresIn: '8h'} )
     
         res.status(200).json({ result, token });
     } catch (error) {

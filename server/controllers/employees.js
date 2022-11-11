@@ -5,7 +5,7 @@ import JobTitle from '../models/employeeJobTitle.js';
 
 export const getEmployees = async (req, res) => {
     try {
-        const employeeProfile =  await EmployeeProfile.find().populate("absences");
+        const employeeProfile =  await EmployeeProfile.find().populate("absences jobTitle")
         
         res.status(200).json(employeeProfile)
     } catch (error) {
@@ -17,7 +17,7 @@ export const getEmployee = async (req, res) => {
     const { id } = req.params;
     
     try {
-        const employee = await EmployeeProfile.findById(id).populate("absences");
+        const employee = await EmployeeProfile.findById(id).populate("absences jobTitle");
 
         res.status(200).json(employee)
     } catch (error) {

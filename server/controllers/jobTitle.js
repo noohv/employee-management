@@ -14,7 +14,7 @@ export const createJobTitle = async (req, res) => {
 
 export const getJobTitles = async (req, res) => {
     try {
-        const jobTitles =  await JobTitle.find();
+        const jobTitles =  await JobTitle.find().populate('employees');
         
         res.status(200).json(jobTitles)
     } catch (error) {
@@ -26,7 +26,7 @@ export const getJobTitle = async (req, res) => {
     const { id } = req.params;
     
     try {
-        const jobTitle = await JobTitle.findById(id);
+        const jobTitle = await JobTitle.findById(id).populate('employees');
 
         res.status(200).json(jobTitle)
     } catch (error) {

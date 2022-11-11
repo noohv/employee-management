@@ -12,6 +12,13 @@ import Form from '../Form/Form';
 import EmployeeSkeleton from './EmployeeSkeleton';
 
 export default function Employee() {
+
+  const absenceTypes = [
+    {id: 0, type: "vacation", name:"Atvaļinājums"},
+    {id: 1, type: "sick", name:"Slims"},
+    {id: 2, type: "other", name:"Cits"},
+  ]
+
   const { employee, isLoading } = useSelector((state) => state.employees)
   const [openPopup, setOpenPopup] = useState(false);
   const [popupType, setOpenPopupType] = useState();
@@ -54,7 +61,7 @@ export default function Employee() {
         <Typography><b>Sākšanas dat.:</b> {shortDate(employee.startDate)}</Typography>
       </Container>
 
-      <Container sx={{display: 'flex', flexDirection: 'column', mt:5}}>
+      <Container sx={{display: 'flex', flexDirection: 'column', justifyContent:"space-around", mt:5}}>
         <Button variant='outlined' 
           onClick={() => {
               setOpenPopup(true)
@@ -87,7 +94,7 @@ export default function Employee() {
         setOpenPopup={setOpenPopup}
       >
           {popupType==='absence' ?
-            <AbsenceForm id={id} setOpenPopup={setOpenPopup}/>
+            <AbsenceForm types={absenceTypes} id={id} setOpenPopup={setOpenPopup}/>
            :
             <Form currentId={id} setOpenPopup={setOpenPopup} />
           }

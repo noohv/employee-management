@@ -12,11 +12,9 @@ export default function Navbar() {
     let navigate = useNavigate();
     let location = useLocation();
 
-    console.log(time.toISOString())
-    console.log(user)
-
     const logout = () => {
         dispatch({ type: 'LOG_OUT' });
+        dispatch({ type: 'DESTROY_SESSION'})
         navigate("/auth", { replace: true })
         setUser(null);
     }
@@ -25,12 +23,11 @@ export default function Navbar() {
         setUser(JSON.parse(localStorage.getItem('profile')));
         setTime(new Date())
         if(user) {
-            if(time.toISOString() >= user.expDate) {
-                console.log("Tu tiec izlogots!")
+            if(time.toISOString() > user.expDate) {
+                window.location.reload(false)
                 logout()
             }
         }
-        console.log("a")
     }, [location]);
 
     return (

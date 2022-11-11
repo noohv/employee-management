@@ -17,7 +17,7 @@ export default function EmployeesList({ employees}) {
     const headCells = [
         { id: 'firstName', label: 'Vārds' },
         { id: 'lastName', label: 'Uzvārds' },
-        { id: 'startDate', label: 'Sākuma Datums'},
+        { id: 'jobTitle', label: 'Amats'},
         { id: 'actions', label:'Darbības', disableSorting:true}
     ];
 
@@ -80,7 +80,7 @@ export default function EmployeesList({ employees}) {
                                     <TableRow key={item._id}>
                                         <TableCell>{item.firstName}</TableCell>
                                         <TableCell>{item.lastName}</TableCell>
-                                        <TableCell>{shortDate}</TableCell>
+                                        <TableCell>{item.jobTitle.name}</TableCell>
                                         <TableCell>
                                             <IconButton component={Link} to={`/employees/${item._id}`}>
                                                 <SettingsIcon />

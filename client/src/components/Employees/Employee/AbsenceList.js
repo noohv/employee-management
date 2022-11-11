@@ -14,7 +14,7 @@ export default function AbsenceList({empId, absences }) {
         { id: 'absenceType', label: 'Veids' },
         { id: 'startDate', label: 'No'},
         { id: 'endDate', label:'Līdz' },
-        { id: 'actions', label: 'Darbības'}
+        { id: 'actions', label: 'Darbības', disableSorting:true}
     ];
 
     const {

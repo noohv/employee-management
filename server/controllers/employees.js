@@ -57,11 +57,11 @@ export const deleteEmployee = async (req,res) => {
     try {
         const employee = await EmployeeProfile.findById(id)
         const absences = employee.absences
-        const jobTitle = await JobTitle.findById(employee.jobTitle).populate("employees")
+        const jobTitle = await JobTitle.findById(employee.jobTitle)
 
         await employee.remove()
 
-        jobTitle.employees =  jobTitle.employees.filter((i) => i.id !== employee.id)
+        jobTitle.employees = jobTitle.employees.filter((i) => i.id !== employee.id)
         await jobTitle.save()
         for(let i = 0; i < absences.length; i++) {
             const abs = await EmployeeAbsence.findById(absences[i])

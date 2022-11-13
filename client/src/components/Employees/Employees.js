@@ -9,11 +9,12 @@ import Stats from './Stats/Stats';
 
 export default function Employees() {
     const employees = useSelector((state) => state.employees.data);
+    const jobTitles = useSelector((state) => state.jobTitle);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getEmployees());
+        setTimeout(() => {dispatch(getEmployees())}, 1000)
         dispatch(getJobTitles())
         document.title = "Darbinieku saraksts"
     }, []);
@@ -21,7 +22,7 @@ export default function Employees() {
     return (
         <Container>
             <Stats employees={employees} /> 
-            <EmployeesList employees={employees} />
+            <EmployeesList employees={employees} jobTitles={jobTitles} />
         </Container>
     )
 }

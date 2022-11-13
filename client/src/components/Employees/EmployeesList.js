@@ -9,7 +9,7 @@ import Popup from "../Reusable/Popup";
 import Form from "./Form/Form";
 import { Link } from "react-router-dom";
 
-export default function EmployeesList({ employees}) {
+export default function EmployeesList({ employees, jobTitles}) {
     const showLoading = useSelector((state) => state.employees.isLoading);
     const [filter, setFilter] = useState({fn: items => { return items; }});
     const [openPopup, setOpenPopup] = useState(false);
@@ -71,20 +71,15 @@ export default function EmployeesList({ employees}) {
                     <TableBody>
                         {
                             recordsAfterPagingAndSorting().map(item => {
-                                let shortDate=''
-                                if(item.startDate) {
-                                    shortDate = item.startDate.slice(0,10)
-                                }
-
                                 return (
                                     <TableRow key={item._id}>
                                         <TableCell>{item.firstName}</TableCell>
                                         <TableCell>{item.lastName}</TableCell>
-                                        <TableCell>{item.jobTitle.name}</TableCell>
+                                        <TableCell>{item.jobTitle.name || jobTitles.data.find(x => x._id === item.jobTitle)?.name}</TableCell>
                                         <TableCell>
                                             <IconButton component={Link} to={`/employees/${item._id}`}>
                                                 <SettingsIcon />
-                                            </IconButton>
+                                            </IconButton>   
                                         </TableCell>
                                     </TableRow>
                                 )

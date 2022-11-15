@@ -14,7 +14,8 @@ export default function Employees() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setTimeout(() => {dispatch(getEmployees())}, 1000)
+        // setTimeout(() => {dispatch(getEmployees())}, 1000)
+        dispatch(getEmployees())
         dispatch(getJobTitles())
         document.title = "Darbinieku saraksts"
     }, []);

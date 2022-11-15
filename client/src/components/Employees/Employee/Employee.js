@@ -43,7 +43,8 @@ export default function Employee() {
 
   const handleClick = () => {
     dispatch(deleteEmployee(id))
-    navigate('/')
+    setTimeout(() => {navigate('/', { replace: true })}, 100)
+    // navigate('/')
   }
 
   return (

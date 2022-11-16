@@ -22,12 +22,10 @@ export default function Navbar() {
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem('profile')));
         setTime(new Date())
-        if(user) {
-            if(time.toISOString() > user.expDate) {
+            if(time.toISOString() > user?.expDate) {
                 window.location.reload(false)
                 logout()
             }
-        }
     }, [location]);
 
     return (

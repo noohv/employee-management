@@ -7,6 +7,7 @@ import cors from 'cors';
 import employeeRoutes from './routes/employees.js';
 import userRoutes from './routes/user.js';
 import jobTitleRoutes from './routes/jobTitle.js'
+import scheduleRoutes from './routes/schedule.js'
 
 const app = express();
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(cors());
 app.use('/user', userRoutes);
 app.use('/employees', employeeRoutes);
 app.use('/manage/jobtitle', jobTitleRoutes)
+app.use('/schedules', scheduleRoutes)
 
 
 const PORT = process.env.PORT || 5000;

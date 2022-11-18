@@ -6,10 +6,10 @@ import { PieChart, Pie, Sector, Tooltip, Legend, Cell, ResponsiveContainer, Labe
 export default function Stats({ employees }) {
   
   const current = new Date().toISOString()
-  const COLORS = ['#003f5c', '#7a5195', '#ef5675', '#ffa600'];
+  const COLORS = ['#003f5c', '#7a5195', '#ef5675', '#ffa600']
 
   const activeEmp = () => { return employees.filter((item) => !item.absences.some(i => i.startDate <= current && i.endDate >= current)) }
-  const holidayLeaveEmp = () => { return employees.filter((item) => item.absences.some((i => ((i.startDate <= current && i.endDate >= current) && (i.absenceType === 'holiday'))))) }
+  const holidayLeaveEmp = () => { return employees.filter((item) => item.absences.some((i => ((i.startDate <= current && i.endDate >= current) && (i.absenceType === 'vacation'))))) }
   const sickLeaveEmp = () => { return employees.filter((item) => item.absences.some((i => ((i.startDate <= current && i.endDate >= current) && (i.absenceType === 'sick'))))) }
   const otherLeaveEmp = () => { return employees.filter((item) => item.absences.some((i => ((i.startDate <= current && i.endDate >= current) && (i.absenceType === 'other'))))) }
 
@@ -39,26 +39,6 @@ export default function Stats({ employees }) {
         </ResponsiveContainer>
       </Container>
       <Divider sx={{mb:3}} />
-  {/* <Container>
-
-     <PieChart width={800} height={400}>
-          <Pie
-            data={data}
-            cx={120}
-            cy={200}
-            innerRadius={60}
-            outerRadius={80}
-            fill="#8884d8"
-            paddingAngle={5}
-            dataKey="value"
-          >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-      </PieChart>
-  </Container> */}
-
     </>
   )
 }

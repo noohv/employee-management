@@ -1,4 +1,4 @@
-import { CREATE_JOBTITLE, FETCH_JOBTITLES } from '../constants/actionTypes';
+import { CREATE_SCHEDULE, GET_SCHEDULES } from '../constants/actionTypes';
 
 let initialState = { 
   data: [],
@@ -6,15 +6,15 @@ let initialState = {
 
 export default (state = initialState , action) => {
   switch(action.type) {
-    case FETCH_JOBTITLES:
+    case GET_SCHEDULES:
       return {
         ...state,
         data: action.payload,
       }
 
-    case CREATE_JOBTITLE:
+    case CREATE_SCHEDULE:
       return {
-        data: [...state.data, action.payload],
+          data: [...state.data, action.payload],
       }
 
     default:

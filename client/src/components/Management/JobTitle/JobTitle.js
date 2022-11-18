@@ -8,7 +8,7 @@ import { getJobTitles } from '../../../actions/jobTitle';
 
 
 export default function JobTitle() {
-  const [openPopup, setOpenPopup] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false)
   const { data } = useSelector((state) => state.jobTitle)
   const dispatch = useDispatch()
 
@@ -19,18 +19,15 @@ export default function JobTitle() {
 
   return (
     <>
-        <div>
-            Darbinieku amati
-          <Button
-            onClick = {() => {
-              setOpenPopup(true)
-            }}>
-            Pievienot
-          </Button>
+      <div>
+        Darbinieku amati
+        <Button
+          onClick = {() => { setOpenPopup(true) }}>
+          Pievienot
+        </Button>
+      </div>
 
-        </div>
-
-        <JobTitleList jobTitles={data} />
+      <JobTitleList jobTitles={data} />
         
       <Popup
         title="Pievienot prombūtni"
@@ -38,7 +35,6 @@ export default function JobTitle() {
         setOpenPopup={setOpenPopup}
       >
         <JobTitleForm setOpenPopup={setOpenPopup} />
-
       </Popup>
     </>
   )

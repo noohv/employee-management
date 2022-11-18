@@ -5,21 +5,21 @@ import CloseIcon from '@mui/icons-material/Close';
 export default function Popup({ title, children, openPopup, setOpenPopup }) {
   return (
     <Dialog open={openPopup}>
-        <DialogTitle>
-            <div style={{display:'flex'}}>
-                <Typography variant='h6' style={{flexGrow:1}}>
-                    {title}
-                </Typography>
-                    
-                <Button sx={{ width:"20px" }} onClick = {() => { setOpenPopup(false) }}>
-                    <CloseIcon />
-                </Button>
-            </div>
-        </DialogTitle>
+      <DialogTitle>
+        <div style={{display:'flex'}}>
+          <Typography variant='h6' style={{flexGrow:1}}>
+            {title}
+          </Typography>
+                
+          <Button sx={{ width:"20px" }} onClick = {() => { setOpenPopup(false) }}>
+            <CloseIcon /> 
+          </Button>
+        </div>
+      </DialogTitle>
 
-        <DialogContent dividers>
-            {children}
-        </DialogContent>
+      <DialogContent dividers>
+        {children}
+      </DialogContent>
     </Dialog>
   )
 }

@@ -9,7 +9,7 @@ export const signin = (formData, navigate) => async (dispatch) => {
     let { data } = await api.signIn(formData)
     data = {...data, expDate: expiryDate}
     dispatch({ type: AUTH, data })
-    navigate('/')
+    navigate('/', {replace: true})
   } catch (error) {
     console.log(error.message)
   }
@@ -21,7 +21,7 @@ export const signup = (formData, navigate) => async (dispatch) => {
     let { data } = await api.signUp(formData)
     data = {...data, expDate: expiryDate}
     dispatch({ type: AUTH, data })
-    navigate('/')
+    navigate('/', {replace: true})
   } catch (error) {
     console.log(error.message)
   }

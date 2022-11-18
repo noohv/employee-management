@@ -1,11 +1,11 @@
 import express from "express";
-
 import { createSchedule, getSchedules } from '../controllers/schedule.js'
 import auth from "../middleware/auth.js";
 
-const router = express.Router();
+const router = express.Router()
 
-router.get('/', getSchedules);
-router.post('/', auth, createSchedule);
+// SCHEDULE ROUTES
+router.get('/', getSchedules) // GET all Schedules
+router.post('/', auth, createSchedule) // POST, create Schedule
 
-export default router;
+export default router

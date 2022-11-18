@@ -5,7 +5,6 @@ import { Button, Container } from '@mui/material';
 import { useDispatch, useSelector } from "react-redux";
 import { getSchedules } from "../../../actions/schedule";
 
-
 export default function Schedules() {
   const [openPopup, setOpenPopup] = useState(false)
   const schedules = useSelector((state) => state.schedule.data)
@@ -20,20 +19,16 @@ export default function Schedules() {
 
   return (
     <>
-      <Button 
-        onClick={() => {
-            setOpenPopup(true)
-        }}
-      >Pievienot</Button>
+      <Button onClick={() => { setOpenPopup(true) }}>Pievienot</Button>
 
-        {schedules.map(item => {
-          return (
-            <Container key={item._id}>
-              {item.startDate}
-              {item.endDate}
-              {item.shiftCount}
-            </Container>
-          )})}
+      {schedules.map(item => {
+        return (
+          <Container key={item._id}>
+            {item.startDate}
+            {item.endDate}
+            {item.shiftCount}
+          </Container>
+        )})}
 
       <Popup
         title="Grafika laika posms"
@@ -42,8 +37,6 @@ export default function Schedules() {
       >
         <ScheduleForm setOpenPopup={setOpenPopup} />
       </Popup>
-      
-
     </>
   )
 }

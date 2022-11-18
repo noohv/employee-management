@@ -8,22 +8,21 @@ import { getJobTitles } from '../../actions/jobTitle'
 import Stats from './Stats/Stats';
 
 export default function Employees() {
-    const employees = useSelector((state) => state.employees.data);
-    const jobTitles = useSelector((state) => state.jobTitle);
+  const employees = useSelector((state) => state.employees.data)
+  const jobTitles = useSelector((state) => state.jobTitle)
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        // setTimeout(() => {dispatch(getEmployees())}, 1000)
-        dispatch(getEmployees())
-        dispatch(getJobTitles())
-        document.title = "Darbinieku saraksts"
-    }, []);
+  useEffect(() => {
+    dispatch(getEmployees())
+    dispatch(getJobTitles())
+    document.title = "Darbinieku saraksts"
+  }, [])
 
-    return (
-        <Container>
-            <Stats employees={employees} /> 
-            <EmployeesList employees={employees} jobTitles={jobTitles} />
-        </Container>
-    )
+  return (
+    <Container>
+      <Stats employees={employees} /> 
+      <EmployeesList employees={employees} jobTitles={jobTitles} />
+    </Container>
+  )
 }

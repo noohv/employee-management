@@ -18,7 +18,7 @@ export default function EmployeesList({ employees, jobTitles }) {
     { id: 'firstName', label: 'Vārds' },
     { id: 'lastName', label: 'Uzvārds' },
     { id: 'jobTitle', label: 'Amats' },
-    { id: 'actions', label:'Darbības', disableSorting:true }
+    { id: 'actions', label: 'Darbības', disableSorting: true }
   ]
 
   const {

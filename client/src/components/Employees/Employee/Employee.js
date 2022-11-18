@@ -14,9 +14,9 @@ import EmployeeSkeleton from './EmployeeSkeleton';
 export default function Employee() {
 
   const absenceTypes = [
-    {id: 0, type: "vacation", name:"Atvaļinājums"},
-    {id: 1, type: "sick", name:"Slims"},
-    {id: 2, type: "other", name:"Cits"},
+    {id: 0, type: "vacation", name: "Atvaļinājums"},
+    {id: 1, type: "sick", name: "Slims"},
+    {id: 2, type: "other", name: "Cits"},
   ]
 
   const { employee, isLoading } = useSelector((state) => state.employees)
@@ -56,7 +56,8 @@ export default function Employee() {
             <Container>
               <Typography variant='h4'>{`${employee.firstName} ${employee.lastName}`}</Typography>
               <Divider />
-              <Typography sx={{mt:2}}><b>Epasts:</b> {employee.email}</Typography>
+              <Typography sx={{mt:2}}><b>E-pasts:</b> {employee.email}</Typography>
+              <Typography><b>Amats:</b> {employee.jobTitle.name}</Typography>
               <Typography><b>Tālr. nr:</b> {employee.phone}</Typography>
               <Typography><b>Adrese:</b> {employee.address}</Typography>
               <Typography><b>Sākšanas dat.:</b> {shortDate(employee.startDate)}</Typography>

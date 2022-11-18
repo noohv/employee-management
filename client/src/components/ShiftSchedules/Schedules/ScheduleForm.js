@@ -39,7 +39,6 @@ export default function ScheduleForm({ setOpenPopup }) {
         <Container sx={{ display: 'flex', flexDirection:'column', justifyContent: 'center'}}>
           <DateRange
             editableDateInputs={false}
-            // onChange={item => setDates([item.selection])}
             onChange={item => setFormData({...formData, dates: [item.selection]})}
             moveRangeOnFirstSelection={false}
             ranges={formData.dates}

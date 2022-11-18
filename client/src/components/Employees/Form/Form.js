@@ -45,7 +45,7 @@ export default function Form({currentId,setOpenPopup}) {
         <TextField sx={{m:0.5}} name="startDate" variant="outlined" label="Sākuma datums" type="date" required InputLabelProps={{shrink:true}} fullWidth value={employeeData.startDate.slice(0,10)} onChange={handleChange} />
         <FormControl sx={{m:0.5}} required fullWidth>
           <InputLabel htmlFor="jobTitle">Amats</InputLabel>
-          <Select labelId="jobTitle" label="Amats" name="jobTitle" onChange={handleChange} value={employeeData.jobTitle}>
+          <Select labelId="jobTitle" label="Amats" name="jobTitle" onChange={handleChange} value={employeeData.jobTitle._id || employeeData.jobTitle} >
             {jobTitleList.map((item) => (
               <MenuItem key={item._id} value={item._id}>{item.name}</MenuItem>
             ))}

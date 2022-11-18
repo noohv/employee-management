@@ -9,7 +9,7 @@ export default function Stats({ employees }) {
   const COLORS = ['#003f5c', '#7a5195', '#ef5675', '#ffa600']
 
   const activeEmp = () => { return employees.filter((item) => !item.absences.some(i => i.startDate <= current && i.endDate >= current)) }
-  const holidayLeaveEmp = () => { return employees.filter((item) => item.absences.some((i => ((i.startDate <= current && i.endDate >= current) && (i.absenceType === 'holiday'))))) }
+  const holidayLeaveEmp = () => { return employees.filter((item) => item.absences.some((i => ((i.startDate <= current && i.endDate >= current) && (i.absenceType === 'vacation'))))) }
   const sickLeaveEmp = () => { return employees.filter((item) => item.absences.some((i => ((i.startDate <= current && i.endDate >= current) && (i.absenceType === 'sick'))))) }
   const otherLeaveEmp = () => { return employees.filter((item) => item.absences.some((i => ((i.startDate <= current && i.endDate >= current) && (i.absenceType === 'other'))))) }
 

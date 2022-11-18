@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import EmployeesList from "./EmployeesList";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom';
 import { Container } from '@mui/material';
 import { getEmployees } from '../../actions/employees';
 import { getJobTitles } from '../../actions/jobTitle'
 import Stats from './Stats/Stats';
 
-export default function Employees() {
+export default function Employees({ notify, setNotify }) {
   const employees = useSelector((state) => state.employees.data)
   const jobTitles = useSelector((state) => state.jobTitle)
 
@@ -22,7 +21,7 @@ export default function Employees() {
   return (
     <Container>
       <Stats employees={employees} /> 
-      <EmployeesList employees={employees} jobTitles={jobTitles} />
+      <EmployeesList employees={employees} jobTitles={jobTitles} setNotify={setNotify} notify={notify} />
     </Container>
   )
 }

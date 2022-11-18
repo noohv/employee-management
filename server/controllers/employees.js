@@ -46,7 +46,7 @@ export const updateEmployee = async (req, res) => {
 
   if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No employee with ID")
 
-  const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(id, employee, { new: true }).populate("absences")
+  const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(id, employee, { new: true }).populate("absences jobTitle")
 
   res.json(updatedEmployee)
 }

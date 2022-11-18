@@ -5,7 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import { useDispatch } from 'react-redux';
 
-export default function Navbar() {
+export default function Navbar({ setNotify }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
   const [time, setTime] = useState(new Date())
   const dispatch = useDispatch()
@@ -16,6 +16,7 @@ export default function Navbar() {
     dispatch({ type: 'LOG_OUT' })
     dispatch({ type: 'DESTROY_SESSION'})
     navigate("/auth", { replace: true })
+    setNotify({ isOpen: true, message: "Jūs tikāt izlogots no profila!", type: 'error' })
     setUser(null)
   }
 

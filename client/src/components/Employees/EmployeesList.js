@@ -9,7 +9,7 @@ import Popup from "../Reusable/Popup";
 import Form from "./Form/Form";
 import { Link } from "react-router-dom";
 
-export default function EmployeesList({ employees, jobTitles }) {
+export default function EmployeesList({ employees, jobTitles, notify, setNotify }) {
   const showLoading = useSelector((state) => state.employees.isLoading)
   const [filter, setFilter] = useState({ fn: items => { return items } })
   const [openPopup, setOpenPopup] = useState(false)
@@ -87,8 +87,12 @@ export default function EmployeesList({ employees, jobTitles }) {
             openPopup={openPopup}
             setOpenPopup={setOpenPopup}
           >
-            <Form setOpenPopup={setOpenPopup} />
+            <Form 
+              setOpenPopup={setOpenPopup}
+              setNotify={setNotify}
+            />
           </Popup>
+
         </>
     : <EmployeesLoadingSkeleton />}
     </>

@@ -10,8 +10,9 @@ import AbsenceForm from './AbsenceForm';
 import AbsenceList from './AbsenceList';
 import Form from '../Form/Form';
 import EmployeeSkeleton from './EmployeeSkeleton';
+import ConfirmDialog from '../../Reusable/ConfirmDialog';
 
-export default function Employee() {
+export default function Employee({ notify, setNotify }) {
 
   const absenceTypes = [
     {id: 0, type: "vacation", name: "Atvaļinājums"},
@@ -22,6 +23,7 @@ export default function Employee() {
   const { employee, isLoading } = useSelector((state) => state.employees)
   const [openPopup, setOpenPopup] = useState(false)
   const [popupType, setOpenPopupType] = useState()
+  const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: '', subTitle: ''})
   const [title, setTitle] = useState("Darbinieks")
   const dispatch = useDispatch()
   let { id } = useParams()
@@ -42,8 +44,9 @@ export default function Employee() {
     return data.slice(0,10)
   }
 
-  const handleClick = () => {
+  const deleteEmp = () => {
     dispatch(deleteEmployee(id))
+    setNotify({isOpen: true, message: 'Ieraksts veiksmīgi dzēsts!', type: 'error'})
     setTimeout(() => {navigate('/', { replace: true })}, 100)
   }
 
@@ -53,7 +56,7 @@ export default function Employee() {
         <> 
           <Button variant='text' onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></Button>
           <Container sx={{display: 'flex', justifyContent: 'space-between'}}>
-            <Container>
+            <Container sx={{mb:3}}>
               <Typography variant='h4'>{`${employee.firstName} ${employee.lastName}`}</Typography>
               <Divider />
               <Typography sx={{mt:2}}><b>E-pasts:</b> {employee.email}</Typography>
@@ -63,21 +66,28 @@ export default function Employee() {
               <Typography><b>Sākšanas dat.:</b> {shortDate(employee.startDate)}</Typography>
             </Container>
 
-            <Container sx={{display: 'flex', flexDirection: 'column', justifyContent:"space-around", mt:5}}>
+            <Container sx={{display: 'flex', flexDirection: 'column', justifyContent:"center", gap: 2}}>
               <Button variant='outlined' 
                 onClick={() => {
                   setOpenPopup(true)
                   setOpenPopupType('employeeEdit')
                 }}
               > Rediģēt </Button>
-              <Button variant='outlined' onClick={ handleClick }>Dzēst</Button>
+              <Button variant='contained' color='error' onClick={ () =>
+                setConfirmDialog({
+                  isOpen: true,
+                  title: 'Vai dzēst darbinieku?',
+                  subTitle: 'Dati tiks neatgriezeniski dzēsti',
+                  onConfirm: deleteEmp
+                })
+              }>Dzēst</Button>
             </Container>
           </Container>
           <Container>
-            <Button
+            <Button size="large" variant="contained"
               onClick = {() => {
-              setOpenPopup(true)
-              setOpenPopupType('absence')
+                setOpenPopup(true)
+                setOpenPopupType('absence')
               }}>
               Pievienot
             </Button>
@@ -85,7 +95,14 @@ export default function Employee() {
             {employee.absences.length === 0 ? 
               <Typography>Nav prombūtnes</Typography>
               :
-              <AbsenceList empId={employee._id} absences={employee.absences} setOpenPopup={setOpenPopup} setOpenPopupType={setOpenPopupType}/>
+              <AbsenceList 
+                empId={employee._id} 
+                absences={employee.absences} 
+                confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog} 
+                notify={notify} 
+                setNotify={setNotify}
+              />
             }
           </Container>
         
@@ -95,11 +112,15 @@ export default function Employee() {
             setOpenPopup={setOpenPopup}
           >
             {popupType==='absence' ?
-            <AbsenceForm types={absenceTypes} id={id} setOpenPopup={setOpenPopup}/>
+            <AbsenceForm types={absenceTypes} id={id} setOpenPopup={setOpenPopup} notify={notify} setNotify={setNotify}/>
             :
-            <Form currentId={id} setOpenPopup={setOpenPopup} />
+            <Form currentId={id} setOpenPopup={setOpenPopup} notify={notify} setNotify={setNotify}  />
             }
           </Popup>
+          <ConfirmDialog
+            confirmDialog={confirmDialog}
+            setConfirmDialog={setConfirmDialog}
+          />
         </>
       :
         <EmployeeSkeleton />

@@ -6,7 +6,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Input from './Input';
 import { signin, signup } from  '../../actions/auth';
 
-export default function Auth() {
+export default function Auth({ setNotify }) {
   const initialData = { firstName:'', lastName:'', email:'', password:'', confirmPassword:'' }
   const [showPassword, setShowPassword] = useState(false)
   const [isSignup, setIsSignup] = useState(false)
@@ -17,8 +17,14 @@ export default function Auth() {
   const handleSubmit = (e) => {
     e.preventDefault()
     
-    if(isSignup) dispatch(signup(formData, navigate))
-    else dispatch(signin(formData, navigate))
+    if(isSignup){
+      dispatch(signup(formData, navigate))
+      setNotify({ isOpen: true, message: "Profils tika veiksmīgi izveidots!", type: 'success' })
+    } else {
+      dispatch(signin(formData, navigate))
+      setNotify({ isOpen: true, message: "Jūs veiksmīgi ielogojāties!", type: 'success' })
+    } 
+    
   }
 
   const handleChange = (e) => {

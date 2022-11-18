@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-export default function AbsenceList({empId, absences }) {
+export default function AbsenceList({empId, absences, confirmDialog , setConfirmDialog, setNotify}) {
   const [filter, setFilter] = useState({fn: items => { return items; }})
   const dispatch = useDispatch()
 
@@ -16,6 +16,21 @@ export default function AbsenceList({empId, absences }) {
     { id: 'endDate', label:'Līdz' },
     { id: 'actions', label: 'Darbības', disableSorting:true}
   ]  
+
+  const onDelete = (item) => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false
+    })
+
+    dispatch(deleteAbsence(item._id, empId))
+
+    setNotify({
+      isOpen: true,
+      message: 'Ieraksts veiksmīgi dzēsts!',
+      type: 'error'
+    })
+  }
 
   const {
     TblContainer,
@@ -37,7 +52,14 @@ export default function AbsenceList({empId, absences }) {
                 <TableCell>{item.startDate.slice(0,10)}</TableCell>
                 <TableCell>{item.endDate.slice(0,10)}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => { dispatch(deleteAbsence(item._id, empId)) }}>
+                  <IconButton onClick={() => { 
+                    setConfirmDialog({
+                      isOpen: true,
+                      title: 'Vai dzēst prombūtnes ierakstu?',
+                      subTitle: 'Dati tiks neatgriezeniski dzēsti',
+                      onConfirm: () => onDelete(item)
+                    })      
+                  }}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -46,9 +68,8 @@ export default function AbsenceList({empId, absences }) {
           })
         }
       </TableBody>
-      </TblContainer>
-  <TblPagination />
-
+    </TblContainer>
+    <TblPagination />
   </>
   )
 }

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { createAbsence } from '../../../actions/employees';
 
-export default function AbsenceForm({id, setOpenPopup, types, notify, setNotify}) {
+export default function AbsenceForm({id, setOpenPopup, types, setNotify}) {
   const initialData = { absenceType:'', startDate:'', endDate: '', reason:'', absenceType:''}
   const [absenceData, setAbsenceData] = useState(initialData)
   const dispatch = useDispatch()

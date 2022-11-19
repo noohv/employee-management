@@ -11,6 +11,7 @@ import AbsenceList from './AbsenceList';
 import Form from '../Form/Form';
 import EmployeeSkeleton from './EmployeeSkeleton';
 import ConfirmDialog from '../../Reusable/ConfirmDialog';
+import PageNotFound from '../../ErrorPages/PageNotFound';
 
 export default function Employee({ notify, setNotify }) {
 
@@ -37,7 +38,7 @@ export default function Employee({ notify, setNotify }) {
   }, [id])
 
   // Needs 404 page
-  if(!employee) return null
+  if(!employee) return <PageNotFound />
 
   // Have to create Skeleton component for this
   const shortDate = (data) => {
@@ -45,9 +46,9 @@ export default function Employee({ notify, setNotify }) {
   }
 
   const deleteEmp = () => {
+    setTimeout(() => {navigate('/', { replace: true })}, 100)
     dispatch(deleteEmployee(id))
     setNotify({isOpen: true, message: 'Ieraksts veiksmīgi dzēsts!', type: 'error'})
-    setTimeout(() => {navigate('/', { replace: true })}, 100)
   }
 
   return (

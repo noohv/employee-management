@@ -33,16 +33,23 @@ export default function ScheduleForm({ setOpenPopup }) {
     })
   }
 
+  const handleSelect = (ranges) => {
+    console.log(ranges.selection.startDate.toISOString())
+    setFormData({...formData, dates: [ranges.selection]})
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit}>
         <Container sx={{ display: 'flex', flexDirection:'column', justifyContent: 'center'}}>
           <DateRange
             editableDateInputs={false}
-            onChange={item => setFormData({...formData, dates: [item.selection]})}
+            // onChange={item => setFormData({...formData, dates: [item.selection]})}
+            onChange={handleSelect}
             moveRangeOnFirstSelection={false}
             ranges={formData.dates}
             locale={locales.lv}
+            minDate={new Date()}
           />
           <FormControl sx={{mt:1}}>
             <FormLabel id="radio-label">Maiņu skaits</FormLabel>

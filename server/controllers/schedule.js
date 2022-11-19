@@ -1,3 +1,4 @@
+import { addHours } from 'date-fns';
 import mongoose from 'mongoose';
 import Schedule from '../models/schedule.js';
 
@@ -5,8 +6,8 @@ export const createSchedule = async (req, res) => {
   const data = req.body
   const formatData = {
     shiftCount: data.shiftCount,
-    startDate: data.dates[0].startDate,
-    endDate: data.dates[0].endDate
+    startDate: addHours(new Date(data.dates[0].startDate), 2),
+    endDate: addHours(new Date(data.dates[0].endDate), 2)
   }
   const schedule = new Schedule(formatData)
 

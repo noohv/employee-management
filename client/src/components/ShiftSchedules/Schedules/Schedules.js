@@ -14,9 +14,6 @@ export default function Schedules() {
     dispatch(getSchedules())
   }, [])
 
-
-  console.log(schedules)
-
   return (
     <>
       <Button onClick={() => { setOpenPopup(true) }}>Pievienot</Button>

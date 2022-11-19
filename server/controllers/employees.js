@@ -14,7 +14,7 @@ export const getEmployees = async (req, res) => {
 }
 
 export const getEmployee = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params
   
   try {
     const employee = await EmployeeProfile.findById(id).populate("absences jobTitle")
@@ -26,7 +26,7 @@ export const getEmployee = async (req, res) => {
 }
 
 export const createEmployee = async (req, res) => {
-  const employee = req.body;
+  const employee = req.body
   const newEmployee = new EmployeeProfile(employee)
   
   try {

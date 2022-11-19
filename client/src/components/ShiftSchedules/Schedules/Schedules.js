@@ -4,10 +4,21 @@ import Popup from "../../Reusable/Popup";
 import { Button, Container } from '@mui/material';
 import { useDispatch, useSelector } from "react-redux";
 import { getSchedules } from "../../../actions/schedule";
+import { ViewState } from '@devexpress/dx-react-scheduler';
+import {
+  Scheduler,
+  MonthView,
+  Toolbar,
+  DateNavigator,
+  Appointments,
+  AppointmentTooltip,
+  TodayButton,
+} from '@devexpress/dx-react-scheduler-material-ui';
 
 export default function Schedules() {
   const [openPopup, setOpenPopup] = useState(false)
   const schedules = useSelector((state) => state.schedule.data)
+  const [currentDate, setCurrentDate] = useState(new Date())
   const dispatch = useDispatch()
   
   useEffect(() => {
@@ -18,14 +29,26 @@ export default function Schedules() {
     <>
       <Button onClick={() => { setOpenPopup(true) }}>Pievienot</Button>
 
-      {schedules.map(item => {
-        return (
-          <Container key={item._id}>
-            {item.startDate}
-            {item.endDate}
-            {item.shiftCount}
-          </Container>
-        )})}
+
+      <Container>
+        <Scheduler
+            data={schedules}
+            firstDayOfWeek={1}
+          >
+            <ViewState
+              defaultCurrentDate={currentDate}
+            />
+            <MonthView />
+            <Toolbar />
+            <DateNavigator />
+            <TodayButton />
+            <Appointments />
+            <AppointmentTooltip
+              showOpenButton
+              showDeleteButton
+            />
+          </Scheduler>
+      </Container>
 
       <Popup
         title="Grafika laika posms"
@@ -37,3 +60,4 @@ export default function Schedules() {
     </>
   )
 }
+

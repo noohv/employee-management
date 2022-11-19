@@ -1,12 +1,11 @@
 import mongoose from 'mongoose';
 
 const shiftSchema = mongoose.Schema({ 
-  startTime: Date,
-  endTime: Date, 
+  name: { type: String, required: true },
   employees: [{ type: mongoose.Schema.Types.ObjectId, ref: "EmployeeProfile" }],
   createdAt: { type: Date, default: new Date() }
 })
 
-const scheduleAbsence = mongoose.model('Schedule', scheduleSchema)
+const shift = mongoose.model('Shift', shiftSchema)
 
-export default scheduleAbsence
+export default shift

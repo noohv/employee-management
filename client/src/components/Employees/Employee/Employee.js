@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getEmployee, deleteEmployee } from '../../../actions/employees';
 import { getJobTitles } from '../../../actions/jobTitle';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Button, Typography, Divider } from '@mui/material';
+import { Container, Button, Typography, Divider, Backdrop, CircularProgress } from '@mui/material';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import Popup from "../../Reusable/Popup";
 import AbsenceForm from './AbsenceForm';
 import AbsenceList from './AbsenceList';
 import Form from '../Form/Form';
-import EmployeeSkeleton from './EmployeeSkeleton';
 import ConfirmDialog from '../../Reusable/ConfirmDialog';
 import PageNotFound from '../../ErrorPages/PageNotFound';
+import Loader from '../../Reusable/Loader';
 
 export default function Employee({ notify, setNotify }) {
 
@@ -26,10 +26,10 @@ export default function Employee({ notify, setNotify }) {
   const [popupType, setOpenPopupType] = useState()
   const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: '', subTitle: ''})
   const [title, setTitle] = useState("Darbinieks")
+  const [load, setLoad] = useState(true)
   const dispatch = useDispatch()
-  let { id } = useParams()
-
   const navigate = useNavigate()
+  let { id } = useParams()
 
   useEffect(() => {
     dispatch(getEmployee(id))
@@ -37,14 +37,22 @@ export default function Employee({ notify, setNotify }) {
     document.title = title
   }, [id])
 
-  // Needs 404 page
-  if(!employee) return <PageNotFound />
+  // Case when employee does not exist/ has not been loaded in the state yet
+  if(!employee) {
+    setTimeout(() => {setLoad(false)} , 4000) // Show loader for 4 seconds before showing 404 page
+    return (
+      <>
+        {load ? <Loader /> : <PageNotFound />}
+      </>
+      )
+  }
 
-  // Have to create Skeleton component for this
+  // Method to display date in format YYYY-MM-DD
   const shortDate = (data) => {
     return data.slice(0,10)
   }
 
+  // Method to delete employee and navigate to Employees screen
   const deleteEmp = () => {
     setTimeout(() => {navigate('/', { replace: true })}, 100)
     dispatch(deleteEmployee(id))
@@ -124,7 +132,7 @@ export default function Employee({ notify, setNotify }) {
           />
         </>
       :
-        <EmployeeSkeleton />
+        <Loader />
       }
     </>
   )

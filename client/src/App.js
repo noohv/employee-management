@@ -5,6 +5,7 @@ import Employee from "./components/Employees/Employee/Employee";
 import JobTitle from "./components/Management/JobTitle/JobTitle";
 import Auth from "./components/Auth/Auth";
 import Schedules from "./components/ShiftSchedules/Schedules/Schedules";
+import Schedule from "./components/ShiftSchedules/Schedules/Schedule";
 import RequireAuth from "./components/Auth/RequireAuth";
 import Layout from "./components/Layout";
 import PageNotFound from "./components/ErrorPages/PageNotFound";
@@ -29,6 +30,7 @@ export default function App() {
               <Route path="/darbinieki/:id" element={<Employee setNotify={setNotify} />} />
               <Route path="/manage" element={<JobTitle setNotify={setNotify} />} />
               <Route path="/grafiki" element={<Schedules setNotify={setNotify} />} />
+              <Route path="/grafiki/:id" element={<Schedule setNotify={setNotify} />} />
               <Route path="*" element={<PageNotFound />} />
             </Route>
         </Route>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getEmployee, deleteEmployee } from '../../../actions/employees';
 import { getJobTitles } from '../../../actions/jobTitle';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Button, Typography, Divider, Backdrop, CircularProgress } from '@mui/material';
+import { Container, Button, Typography, Divider, IconButton } from '@mui/material';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import Popup from "../../Reusable/Popup";
 import AbsenceForm from './AbsenceForm';
@@ -63,7 +63,7 @@ export default function Employee({ notify, setNotify }) {
     <>
       {!isLoading ?
         <> 
-          <Button variant='text' onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></Button>
+          <IconButton onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>
           <Container sx={{display: 'flex', justifyContent: 'space-between'}}>
             <Container sx={{mb:3}}>
               <Typography variant='h4'>{`${employee.firstName} ${employee.lastName}`}</Typography>

@@ -5,20 +5,14 @@ import { Button, Container } from '@mui/material';
 import { useDispatch, useSelector } from "react-redux";
 import { getSchedules } from "../../../actions/schedule";
 import { ViewState } from '@devexpress/dx-react-scheduler';
-import {
-  Scheduler,
-  MonthView,
-  Toolbar,
-  DateNavigator,
-  Appointments,
-  AppointmentTooltip,
-  TodayButton,
-} from '@devexpress/dx-react-scheduler-material-ui';
+import { Scheduler, MonthView, Toolbar, DateNavigator, Appointments, TodayButton } from '@devexpress/dx-react-scheduler-material-ui';
+import { useNavigate } from 'react-router-dom';
 
 
 const Appointment = ({ children, ...restProps }) => {
+  const navigate = useNavigate()
   const handleClick = () => {
-    console.log(restProps.data)
+    navigate(`/grafiki/${restProps.data._id}`)
   }
 
   return (

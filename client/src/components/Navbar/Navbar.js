@@ -40,12 +40,12 @@ export default function Navbar({ setNotify }) {
         {user && (
           <Stack direction='row' spacing={2}>
             <Button variant='outlined' color='secondary' component={Link}  to='/grafiki'>Grafiki</Button>
-            <IconButton color="secondary" onClick={logout}><LogoutIcon /></IconButton>
             <Tooltip title={user.result.name}>
               <Avatar alt={user.result.name} src={user.result.imageUrl}>
                 {user.result.name.charAt(0)}
               </Avatar>
             </Tooltip>
+            <IconButton color="secondary" onClick={logout}><LogoutIcon /></IconButton>
           </Stack>
         )}
       </Toolbar>

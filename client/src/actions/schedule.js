@@ -1,4 +1,4 @@
-import { CREATE_SCHEDULE, GET_SCHEDULES } from '../constants/actionTypes';
+import { CREATE_SCHEDULE, GET_SCHEDULES, GET_SCHEDULE } from '../constants/actionTypes';
 import * as api from '../api';
 
 export const createSchedule = (schedule) => async (dispatch) => {
@@ -14,6 +14,15 @@ export const getSchedules = () => async (dispatch) => {
   try {
     const { data } = await api.getSchedules()
     dispatch({ type: GET_SCHEDULES, payload: data })
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+export const getSchedule = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.getSchedule(id)
+    dispatch({ type: GET_SCHEDULE, payload: data })
   } catch (error) {
     console.log(error.message)
   }

@@ -39,3 +39,14 @@ export const getSchedules = async (req,res) => {
     res.status(404).json({ message: error.message })
   }
 }
+
+export const getSchedule = async (req,res) => {
+  const { id } = req.params
+
+  try {
+    const schedule =  await Schedule.findById(id).populate('shifts')
+    res.status(200).json(schedule)
+  } catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+}

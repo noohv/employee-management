@@ -15,37 +15,66 @@ import {
   TodayButton,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
+
+const Appointment = ({ children, ...restProps }) => {
+  const handleClick = () => {
+    console.log(restProps.data)
+  }
+
+  return (
+    <Appointments.Appointment
+      {...restProps}
+      onClick={handleClick}
+    >
+      {children}
+    </Appointments.Appointment>
+
+  )
+}
+
+
 export default function Schedules() {
   const [openPopup, setOpenPopup] = useState(false)
   const schedules = useSelector((state) => state.schedule.data)
   const [currentDate, setCurrentDate] = useState(new Date())
   const dispatch = useDispatch()
   
+  const localizationMessages = {
+    'lv-LV': {
+      today: 'Šodiena'
+    }
+  }
+
   useEffect(() => {
     dispatch(getSchedules())
   }, [])
 
   return (
-    <>
-      <Button onClick={() => { setOpenPopup(true) }}>Pievienot</Button>
-
-
+    <Container>
+      <Button
+        sx={{mt:5, mb: 2, ml:3}}
+        variant='contained'
+        size='large'
+        onClick={() => { setOpenPopup(true) }}>Pievienot</Button>
       <Container>
         <Scheduler
             data={schedules}
             firstDayOfWeek={1}
-          >
+            locale='lv-LV'
+            onAppointmentClick={()=>{console.log('test')}}
+            >
             <ViewState
               defaultCurrentDate={currentDate}
+              onClick={() => console.log('a')}
             />
             <MonthView />
             <Toolbar />
             <DateNavigator />
-            <TodayButton />
-            <Appointments />
-            <AppointmentTooltip
-              showOpenButton
-              showDeleteButton
+            <TodayButton 
+              messages={localizationMessages['lv-LV']}
+            />
+            <Appointments
+              appointmentComponent={Appointment}
             />
           </Scheduler>
       </Container>
@@ -57,7 +86,7 @@ export default function Schedules() {
       >
         <ScheduleForm setOpenPopup={setOpenPopup} />
       </Popup>
-    </>
+    </Container>
   )
 }
 

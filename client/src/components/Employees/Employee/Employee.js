@@ -68,8 +68,8 @@ export default function Employee({ notify, setNotify }) {
             <Container sx={{mb:3}}>
               <Typography variant='h4'>{`${employee.firstName} ${employee.lastName}`}</Typography>
               <Divider />
-              <Typography sx={{mt:2}}><b>E-pasts:</b> {employee.email}</Typography>
-              <Typography><b>Amats:</b> {employee.jobTitle.name}</Typography>
+              <Typography sx={{mt:2}}><b>Amats:</b> {employee.jobTitle.name}</Typography>
+              <Typography><b>E-pasts:</b> {employee.email}</Typography>
               <Typography><b>Tālr. nr:</b> {employee.phone}</Typography>
               <Typography><b>Adrese:</b> {employee.address}</Typography>
               <Typography><b>Sākšanas dat.:</b> {shortDate(employee.startDate)}</Typography>
@@ -94,6 +94,7 @@ export default function Employee({ notify, setNotify }) {
           </Container>
           <Container>
             <Button size="large" variant="contained"
+              sx={{ml:3}}
               onClick = {() => {
                 setOpenPopup(true)
                 setOpenPopupType('absence')
@@ -102,7 +103,9 @@ export default function Employee({ notify, setNotify }) {
             </Button>
 
             {employee.absences.length === 0 ? 
-              <Typography>Nav prombūtnes</Typography>
+              <Container sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%'}}>
+                  <Typography variant='h4' sx={{mt: 20, fontWeight: 'bold'}}>Nav nevienas prombūtnes</Typography>
+              </Container>
               :
               <AbsenceList 
                 empId={employee._id} 

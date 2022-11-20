@@ -71,7 +71,7 @@ export default function EmployeesList({ employees, jobTitles, notify, setNotify 
                         <TableCell>{item.lastName}</TableCell>
                         <TableCell>{item.jobTitle.name || jobTitles.data.find(x => x._id === item.jobTitle)?.name}</TableCell>
                         <TableCell>
-                          <IconButton component={Link} to={`/employees/${item._id}`}>
+                          <IconButton component={Link} to={`/darbinieki/${item._id}`}>
                             <SettingsIcon />
                           </IconButton>   
                         </TableCell>

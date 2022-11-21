@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Container, TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Container, TextField, Button, Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { createEmployee, updateEmployee } from "../../../actions/employees";
 
 
-export default function Form({ currentId, setOpenPopup, notify, setNotify }) {
+export default function Form({ currentId, setOpenPopup, setNotify }) {
   const initialData = { firstName:'', lastName:'', phone: '', email:'', address: '',  startDate: '', jobTitle:'' }
   const [employeeData, setEmployeeData] = useState(initialData)
+  const [errors, setErrors] = useState({})
   const { employee } = useSelector((state) => state.employees)
   const jobTitleList = useSelector((state) => state.jobTitle.data)
   const dispatch = useDispatch()
@@ -14,22 +15,54 @@ export default function Form({ currentId, setOpenPopup, notify, setNotify }) {
   const handleChange = (e) => {
     const { name, value } = e.target
     setEmployeeData({ ...employeeData, [name]:value })
+    validate({[name]: value})
+  }
+
+  const validate = (fieldValues = employeeData) => {
+    let temp = {...errors}
+
+    if('firstName' in fieldValues)
+      temp.firstName = fieldValues.firstName ? "": "Šis lauks ir obligāts"
+    if('lastName' in fieldValues)
+      temp.lastName = fieldValues.lastName ? "": "Šis lauks ir obligāts"
+
+    if('phone' in fieldValues)
+      temp.phone = fieldValues.phone==="" ? "Šis lauks ir obligāts" 
+        : (/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g).test(fieldValues.phone) 
+        ? "" : "Telefona formāts nav atbilstošs"
+
+    if('email' in fieldValues)
+      temp.email = fieldValues.email==="" ? "Šis lauks ir obligāts" : (/$^|.+@.+..+/).test(fieldValues.email) ? "": "E-pasta formāts nav atbilstošs"
+    if('address' in fieldValues)
+      temp.address = fieldValues.address ? "": "Šis lauks ir obligāts"
+    if('jobTitle' in fieldValues)
+      temp.jobTitle = fieldValues.jobTitle.length !=0 ? "": "Šis lauks ir obligāts"
+    
+    setErrors({ ...temp })
+
+    if(fieldValues == employeeData)
+      return Object.values(temp).every(x => x == "")
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if(currentId){
-      dispatch(updateEmployee(currentId,employeeData))
-    } else {
-      dispatch(createEmployee(employeeData))
+    if(validate()) {
+      if(currentId){
+        dispatch(updateEmployee(currentId,employeeData))
+      } else {
+        dispatch(createEmployee(employeeData))
+      }
+      setOpenPopup(false)
+      clear()
+      setNotify({ isOpen: true, message: "Dati veiksmīgi iesniegti!", type: 'success' })
     }
-    setOpenPopup(false)
-    clear()
-    setNotify({ isOpen: true, message: "Dati veiksmīgi iesniegti!", type: 'success' })
   }
 
-  const clear = () => { setEmployeeData(initialData) }
+  const clear = () => { 
+    setEmployeeData(initialData)
+    setErrors({})
+  }
 
   useEffect(() => {
     if(employee) setEmployeeData(employee)
@@ -37,20 +70,23 @@ export default function Form({ currentId, setOpenPopup, notify, setNotify }) {
 
   return (
     <Container>
-      <form onSubmit={handleSubmit}>
-        <TextField sx={{m:1}} name="firstName" variant="outlined" label="Vārds" fullWidth autoFocus required value={employeeData.firstName} onChange={handleChange} />
-        <TextField sx={{m:1}} name="lastName" variant="outlined" label="Uzvārds" fullWidth required value={employeeData.lastName} onChange={handleChange} />
-        <TextField sx={{m:1}} inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} name="phone" variant="outlined" label="Tālr. nr." type="text" min="8" fullWidth value={employeeData.phone} onChange={handleChange} />
-        <TextField sx={{m:1}} name="email" variant="outlined" label="E-pasts" type="email" fullWidth value={employeeData.email} onChange={handleChange} />
-        <TextField sx={{m:1}} name="address" variant="outlined" label="Adrese" type="text" fullWidth value={employeeData.address} onChange={handleChange} />
-        <TextField sx={{m:1}} name="startDate" variant="outlined" label="Sākuma datums" type="date" required InputLabelProps={{shrink:true}} fullWidth value={employeeData.startDate.slice(0,10)} onChange={handleChange} />
-        <FormControl sx={{m:1}} required fullWidth>
+      <form onSubmit={handleSubmit} autoComplete="off">
+        <TextField sx={{m:1}} name="firstName" variant="outlined" label="Vārds" fullWidth autoFocus value={employeeData.firstName} onChange={handleChange} {...(errors?.firstName && {error:true, helperText:errors.firstName})}  />
+        <TextField sx={{m:1}} name="lastName" variant="outlined" label="Uzvārds" fullWidth value={employeeData.lastName} onChange={handleChange} {...(errors?.lastName && {error:true, helperText:errors.lastName})} />
+        <TextField sx={{m:1}} name="phone" variant="outlined" label="Tālr. nr." type="text" min="8" fullWidth value={employeeData.phone} onChange={handleChange} {...(errors?.phone && {error:true, helperText:errors.phone})} />
+        <TextField sx={{m:1}} name="email" variant="outlined" label="E-pasts" type="text" fullWidth value={employeeData.email} onChange={handleChange} {...(errors?.email && {error:true, helperText:errors.email})} />
+        <TextField sx={{m:1}} name="address" variant="outlined" label="Adrese" type="text" fullWidth value={employeeData.address} onChange={handleChange} {...(errors?.address && {error:true, helperText:errors.address})} />
+        <TextField sx={{m:1}} name="startDate" variant="outlined" label="Sākuma datums" type="date" InputLabelProps={{shrink:true}} fullWidth value={employeeData.startDate.slice(0,10)} onChange={handleChange} {...(errors?.startDate && {error:true, helperText:errors.startDate})} />
+        <FormControl sx={{m:1}} fullWidth {...(errors?.jobTitle && {error:true})}>
           <InputLabel htmlFor="jobTitle">Amats</InputLabel>
           <Select labelId="jobTitle" label="Amats" name="jobTitle" onChange={handleChange} value={employeeData.jobTitle._id || employeeData.jobTitle} >
             {jobTitleList.map((item) => (
               <MenuItem key={item._id} value={item._id}>{item.name}</MenuItem>
             ))}
           </Select>
+          {errors?.jobTitle && 
+            <FormHelperText>{errors.jobTitle}</FormHelperText>
+          }
         </FormControl>
 
         <Button sx={{m:1}} variant="contained" color="primary" size="large" type="submit" fullWidth>Saglabāt</Button>

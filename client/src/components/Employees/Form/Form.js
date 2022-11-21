@@ -25,7 +25,8 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
       temp.firstName = fieldValues.firstName ? "": "Šis lauks ir obligāts"
     if('lastName' in fieldValues)
       temp.lastName = fieldValues.lastName ? "": "Šis lauks ir obligāts"
-
+    if('startDate' in fieldValues)
+      temp.startDate = fieldValues.startDate ? "" : "Šis lauks ir obligāts"
     if('phone' in fieldValues)
       temp.phone = fieldValues.phone==="" ? "Šis lauks ir obligāts" 
         : (/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g).test(fieldValues.phone) 
@@ -73,7 +74,7 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
       <form onSubmit={handleSubmit} autoComplete="off">
         <TextField sx={{m:1}} name="firstName" variant="outlined" label="Vārds" fullWidth autoFocus value={employeeData.firstName} onChange={handleChange} {...(errors?.firstName && {error:true, helperText:errors.firstName})}  />
         <TextField sx={{m:1}} name="lastName" variant="outlined" label="Uzvārds" fullWidth value={employeeData.lastName} onChange={handleChange} {...(errors?.lastName && {error:true, helperText:errors.lastName})} />
-        <TextField sx={{m:1}} name="phone" variant="outlined" label="Tālr. nr." type="text" min="8" fullWidth value={employeeData.phone} onChange={handleChange} {...(errors?.phone && {error:true, helperText:errors.phone})} />
+        <TextField sx={{m:1}} name="phone" variant="outlined" label="Tālr. nr." type="text" fullWidth value={employeeData.phone} onChange={handleChange} {...(errors?.phone && {error:true, helperText:errors.phone})} />
         <TextField sx={{m:1}} name="email" variant="outlined" label="E-pasts" type="text" fullWidth value={employeeData.email} onChange={handleChange} {...(errors?.email && {error:true, helperText:errors.email})} />
         <TextField sx={{m:1}} name="address" variant="outlined" label="Adrese" type="text" fullWidth value={employeeData.address} onChange={handleChange} {...(errors?.address && {error:true, helperText:errors.address})} />
         <TextField sx={{m:1}} name="startDate" variant="outlined" label="Sākuma datums" type="date" InputLabelProps={{shrink:true}} fullWidth value={employeeData.startDate.slice(0,10)} onChange={handleChange} {...(errors?.startDate && {error:true, helperText:errors.startDate})} />
@@ -84,9 +85,7 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
               <MenuItem key={item._id} value={item._id}>{item.name}</MenuItem>
             ))}
           </Select>
-          {errors?.jobTitle && 
-            <FormHelperText>{errors.jobTitle}</FormHelperText>
-          }
+          {errors?.jobTitle && <FormHelperText>{errors.jobTitle}</FormHelperText> }
         </FormControl>
 
         <Button sx={{m:1}} variant="contained" color="primary" size="large" type="submit" fullWidth>Saglabāt</Button>

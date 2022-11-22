@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, TextField, Button, Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { createEmployee, updateEmployee } from "../../../actions/employees";
-
+import { emailFormat, phoneFormat, fieldRequired } from '../../../Helpers/errorMessages'
 
 export default function Form({ currentId, setOpenPopup, setNotify }) {
   const initialData = { firstName:'', lastName:'', phone: '', email:'', address: '',  startDate: '', jobTitle:'' }
@@ -22,22 +22,22 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
     let temp = {...errors}
 
     if('firstName' in fieldValues)
-      temp.firstName = fieldValues.firstName ? "": "Šis lauks ir obligāts"
+      temp.firstName = fieldValues.firstName ? "": fieldRequired
     if('lastName' in fieldValues)
-      temp.lastName = fieldValues.lastName ? "": "Šis lauks ir obligāts"
+      temp.lastName = fieldValues.lastName ? "": fieldRequired
     if('startDate' in fieldValues)
-      temp.startDate = fieldValues.startDate ? "" : "Šis lauks ir obligāts"
+      temp.startDate = fieldValues.startDate ? "" : fieldRequired
     if('phone' in fieldValues)
-      temp.phone = fieldValues.phone==="" ? "Šis lauks ir obligāts" 
+      temp.phone = fieldValues.phone==="" ? fieldRequired 
         : (/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g).test(fieldValues.phone) 
-        ? "" : "Telefona formāts nav atbilstošs"
+        ? "" : phoneFormat
 
     if('email' in fieldValues)
-      temp.email = fieldValues.email==="" ? "Šis lauks ir obligāts" : (/$^|.+@.+..+/).test(fieldValues.email) ? "": "E-pasta formāts nav atbilstošs"
+      temp.email = fieldValues.email==="" ? fieldRequired : (/$^|.+@.+..+/).test(fieldValues.email) ? "": emailFormat
     if('address' in fieldValues)
-      temp.address = fieldValues.address ? "": "Šis lauks ir obligāts"
+      temp.address = fieldValues.address ? "": fieldRequired
     if('jobTitle' in fieldValues)
-      temp.jobTitle = fieldValues.jobTitle.length !=0 ? "": "Šis lauks ir obligāts"
+      temp.jobTitle = fieldValues.jobTitle.length !=0 ? "": fieldRequired
     
     setErrors({ ...temp })
 

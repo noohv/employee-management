@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Container, Typography, Divider } from '@mui/material';
 import { PieChart, Pie, Sector, Tooltip, Legend, Cell, ResponsiveContainer, Label } from 'recharts';
 
-
 export default function Stats({ employees }) {
   
   const current = new Date().toISOString()

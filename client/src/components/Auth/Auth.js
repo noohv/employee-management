@@ -5,33 +5,69 @@ import { Avatar, Button, Grid, Container, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Input from './Input';
 import { signin, signup } from  '../../actions/auth';
+import { emailFormat, fieldRequired, matchingPasswords, passwordLength } from '../../Helpers/errorMessages'
 
 export default function Auth({ setNotify }) {
   const initialData = { firstName:'', lastName:'', email:'', password:'', confirmPassword:'' }
   const [showPassword, setShowPassword] = useState(false)
   const [isSignup, setIsSignup] = useState(false)
   const [formData, setFormData] = useState(initialData)
+  const [errors, setErrors] = useState({})
   const dispatch = useDispatch()
   let navigate = useNavigate()
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    
-    if(isSignup){
-      dispatch(signup(formData, navigate))
-      setNotify({ isOpen: true, message: "Profils tika veiksmīgi izveidots!", type: 'success' })
-    } else {
-      dispatch(signin(formData, navigate))
-      setNotify({ isOpen: true, message: "Jūs veiksmīgi ielogojāties!", type: 'success' })
-    } 
-    
+  const validate = (fieldValues = formData) => {
+    let temp = {...errors}
+
+    if('email' in fieldValues) 
+      temp.email = fieldValues.email==="" ? fieldRequired : (/$^|.+@.+..+/).test(fieldValues.email) ? "": emailFormat    
+    if('password' in fieldValues)
+      temp.password = fieldValues.password ? "" : fieldRequired
+
+    if(isSignup) {  
+      if('firstName' in fieldValues)
+        temp.firstName = fieldValues.firstName ? "" : fieldRequired
+      if('lastName' in fieldValues)
+        temp.lastName = fieldValues.lastName ? "" : fieldRequired
+      if('password' in fieldValues) {
+        temp.password = fieldValues.password ? "" : fieldRequired
+        if(fieldValues.password.length < 8) temp.password = passwordLength
+      }
+      if('confirmPassword' in fieldValues)
+        temp.confirmPassword = fieldValues.confirmPassword !== formData.password ? matchingPasswords : fieldValues.confirmPassword ? "" : fieldRequired
+    }
+
+    setErrors({ ...temp })
+
+    if(fieldValues == formData)
+      return Object.values(temp).every(x => x == "")
   }
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    const { name, value } = e.target
+
+    setFormData({ ...formData, [name]: value })
+    validate({[name]: value})
   }
 
-  const switchMode = () => setIsSignup(prev => !prev)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    if(validate()) {
+      if(isSignup){
+        dispatch(signup(formData, navigate))
+        setNotify({ isOpen: true, message: "Profils tika veiksmīgi izveidots!", type: 'success' })
+      } else {
+        dispatch(signin(formData, navigate))
+        setNotify({ isOpen: true, message: "Jūs veiksmīgi ielogojāties!", type: 'success' })
+      } 
+    }
+  }
+
+  const switchMode = () => {
+    setIsSignup(prev => !prev)
+    setErrors({})
+  }
   const handleShowPassword = () => setShowPassword(prev => !prev)
 
   useEffect(() => {
@@ -51,14 +87,14 @@ export default function Auth({ setNotify }) {
           {
             isSignup && (
               <>
-                  <Input name="firstName" label="Vārds" handleChange={handleChange} autoFocus half />
-                  <Input name="lastName" label="Uzvārds" handleChange={handleChange} half />
+                  <Input name="firstName" label="Vārds" handleChange={handleChange} autoFocus half error={errors.firstName} />
+                  <Input name="lastName" label="Uzvārds" handleChange={handleChange} half error={errors.lastName} />
               </>
             )
           }
-          <Input name="email" label="Epasta Adrese" handleChange={handleChange} type="email" />
-          <Input name="password" label="Parole" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
-          {isSignup && <Input name="confirmPassword" label="Atkārtota parole" handleChange={handleChange} type="password" />}
+          <Input name="email" label="Epasta Adrese" handleChange={handleChange} type="text" error={errors.email} />
+          <Input name="password" label="Parole" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} error={errors.password} />
+          {isSignup && <Input name="confirmPassword" label="Apstiprināt paroli" handleChange={handleChange} type="password" error={errors.confirmPassword} />}
         </Grid>
         <Button sx={{mt:2}} type="submit" fullWidth variant='contained' >
           {isSignup ? 'Reģistrēties' : 'Ielogoties'}

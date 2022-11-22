@@ -29,17 +29,21 @@ export default function EmployeesList({ employees, jobTitles, notify, setNotify 
   } = useTable(employees, headCells, filter)
 
   const handleSearch = e => {
-    let target = e.target
+    const { value } = e.target
+
     setFilter({
       fn: items => {
-        if(target.value ==="")
+        if(value ==="")
           return items
-        else if(target.value===" ")
+        else if(value===" ")
           return []
         else
           return items.filter(x => {
-            let fullName = x.firstName.concat(" ", x.lastName)
-            return fullName.toLowerCase().includes(target.value.toLowerCase())
+            // let fullName = x.firstName.concat(" ", x.lastName)
+            console.log(jobTitles.data)
+            console.log(x.jobTitle)
+            const data = x.firstName.concat(" ", x.lastName).concat(" ", x.jobTitle.name || jobTitles.data.find(y => y._id === y.jobTitle)?.name)
+            return data.toLowerCase().includes(value.toLowerCase())
           })
       }
     })

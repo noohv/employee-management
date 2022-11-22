@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, Typography, Divider } from '@mui/material';
 import { PieChart, Pie, Sector, Tooltip, Legend, Cell, ResponsiveContainer, Label } from 'recharts';
+import EmptyStats from './EmptyStats';
 
 export default function Stats({ employees }) {
   
@@ -18,6 +19,8 @@ export default function Stats({ employees }) {
     {name: 'Slimības lapa', count: sickLeaveEmp().length},
     {name: 'Cits', count: otherLeaveEmp().length}
   ]
+
+  if(employees.length === 0) return <EmptyStats />
 
   return (
     <>

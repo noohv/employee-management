@@ -8,18 +8,29 @@ import EmployeesLoadingSkeleton from "./EmployeesLoadingSkeleton";
 import Popup from "../Reusable/Popup";
 import Form from "./Form/Form";
 import { Link } from "react-router-dom";
+import CircleIcon from '@mui/icons-material/Circle';
 
 export default function EmployeesList({ employees, jobTitles, notify, setNotify }) {
   const showLoading = useSelector((state) => state.employees.isLoading)
   const [filter, setFilter] = useState({ fn: items => { return items } })
   const [openPopup, setOpenPopup] = useState(false)
+  const [currentDate, setCurrentDate] = useState(new Date())
 
   const headCells = [
+    { id: 'status', label: 'Statuss'},
     { id: 'firstName', label: 'Vārds' },
     { id: 'lastName', label: 'Uzvārds' },
     { id: 'jobTitle', label: 'Amats' },
     { id: 'actions', label: 'Darbības', disableSorting: true }
   ]
+
+  const getStatus = (item) => {
+    const type = item.absences.filter(item => item.startDate < currentDate.toISOString() && item.endDate > currentDate.toISOString())[0]?.absenceType
+    if(type === "vacation") return "statusVacation"
+    else if(type === "sick") return "statusSick"
+    else if(type === "other") return "statusOther"
+    else return "statusActive"
+  }
 
   const {
     TblContainer,
@@ -39,9 +50,6 @@ export default function EmployeesList({ employees, jobTitles, notify, setNotify 
           return []
         else
           return items.filter(x => {
-            // let fullName = x.firstName.concat(" ", x.lastName)
-            console.log(jobTitles.data)
-            console.log(x.jobTitle)
             const data = x.firstName.concat(" ", x.lastName).concat(" ", x.jobTitle.name || jobTitles.data.find(y => y._id === y.jobTitle)?.name)
             return data.toLowerCase().includes(value.toLowerCase())
           })
@@ -71,6 +79,7 @@ export default function EmployeesList({ employees, jobTitles, notify, setNotify 
                   recordsAfterPagingAndSorting().map(item => {
                     return (
                       <TableRow key={item._id}>
+                        <TableCell><CircleIcon color={getStatus(item)} /></TableCell>
                         <TableCell>{item.firstName}</TableCell>
                         <TableCell>{item.lastName}</TableCell>
                         <TableCell>{item.jobTitle.name || jobTitles.data.find(x => x._id === item.jobTitle)?.name}</TableCell>

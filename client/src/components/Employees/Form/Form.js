@@ -33,7 +33,7 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
         ? "" : phoneFormat
 
     if('email' in fieldValues)
-      temp.email = fieldValues.email==="" ? fieldRequired : (/$^|.+@.+..+/).test(fieldValues.email) ? "": emailFormat
+      temp.email = fieldValues.email==="" ? fieldRequired : (/$^|.+@.+..+/).test(fieldValues.email) ? "" : emailFormat
     if('address' in fieldValues)
       temp.address = fieldValues.address ? "": fieldRequired
     if('jobTitle' in fieldValues)

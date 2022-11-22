@@ -1,10 +1,13 @@
 import { createTheme } from "@mui/material";
-
 const Colors = {
   white: "#fff",
   black: "#000",
   primary: "#02c39a",
-  secondary: "#05668d"
+  secondary: "#05668d",
+  statusActive: '#003f5c',
+  statusVacation: '#7a5195',
+  statusSick: '#ef5675',
+  statusOther: '#ffa600'
 }
 
 const theme = createTheme({
@@ -23,7 +26,23 @@ const theme = createTheme({
     
     black: {
       main: Colors.black
-    }
+    },
+
+    statusActive: {
+      main: Colors.statusActive
+    },
+
+    statusVacation: {
+      main: Colors.statusVacation
+    },
+
+    statusSick: {
+      main: Colors.statusSick
+    },
+
+    statusOther: {
+      main: Colors.statusOther
+    }  
   },
 
   shape: {

@@ -48,7 +48,7 @@ export default function AbsenceList({empId, absences, confirmDialog , setConfirm
           recordsAfterPagingAndSorting().map(item => {
             return (
               <TableRow key={item._id}>
-                <TableCell>{item.absenceType}</TableCell>
+                <TableCell>{item.absenceType === 'vacation' ? "Atvaļinājums" : item.absenceType === 'sick' ? "Slims" : "Cits"}</TableCell>
                 <TableCell>{item.startDate.slice(0,10)}</TableCell>
                 <TableCell>{item.endDate.slice(0,10)}</TableCell>
                 <TableCell>

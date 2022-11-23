@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Button, Grid, Container, Typography } from '@mui/material';
+import { Avatar, Button, Grid, Container, Typography, getNativeSelectUtilityClasses } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Input from './Input';
 import { signin, signup } from  '../../actions/auth';
@@ -13,6 +13,8 @@ export default function Auth({ setNotify }) {
   const [isSignup, setIsSignup] = useState(false)
   const [formData, setFormData] = useState(initialData)
   const [errors, setErrors] = useState({})
+  const { error, success } = useSelector(state => state.auth)
+
   const dispatch = useDispatch()
   let navigate = useNavigate()
 
@@ -56,10 +58,8 @@ export default function Auth({ setNotify }) {
     if(validate()) {
       if(isSignup){
         dispatch(signup(formData, navigate))
-        setNotify({ isOpen: true, message: "Profils tika veiksmīgi izveidots!", type: 'success' })
       } else {
         dispatch(signin(formData, navigate))
-        setNotify({ isOpen: true, message: "Jūs veiksmīgi ielogojāties!", type: 'success' })
       } 
     }
   }
@@ -71,9 +71,15 @@ export default function Auth({ setNotify }) {
   const handleShowPassword = () => setShowPassword(prev => !prev)
 
   useEffect(() => {
-      document.title = "Autorizācija"
-  }, [])
+    if(error) {
+      setNotify({ isOpen: true, message: error , type: 'error' })
+      dispatch({type: 'AUTH_CLEAR_ERROR', payload: null})
+    }
+    if(success) setNotify({ isOpen: true, message: "Veiksmīgi pieslēdzies sistēmai!" , type: 'success' })
 
+  }, [error, success])
+  
+  // document.title = "Autorizācija"
   return (
     <Container sx={{mt:10}} component='main' maxWidth='sm'>
       <Container sx={{display:'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center'}}>

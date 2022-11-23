@@ -1,8 +1,9 @@
-import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_EMPLOYEE, CREATE_ABSENCE, DELETE_EMPLOYEE, DELETE_ABSENCE } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_EMPLOYEE, ADD_ABSENCE_SUCCESS, DELETE_EMPLOYEE, DELETE_ABSENCE, ADD_ABSENCE_ERROR } from '../constants/actionTypes';
 
 let initialState = { 
   isLoading: true,
   data: [],
+  error: null
 }
 
 export default (state = initialState , action) => {
@@ -44,12 +45,18 @@ export default (state = initialState , action) => {
         employee: action.payload
       }
 
-    case CREATE_ABSENCE:
+    case ADD_ABSENCE_SUCCESS:
       return {
-        ...state,
+         ...state,
         employee: {...state.employee, absences: [...state.employee.absences, action.payload]}
       }
-        
+      
+    case ADD_ABSENCE_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      }
+
     case DELETE_ABSENCE:
       return {
         ...state,

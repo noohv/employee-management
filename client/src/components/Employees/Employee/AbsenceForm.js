@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
 import { createAbsence } from '../../../actions/employees';
 
-export default function AbsenceForm({id, setOpenPopup, types, setNotify}) {
+export default function AbsenceForm({id, setOpenPopup, types, error, setNotify}) {
   const initialData = { absenceType:'', startDate:'', endDate: ''}
   const [absenceData, setAbsenceData] = useState(initialData)
   const [errors, setErrors] = useState({})
@@ -38,14 +38,22 @@ export default function AbsenceForm({id, setOpenPopup, types, setNotify}) {
       dispatch(createAbsence(id,absenceData))
       setOpenPopup(false)
       clear()
-      setNotify({ isOpen: true, message: "Dati veiksmīgi iesniegti!", type: 'success' })
     }
   }
-    
+  
   const clear = () => { 
     setAbsenceData(initialData) 
     setErrors({})
   }
+
+  const notifs = () => {
+    
+  }
+
+  useEffect(()=> {
+    if(error)
+      setNotify({ isOpen: true, message: error , type: 'error' })
+  }, [error])
 
   return (
     <form onSubmit={handleSubmit} autoComplete="off">

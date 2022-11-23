@@ -21,7 +21,7 @@ export default function Employee({ notify, setNotify }) {
     {id: 2, type: "other", name: "Cits"},
   ]
 
-  const { employee, isLoading } = useSelector((state) => state.employees)
+  const { employee, isLoading, error } = useSelector((state) => state.employees)
   const [openPopup, setOpenPopup] = useState(false)
   const [popupType, setOpenPopupType] = useState()
   const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: '', subTitle: ''})
@@ -124,7 +124,7 @@ export default function Employee({ notify, setNotify }) {
             setOpenPopup={setOpenPopup}
           >
             {popupType==='absence' ?
-            <AbsenceForm types={absenceTypes} id={id} setOpenPopup={setOpenPopup} notify={notify} setNotify={setNotify}/>
+            <AbsenceForm types={absenceTypes} id={id} setOpenPopup={setOpenPopup} error={error} setNotify={setNotify}/>
             :
             <Form currentId={id} setOpenPopup={setOpenPopup} notify={notify} setNotify={setNotify}  />
             }

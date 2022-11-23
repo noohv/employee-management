@@ -1,4 +1,4 @@
-import { FETCH_ALL, FETCH_EMPLOYEE, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, CREATE_ABSENCE, DELETE_EMPLOYEE, DELETE_ABSENCE } from '../constants/actionTypes';
+import { FETCH_ALL, FETCH_EMPLOYEE, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, DELETE_EMPLOYEE, DELETE_ABSENCE, ADD_ABSENCE_ERROR, ADD_ABSENCE_SUCCESS } from '../constants/actionTypes';
 import * as api from '../api';
 
 // Employee action methods
@@ -57,9 +57,11 @@ export const updateEmployee = (id, employee) => async (dispatch) => {
 export const createAbsence = (id, absence) => async (dispatch) => {
   try {
     const { data } = await api.createAbsence(id, absence)
-    dispatch({ type: CREATE_ABSENCE, payload: data })
+    
+    dispatch({ type: ADD_ABSENCE_SUCCESS, payload: data })
   } catch (error) {
-    console.log(error.message)
+    const message = error.response.data.message
+    dispatch({ type: ADD_ABSENCE_ERROR, payload: message})
   }
 }
 

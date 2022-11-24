@@ -84,6 +84,7 @@ export const createAbsence = async (req, res) => {
   try {
     const absence = await EmployeeAbsence.create(data)
     const employee = await EmployeeProfile.findById(id).populate('absences')
+    if(!employee) return res.status(404).json({ message: "Darbinieks vairs neeksistē!" })
     
     // Check if date ranges are not overlapping
     if(employee.absences.length > 0) {
@@ -104,12 +105,13 @@ export const deleteAbsence = async (req,res) => {
   try {
     const absence = await EmployeeAbsence.findById(id)
     const employee = await EmployeeProfile.findById(empId).populate("absences")
+    if(!employee) return res.status(404).json({ message: "Darbinieks vairs neeksistē!" })
     employee.absences = employee.absences.filter((i) => i.id !== id)
 
     await absence.remove()
     await employee.save()
     res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: error.message})
+    res.status(404).json({ message: "Prombūtne nav atrasta!"})
   }
 }

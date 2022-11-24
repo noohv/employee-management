@@ -79,7 +79,7 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
 
   return (
     <Container>
-      <form onSubmit={handleSubmit} autoComplete>
+      <form onSubmit={handleSubmit}>
         <TextField sx={{m:1}} name="firstName" variant="outlined" label="Vārds" fullWidth autoFocus value={employeeData.firstName} onChange={handleChange} {...(errors?.firstName && {error:true, helperText:errors.firstName})}  />
         <TextField sx={{m:1}} name="lastName" variant="outlined" label="Uzvārds" fullWidth value={employeeData.lastName} onChange={handleChange} {...(errors?.lastName && {error:true, helperText:errors.lastName})} />
         <TextField sx={{m:1}} name="phone" variant="outlined" label="Tālr. nr." type="text" fullWidth value={employeeData.phone} onChange={handleChange} {...(errors?.phone && {error:true, helperText:errors.phone})} />

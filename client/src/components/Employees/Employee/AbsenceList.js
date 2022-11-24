@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TableBody, TableCell, TableRow, IconButton } from "@mui/material";
 import { deleteAbsence } from '../../../actions/employees';
 import useTable from "../../Reusable/useTable";
@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-export default function AbsenceList({empId, absences, confirmDialog , setConfirmDialog, setNotify}) {
+export default function AbsenceList({ empId, absences, confirmDialog , setConfirmDialog, setNotify, error, success }) {
   const [filter, setFilter] = useState({fn: items => { return items; }})
   const dispatch = useDispatch()
 

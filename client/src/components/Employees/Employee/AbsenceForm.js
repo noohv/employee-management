@@ -60,7 +60,7 @@ export default function AbsenceForm({id, setOpenPopup, types, error, success, se
   }, [error, success])
 
   return (
-    <form onSubmit={handleSubmit} autoComplete>
+    <form onSubmit={handleSubmit} autoComplete="off">
       <FormControl sx={{m:1}} fullWidth {...(errors?.absenceType && {error:true})}>
         <InputLabel htmlFor="absenceType">Veids</InputLabel>
         <Select labelId="absenceType" label="Veids" name="absenceType" onChange={handleChange} value={absenceData.absenceType}>

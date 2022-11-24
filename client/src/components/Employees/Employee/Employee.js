@@ -122,6 +122,8 @@ export default function Employee({ setNotify }) {
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog} 
                 setNotify={setNotify}
+                error={error}
+                success={success}
               />
             }
           </Container>

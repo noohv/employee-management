@@ -75,7 +75,7 @@ export default function Auth({ setNotify }) {
       setNotify({ isOpen: true, message: error , type: 'error' })
       dispatch({type: 'AUTH_CLEAR_ERROR', payload: null})
     }
-    if(success) setNotify({ isOpen: true, message: "Veiksmīgi pieslēdzies sistēmai!" , type: 'success' })
+    if(success) setNotify({ isOpen: true, message: success , type: 'success' })
 
   }, [error, success])
   

@@ -1,26 +1,46 @@
-import { CREATE_SCHEDULE, GET_SCHEDULES, GET_SCHEDULE } from '../constants/actionTypes';
+import { ADD_SCHEDULE_SUCCESS, ADD_SCHEDULE_ERROR, FETCH_SCHEDULE_SUCCESS, FETCH_SCHEDULE_ERROR, FETCH_SCHEDULES_SUCCESS, FETCH_SCHEDULES_ERROR } from '../constants/actionTypes';
 
 let initialState = { 
   data: [],
+  error: null
 }
 
 export default (state = initialState , action) => {
   switch(action.type) {
-    case GET_SCHEDULES:
+    case FETCH_SCHEDULES_SUCCESS:
       return {
         ...state,
-        data: action.payload,
+        data: action.payload
       }
 
-      case GET_SCHEDULE:
+    case FETCH_SCHEDULES_ERROR:
       return {
         ...state,
-        data: action.payload,
+        error: action.payload
       }
 
-    case CREATE_SCHEDULE:
+    case FETCH_SCHEDULE_SUCCESS:
+    return {
+      ...state,
+      data: action.payload
+    }
+
+    case FETCH_SCHEDULE_ERROR:
+    return {
+      ...state,
+      error: action.payload
+    }
+
+    case ADD_SCHEDULE_SUCCESS:
       return {
           data: [...state.data, action.payload],
+          success: 'Grafiks veiksmīgi izveidots!'
+      }
+    
+    case ADD_SCHEDULE_ERROR:
+      return {
+        ...state,
+        error: action.payload
       }
 
     default:

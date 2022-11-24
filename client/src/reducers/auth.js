@@ -1,14 +1,18 @@
 import { AUTH_SUCCESS, AUTH_ERROR, LOG_OUT, AUTH_CLEAR_ERROR} from '../constants/actionTypes';
 
 const initialState = {
-  authData: null
+  authData: null,
 }
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTH_SUCCESS:
       localStorage.setItem('profile', JSON.stringify({ ...action.payload })) 
-      return {...state, authData: action.payload, success: true }
+      return {
+        ...state, 
+        authData: action.payload, 
+        success: 'Pieslēgšanās veiksmīga!' 
+      }
 
     case AUTH_ERROR:
       return {
@@ -24,7 +28,11 @@ const authReducer = (state = initialState, action) => {
     
     case LOG_OUT:
       localStorage.clear()
-      return { ...state, authData: null}
+      return { 
+        ...state, 
+        authData: null
+      }
+
     default:
       return state
   }

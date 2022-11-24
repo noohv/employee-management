@@ -1,39 +1,80 @@
-import { FETCH_ALL, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, FETCH_EMPLOYEE, ADD_ABSENCE_SUCCESS, DELETE_EMPLOYEE, DELETE_ABSENCE, ADD_ABSENCE_ERROR } from '../constants/actionTypes';
+import { 
+  FETCH_EMPLOYEES_SUCCESS,
+  FETCH_EMPLOYEES_ERROR,
+  FETCH_EMPLOYEE_SUCCESS,
+  FETCH_EMPLOYEE_ERROR,
+  ADD_EMPLOYEE_SUCCESS,
+  ADD_EMPLOYEE_ERROR,
+  UPDATE_EMPLOYEE_SUCCESS, 
+  UPDATE_EMPLOYEE_ERROR, 
+  DELETE_EMPLOYEE_SUCCESS, 
+  DELETE_EMPLOYEE_ERROR, 
+  DELETE_ABSENCE_SUCCESS, 
+  DELETE_ABSENCE_ERROR, 
+  ADD_ABSENCE_SUCCESS,
+  ADD_ABSENCE_ERROR, 
+  SHOW_LOADER, 
+  HIDE_LOADER, } from '../constants/actionTypes';
 
 let initialState = { 
   isLoading: true,
   data: [],
-  error: null
 }
 
 export default (state = initialState , action) => {
   switch(action.type) {
-    case FETCH_ALL:
+    case FETCH_EMPLOYEES_SUCCESS:
       return {
         ...state,
         data: action.payload,
         employee: null
       }
 
-    case FETCH_EMPLOYEE:
+    case FETCH_EMPLOYEES_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      }
+
+    case FETCH_EMPLOYEE_SUCCESS:
       return {
         ...state,
         employee: action.payload
       }
     
-    case DELETE_EMPLOYEE:
+    case FETCH_EMPLOYEE_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      }
+    
+    case DELETE_EMPLOYEE_SUCCESS:
       return {
         ...state,
         data: state.data.filter((i) => i._id !== action.payload),
-        employee: null
+        employee: null,
+        success: 'Lietotājs dzēsts!'
+      }
+    
+    case DELETE_EMPLOYEE_ERROR:
+      return {
+        ...state,
+        error: action.payload
       }
 
-    case CREATE:
+    case ADD_EMPLOYEE_SUCCESS:
       return {
         data: [...state.data, action.payload],
+        success: 'Lietotājs veiksmīgi pievienots!'
       }
 
-    case UPDATE:
+    case ADD_EMPLOYEE_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      }
+
+    case UPDATE_EMPLOYEE_SUCCESS:
       return {
         data: state.data.map((employee)=> {
           if(employee._id === action.payload._id) {
@@ -42,13 +83,21 @@ export default (state = initialState , action) => {
             return employee
           }
         }),
-        employee: action.payload
+        employee: action.payload,
+        success: 'Lietotāja dati atjaunoti!'
+      }
+
+    case UPDATE_EMPLOYEE_ERROR:
+      return {
+        ...state,
+        error: action.payload
       }
 
     case ADD_ABSENCE_SUCCESS:
       return {
          ...state,
-        employee: {...state.employee, absences: [...state.employee.absences, action.payload]}
+        employee: {...state.employee, absences: [...state.employee.absences, action.payload]},
+        success: 'Darbinieka prombūtne pievienota!'
       }
       
     case ADD_ABSENCE_ERROR:
@@ -57,13 +106,20 @@ export default (state = initialState , action) => {
         error: action.payload
       }
 
-    case DELETE_ABSENCE:
+    case DELETE_ABSENCE_SUCCESS:
       return {
         ...state,
         employee:{
           ...state.employee,
           absences: state.employee.absences.filter((i) => i._id !== action.payload),
-        } 
+        },
+        success: 'Prombūtne dzēsta!'
+      }
+
+    case DELETE_ABSENCE_ERROR:
+      return {
+        ...state,
+        error: action.payload
       }
 
     case HIDE_LOADER:

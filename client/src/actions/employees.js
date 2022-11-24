@@ -1,4 +1,20 @@
-import { FETCH_ALL, FETCH_EMPLOYEE, CREATE, UPDATE, SHOW_LOADER, HIDE_LOADER, DELETE_EMPLOYEE, DELETE_ABSENCE, ADD_ABSENCE_ERROR, ADD_ABSENCE_SUCCESS } from '../constants/actionTypes';
+import { 
+  FETCH_EMPLOYEES_SUCCESS,
+  FETCH_EMPLOYEES_ERROR,
+  FETCH_EMPLOYEE_SUCCESS,
+  FETCH_EMPLOYEE_ERROR,
+  ADD_EMPLOYEE_SUCCESS,
+  ADD_EMPLOYEE_ERROR,
+  UPDATE_EMPLOYEE_SUCCESS, 
+  UPDATE_EMPLOYEE_ERROR, 
+  DELETE_EMPLOYEE_SUCCESS, 
+  DELETE_EMPLOYEE_ERROR, 
+  DELETE_ABSENCE_SUCCESS, 
+  DELETE_ABSENCE_ERROR, 
+  ADD_ABSENCE_SUCCESS,
+  ADD_ABSENCE_ERROR, 
+  SHOW_LOADER, 
+  HIDE_LOADER, } from '../constants/actionTypes';
 import * as api from '../api';
 
 // Employee action methods
@@ -8,10 +24,10 @@ export const getEmployees = () => async (dispatch) => {
   try {
     dispatch(showLoader())
     const { data } = await api.fetchEmployees()
-    dispatch({ type: FETCH_ALL, payload: data })
+    dispatch({ type: FETCH_EMPLOYEES_SUCCESS, payload: data })
     dispatch(hideLoader())
   } catch (error) {
-    console.log(error.message)
+    dispatch({ type: FETCH_EMPLOYEES_ERROR, payload: error })
   }
 }
 
@@ -19,19 +35,19 @@ export const getEmployee = (id) => async (dispatch) => {
   try {
     dispatch(showLoader())
     const { data } = await api.fetchEmployee(id)
-    dispatch({ type: FETCH_EMPLOYEE, payload: data })
+    dispatch({ type: FETCH_EMPLOYEE_SUCCESS, payload: data })
     dispatch(hideLoader())
   } catch (error) {
-    console.log(error.message)
+    dispatch({ type: FETCH_EMPLOYEE_ERROR, payload: error })
   }
 }
 
 export const deleteEmployee = (id) => async (dispatch) => {
   try {
     await api.deleteEmployee(id);
-    dispatch({ type: DELETE_EMPLOYEE, payload: id })
+    dispatch({ type: DELETE_EMPLOYEE_SUCCESS, payload: id })
   } catch (error) {
-    console.log(error.message)
+    dispatch({ type: DELETE_EMPLOYEE_ERROR, payload: error })
   }
 }
 
@@ -39,18 +55,19 @@ export const deleteEmployee = (id) => async (dispatch) => {
 export const createEmployee = (employee) => async (dispatch) => {
   try {
     const { data } = await api.createEmployee(employee);
-    dispatch({ type: CREATE, payload: data })
+    dispatch({ type: ADD_EMPLOYEE_SUCCESS, payload: data })
   } catch (error) {
-    console.log(error.message)
+    dispatch({ type: ADD_EMPLOYEE_ERROR, payload: error })
   }
 }
 
 export const updateEmployee = (id, employee) => async (dispatch) => {
   try {
     const { data } = await api.updateEmployee(id, employee)
-    dispatch({ type: UPDATE, payload: data })
+    dispatch({ type: UPDATE_EMPLOYEE_SUCCESS, payload: data })
   } catch (error) {
-    console.log(error.message)
+    dispatch({ type: UPDATE_EMPLOYEE_ERROR, payload: error })
+
   }
 }
 
@@ -68,9 +85,9 @@ export const createAbsence = (id, absence) => async (dispatch) => {
 export const deleteAbsence = (id, empId) => async (dispatch) => {
   try {
     await api.deleteAbsence(id, empId)
-    dispatch({ type: DELETE_ABSENCE, payload: id })
+    dispatch({ type: DELETE_ABSENCE_SUCCESS, payload: id })
   } catch (error) {
-    console.log(error.message)   
+    dispatch({ type: DELETE_ABSENCE_ERROR, payload: error })
   }
 }
 

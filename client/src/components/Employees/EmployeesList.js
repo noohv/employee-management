@@ -10,7 +10,7 @@ import Form from "./Form/Form";
 import { Link } from "react-router-dom";
 import CircleIcon from '@mui/icons-material/Circle';
 
-export default function EmployeesList({ employees, jobTitles, notify, setNotify }) {
+export default function EmployeesList({ employees, jobTitles, setNotify }) {
   const showLoading = useSelector((state) => state.employees.isLoading)
   const [filter, setFilter] = useState({ fn: items => { return items } })
   const [openPopup, setOpenPopup] = useState(false)

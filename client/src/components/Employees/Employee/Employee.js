@@ -13,7 +13,7 @@ import ConfirmDialog from '../../Reusable/ConfirmDialog';
 import PageNotFound from '../../ErrorPages/PageNotFound';
 import Loader from '../../Reusable/Loader';
 
-export default function Employee({ notify, setNotify }) {
+export default function Employee({ setNotify }) {
 
   const absenceTypes = [
     {id: 0, type: "vacation", name: "Atvaļinājums"},
@@ -21,7 +21,7 @@ export default function Employee({ notify, setNotify }) {
     {id: 2, type: "other", name: "Cits"},
   ]
 
-  const { employee, isLoading, error } = useSelector((state) => state.employees)
+  const { employee, isLoading, error, success } = useSelector((state) => state.employees)
   const [openPopup, setOpenPopup] = useState(false)
   const [popupType, setOpenPopupType] = useState()
   const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: '', subTitle: ''})
@@ -35,7 +35,17 @@ export default function Employee({ notify, setNotify }) {
     dispatch(getEmployee(id))
     dispatch(getJobTitles())
     document.title = title
-  }, [id])
+    
+    if(error) {
+      setNotify({ isOpen: true, message: error , type: 'error' })
+      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
+
+    }
+    if(success) {
+      setNotify({ isOpen: true, message: success , type: 'success' })
+      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
+    }
+  }, [id, error, success])
 
   // Case when employee does not exist/ has not been loaded in the state yet
   if(!employee) {
@@ -56,7 +66,6 @@ export default function Employee({ notify, setNotify }) {
   const deleteEmp = () => {
     setTimeout(() => {navigate('/', { replace: true })}, 100)
     dispatch(deleteEmployee(id))
-    setNotify({isOpen: true, message: 'Ieraksts veiksmīgi dzēsts!', type: 'error'})
   }
 
   return (
@@ -112,7 +121,6 @@ export default function Employee({ notify, setNotify }) {
                 absences={employee.absences} 
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog} 
-                notify={notify} 
                 setNotify={setNotify}
               />
             }
@@ -124,9 +132,9 @@ export default function Employee({ notify, setNotify }) {
             setOpenPopup={setOpenPopup}
           >
             {popupType==='absence' ?
-            <AbsenceForm types={absenceTypes} id={id} setOpenPopup={setOpenPopup} error={error} setNotify={setNotify}/>
+            <AbsenceForm types={absenceTypes} id={id} setOpenPopup={setOpenPopup} error={error} success={success} setNotify={setNotify}/>
             :
-            <Form currentId={id} setOpenPopup={setOpenPopup} notify={notify} setNotify={setNotify}  />
+            <Form currentId={id} setOpenPopup={setOpenPopup} setNotify={setNotify}  />
             }
           </Popup>
           <ConfirmDialog

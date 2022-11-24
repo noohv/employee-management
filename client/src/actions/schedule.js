@@ -6,7 +6,7 @@ export const createSchedule = (schedule) => async (dispatch) => {
     const { data } = await api.createSchedule(schedule)
     dispatch({ type: ADD_SCHEDULE_SUCCESS, payload: data })
   } catch (error) {
-    dispatch({ type: ADD_SCHEDULE_ERROR, payload: error })
+    dispatch({ type: ADD_SCHEDULE_ERROR, payload: error.response.data.message })
   }
 }
 
@@ -15,7 +15,7 @@ export const getSchedules = () => async (dispatch) => {
     const { data } = await api.getSchedules()
     dispatch({ type: FETCH_SCHEDULES_SUCCESS, payload: data })
   } catch (error) {
-    dispatch({ type: FETCH_SCHEDULES_ERROR, payload: error })
+    dispatch({ type: FETCH_SCHEDULES_ERROR, payload: error.response.data.message })
   }
 }
 
@@ -24,6 +24,6 @@ export const getSchedule = (id) => async (dispatch) => {
     const { data } = await api.getSchedule(id)
     dispatch({ type: FETCH_SCHEDULE_SUCCESS, payload: data })
   } catch (error) {
-    dispatch({ type: FETCH_SCHEDULE_ERROR, payload: error })
+    dispatch({ type: FETCH_SCHEDULE_ERROR, payload: error.response.data.message })
   }
 }

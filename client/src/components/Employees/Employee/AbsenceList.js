@@ -22,14 +22,7 @@ export default function AbsenceList({empId, absences, confirmDialog , setConfirm
       ...confirmDialog,
       isOpen: false
     })
-
     dispatch(deleteAbsence(item._id, empId))
-
-    setNotify({
-      isOpen: true,
-      message: 'Ieraksts veiksmīgi dzēsts!',
-      type: 'error'
-    })
   }
 
   const {

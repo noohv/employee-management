@@ -8,7 +8,7 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
   const initialData = { firstName:'', lastName:'', phone: '', email:'', address: '',  startDate: '', jobTitle:'' }
   const [employeeData, setEmployeeData] = useState(initialData)
   const [errors, setErrors] = useState({})
-  const { employee } = useSelector((state) => state.employees)
+  const { employee, error, success } = useSelector((state) => state.employees)
   const jobTitleList = useSelector((state) => state.jobTitle.data)
   const dispatch = useDispatch()
 
@@ -56,7 +56,6 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
       }
       setOpenPopup(false)
       clear()
-      setNotify({ isOpen: true, message: "Dati veiksmīgi iesniegti!", type: 'success' })
     }
   }
 
@@ -67,11 +66,20 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
 
   useEffect(() => {
     if(employee) setEmployeeData(employee)
-  }, [employee])
+    if(error) {
+      setNotify({ isOpen: true, message: error , type: 'error' })
+      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
+
+    }
+    if(success) {
+      setNotify({ isOpen: true, message: success , type: 'success' })
+      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
+    }
+  }, [employee, error, success])
 
   return (
     <Container>
-      <form onSubmit={handleSubmit} autoComplete="off">
+      <form onSubmit={handleSubmit} autoComplete>
         <TextField sx={{m:1}} name="firstName" variant="outlined" label="Vārds" fullWidth autoFocus value={employeeData.firstName} onChange={handleChange} {...(errors?.firstName && {error:true, helperText:errors.firstName})}  />
         <TextField sx={{m:1}} name="lastName" variant="outlined" label="Uzvārds" fullWidth value={employeeData.lastName} onChange={handleChange} {...(errors?.lastName && {error:true, helperText:errors.lastName})} />
         <TextField sx={{m:1}} name="phone" variant="outlined" label="Tālr. nr." type="text" fullWidth value={employeeData.phone} onChange={handleChange} {...(errors?.phone && {error:true, helperText:errors.phone})} />

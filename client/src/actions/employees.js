@@ -27,7 +27,7 @@ export const getEmployees = () => async (dispatch) => {
     dispatch({ type: FETCH_EMPLOYEES_SUCCESS, payload: data })
     dispatch(hideLoader())
   } catch (error) {
-    dispatch({ type: FETCH_EMPLOYEES_ERROR, payload: error })
+    dispatch({ type: FETCH_EMPLOYEES_ERROR, payload: error.response.data.message })
   }
 }
 
@@ -38,7 +38,7 @@ export const getEmployee = (id) => async (dispatch) => {
     dispatch({ type: FETCH_EMPLOYEE_SUCCESS, payload: data })
     dispatch(hideLoader())
   } catch (error) {
-    dispatch({ type: FETCH_EMPLOYEE_ERROR, payload: error })
+    dispatch({ type: FETCH_EMPLOYEE_ERROR, payload: error.response.data.message })
   }
 }
 
@@ -47,7 +47,7 @@ export const deleteEmployee = (id) => async (dispatch) => {
     await api.deleteEmployee(id);
     dispatch({ type: DELETE_EMPLOYEE_SUCCESS, payload: id })
   } catch (error) {
-    dispatch({ type: DELETE_EMPLOYEE_ERROR, payload: error })
+    dispatch({ type: DELETE_EMPLOYEE_ERROR, payload: error.response.data.message })
   }
 }
 
@@ -57,7 +57,7 @@ export const createEmployee = (employee) => async (dispatch) => {
     const { data } = await api.createEmployee(employee);
     dispatch({ type: ADD_EMPLOYEE_SUCCESS, payload: data })
   } catch (error) {
-    dispatch({ type: ADD_EMPLOYEE_ERROR, payload: error })
+    dispatch({ type: ADD_EMPLOYEE_ERROR, payload: error.response.data.message })
   }
 }
 
@@ -66,7 +66,7 @@ export const updateEmployee = (id, employee) => async (dispatch) => {
     const { data } = await api.updateEmployee(id, employee)
     dispatch({ type: UPDATE_EMPLOYEE_SUCCESS, payload: data })
   } catch (error) {
-    dispatch({ type: UPDATE_EMPLOYEE_ERROR, payload: error })
+    dispatch({ type: UPDATE_EMPLOYEE_ERROR, payload: error.response.data.message })
 
   }
 }
@@ -77,8 +77,7 @@ export const createAbsence = (id, absence) => async (dispatch) => {
     
     dispatch({ type: ADD_ABSENCE_SUCCESS, payload: data })
   } catch (error) {
-    const message = error.response.data.message
-    dispatch({ type: ADD_ABSENCE_ERROR, payload: message})
+    dispatch({ type: ADD_ABSENCE_ERROR, payload: error.response.data.message})
   }
 }
 
@@ -87,7 +86,7 @@ export const deleteAbsence = (id, empId) => async (dispatch) => {
     await api.deleteAbsence(id, empId)
     dispatch({ type: DELETE_ABSENCE_SUCCESS, payload: id })
   } catch (error) {
-    dispatch({ type: DELETE_ABSENCE_ERROR, payload: error })
+    dispatch({ type: DELETE_ABSENCE_ERROR, payload: error.response.data.message })
   }
 }
 

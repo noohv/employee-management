@@ -6,7 +6,7 @@ export const createJobTitle = (jobTitle) => async (dispatch) => {
     const { data } = await api.createJobTitle(jobTitle)
     dispatch({ type: ADD_JOBTITLE_SUCCESS, payload: data })
   } catch (error) {
-    dispatch({ type: ADD_JOBTITLE_ERROR, payload: error })
+    dispatch({ type: ADD_JOBTITLE_ERROR, payload: error.response.data.message })
   }
 }
 
@@ -15,6 +15,6 @@ export const getJobTitles = () => async (dispatch) => {
     const { data } = await api.fetchJobTitles()
     dispatch({ type: FETCH_JOBTITLES_SUCCESS, payload: data })
   } catch (error) {
-    dispatch({ type: FETCH_JOBTITLES_ERROR, payload: error })
+    dispatch({ type: FETCH_JOBTITLES_ERROR, payload: error.response.data.message })
   }
 }

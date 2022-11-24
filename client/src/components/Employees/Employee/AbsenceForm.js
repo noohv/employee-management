@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
 import { createAbsence } from '../../../actions/employees';
 
-export default function AbsenceForm({id, setOpenPopup, types, error, setNotify}) {
+export default function AbsenceForm({id, setOpenPopup, types, error, success, setNotify}) {
   const initialData = { absenceType:'', startDate:'', endDate: ''}
   const [absenceData, setAbsenceData] = useState(initialData)
   const [errors, setErrors] = useState({})
@@ -46,17 +46,21 @@ export default function AbsenceForm({id, setOpenPopup, types, error, setNotify})
     setErrors({})
   }
 
-  const notifs = () => {
-    
-  }
-
   useEffect(()=> {
-    if(error)
+    if(error) {
       setNotify({ isOpen: true, message: error , type: 'error' })
-  }, [error])
+      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
+
+    }
+    if(success) {
+      setNotify({ isOpen: true, message: success , type: 'success' })
+      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
+    }
+
+  }, [error, success])
 
   return (
-    <form onSubmit={handleSubmit} autoComplete="off">
+    <form onSubmit={handleSubmit} autoComplete>
       <FormControl sx={{m:1}} fullWidth {...(errors?.absenceType && {error:true})}>
         <InputLabel htmlFor="absenceType">Veids</InputLabel>
         <Select labelId="absenceType" label="Veids" name="absenceType" onChange={handleChange} value={absenceData.absenceType}>

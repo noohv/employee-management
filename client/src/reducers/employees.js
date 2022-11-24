@@ -14,7 +14,9 @@ import {
   ADD_ABSENCE_SUCCESS,
   ADD_ABSENCE_ERROR, 
   SHOW_LOADER, 
-  HIDE_LOADER, } from '../constants/actionTypes';
+  HIDE_LOADER,
+  CLEAR_EMPLOYEES_MESSAGE
+ } from '../constants/actionTypes';
 
 let initialState = { 
   isLoading: true,
@@ -132,6 +134,13 @@ export default (state = initialState , action) => {
       return {
         ...state,
         isLoading: true,
+      }
+
+    case CLEAR_EMPLOYEES_MESSAGE:
+      return {
+        ...state,
+        success: null,
+        error: null
       }
 
     default:

@@ -21,7 +21,7 @@ export const getEmployee = async (req, res) => {
 
     res.status(200).json(employee)
   } catch (error) {
-    res.status(404).json({ message: error.message })
+    res.status(404).json({ message: "Lietotājs nav atrasts!" })
   }
 }
 
@@ -44,33 +44,34 @@ export const updateEmployee = async (req, res) => {
   const { id } = req.params
   const employee = req.body
 
-  if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No employee with ID")
-
-  const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(id, employee, { new: true }).populate("absences jobTitle")
-
-  res.json(updatedEmployee)
+  try {
+    const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(id, employee, { new: true }).populate("absences jobTitle")
+    res.json(updatedEmployee)
+  } catch (error) {
+    res.status(404).json({ message: "Lietotājs nav atrasts!"})
+  }
 }
 
 export const deleteEmployee = async (req,res) => {
   const { id } = req.params;
 
   try {
-  const employee = await EmployeeProfile.findById(id)
-  const absences = employee.absences
-  const jobTitle = await JobTitle.findById(employee.jobTitle)
+    const employee = await EmployeeProfile.findById(id)
+    const absences = employee.absences
+    const jobTitle = await JobTitle.findById(employee.jobTitle)
 
-  await employee.remove()
+    await employee.remove()
 
-  jobTitle.employees = jobTitle.employees.filter((i) => i.id !== employee.id)
-  await jobTitle.save()
-  for(let i = 0; i < absences.length; i++) {
-    const abs = await EmployeeAbsence.findById(absences[i])
-    await abs.remove()
-  }
+    jobTitle.employees = jobTitle.employees.filter((i) => i.id !== employee.id)
+    await jobTitle.save()
+    for(let i = 0; i < absences.length; i++) {
+      const abs = await EmployeeAbsence.findById(absences[i])
+      await abs.remove()
+    }
 
-  res.status(200).json(id)
+    res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: error.message})
+    res.status(404).json({ message: "Lietotājs nav atrasts!"})
   }
 }
 

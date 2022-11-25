@@ -46,6 +46,13 @@ export default function ScheduleForm({ setOpenPopup }) {
     setFormData({...formData, dates: [ranges.selection]})
   }
 
+  const getMonday = (d) => {
+    d = new Date(d);
+    let day = d.getDay(),
+        diff = d.getDate() - day + (day == 0 ? -6:1)
+    return new Date(d.setDate(diff));
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -56,7 +63,7 @@ export default function ScheduleForm({ setOpenPopup }) {
             moveRangeOnFirstSelection={false}
             ranges={formData.dates}
             locale={locales.lv}
-            minDate={new Date()}
+            minDate={getMonday(new Date())}
           />
           <FormControl sx={{mt:1}} component="fieldset" variant="standard">
             <FormLabel id="radio-label">Maiņu izvēle:</FormLabel>

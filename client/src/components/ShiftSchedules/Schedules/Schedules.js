@@ -1,47 +1,40 @@
 import React, { useEffect, useState } from 'react'
 import ScheduleForm from './ScheduleForm'
 import Popup from "../../Reusable/Popup";
-import { Button, Container } from '@mui/material';
+import { Button, Container, TableBody, TableCell, TableRow, Toolbar, IconButton } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { useDispatch, useSelector } from "react-redux";
 import { getSchedules } from "../../../actions/schedule";
-import { ViewState } from '@devexpress/dx-react-scheduler';
-import { Scheduler, MonthView, Toolbar, DateNavigator, Appointments, TodayButton } from '@devexpress/dx-react-scheduler-material-ui';
 import { useNavigate } from 'react-router-dom';
-
-
-const Appointment = ({ children, ...restProps }) => {
-  const navigate = useNavigate()
-  const handleClick = () => {
-    navigate(`/grafiki/${restProps.data._id}`)
-  }
-
-  return (
-    <Appointments.Appointment
-      {...restProps}
-      onClick={handleClick}
-    >
-      {children}
-    </Appointments.Appointment>
-
-  )
-}
-
+import { Link } from "react-router-dom";
+import useTable from '../../Reusable/useTable';
 
 export default function Schedules() {
+  const [filter, setFilter] = useState({ fn: items => { return items } })
   const [openPopup, setOpenPopup] = useState(false)
   const schedules = useSelector((state) => state.schedule.data)
   const [currentDate, setCurrentDate] = useState(new Date())
   const dispatch = useDispatch()
   
-  const localizationMessages = {
-    'lv-LV': {
-      today: 'Šodiena'
-    }
-  }
+  const headCells = [
+    { id: 'startDate', label: 'Sākuma datums' },
+    { id: 'endDate', label: 'Beigu datums' },
+    { id: 'shiftCount', label: 'Maiņas' },
+    { id: 'actions', label: 'Darbības', disableSorting: true }
+  ]
+
+  const {
+    TblContainer,
+    TblHead,
+    TblPagination,
+    recordsAfterPagingAndSorting
+  } = useTable(schedules, headCells, filter)
+
 
   useEffect(() => {
     dispatch(getSchedules())
   }, [])
+
 
   return (
     <Container>
@@ -51,26 +44,30 @@ export default function Schedules() {
         size='large'
         onClick={() => { setOpenPopup(true) }}>Pievienot</Button>
       <Container>
-        <Scheduler
-            data={schedules}
-            firstDayOfWeek={1}
-            locale='lv-LV'
-            onAppointmentClick={()=>{console.log('test')}}
-            >
-            <ViewState
-              defaultCurrentDate={currentDate}
-              onClick={() => console.log('a')}
-            />
-            <MonthView />
-            <Toolbar />
-            <DateNavigator />
-            <TodayButton 
-              messages={localizationMessages['lv-LV']}
-            />
-            <Appointments
-              appointmentComponent={Appointment}
-            />
-          </Scheduler>
+      <TblContainer>
+        <TblHead />
+        <TableBody>
+          {
+            recordsAfterPagingAndSorting().map(item => {
+              return (
+                <TableRow key={item._id}>
+                  <TableCell>{item.startDate}</TableCell>
+                  <TableCell>{item.endDate}</TableCell>
+                  <TableCell>{item.shifts.length}</TableCell>
+                  <TableCell>
+                    <IconButton component={Link} to={`/grafiki/${item._id}`}>
+                      <SettingsIcon />
+                    </IconButton>   
+                  </TableCell>
+                </TableRow>
+              )
+            })
+          }
+        </TableBody>
+    </TblContainer>
+    <TblPagination />
+
+
       </Container>
 
       <Popup

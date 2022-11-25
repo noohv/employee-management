@@ -2,7 +2,10 @@ import mongoose from 'mongoose';
 
 const shiftSchema = mongoose.Schema({ 
   name: { type: String, required: true },
-  employees: [{ type: mongoose.Schema.Types.ObjectId, ref: "EmployeeProfile" }],
+  days: [{
+     date: Date,
+     employees: [{ type: mongoose.Schema.Types.ObjectId, ref: "EmployeeProfile" }]
+  }],
   createdAt: { type: Date, default: new Date() }
 })
 

@@ -82,16 +82,16 @@ export const createAbsence = async (req, res) => {
   const data = req.body
 
   try {
-    const absence = await EmployeeAbsence.create(data)
     const employee = await EmployeeProfile.findById(id).populate('absences')
     if(!employee) return res.status(404).json({ message: "Darbinieks vairs neeksistē!" })
     
     // Check if date ranges are not overlapping
     if(employee.absences.length > 0) {
       if(employee.absences.some(i => (i.startDate.toISOString().slice(0,10) <= data.endDate) && (data.startDate <= i.endDate.toISOString().slice(0,10))))
-        return res.status(400).json({ message: "Prombūtne šajā laika periodā jau ir pievienota!" })
+      return res.status(400).json({ message: "Prombūtne šajā laika periodā jau ir pievienota!" })
     }
-
+    
+    const absence = await EmployeeAbsence.create(data)
     employee.absences.push(absence._id)    
     await employee.save()
     res.status(201).json(absence)

@@ -36,6 +36,7 @@ export default (state = initialState , action) => {
 
     case ADD_SCHEDULE_SUCCESS:
       return {
+          ...state,
           data: [...state.data, action.payload],
           success: 'Grafiks veiksmīgi izveidots!'
       }

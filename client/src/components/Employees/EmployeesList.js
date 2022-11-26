@@ -17,7 +17,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
   const [currentDate, setCurrentDate] = useState(new Date())
 
   const headCells = [
-    { id: 'status', label: 'Statuss'},
+    { id: 'status', label: 'Statuss', disableSorting: true},
     { id: 'firstName', label: 'Vārds' },
     { id: 'lastName', label: 'Uzvārds' },
     { id: 'jobTitle', label: 'Amats' },

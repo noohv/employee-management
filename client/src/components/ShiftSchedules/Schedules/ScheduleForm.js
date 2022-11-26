@@ -3,8 +3,6 @@ import { useDispatch } from 'react-redux';
 import { Button, Container, FormControl, FormLabel, FormGroup, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { createSchedule } from "../../../actions/schedule";
 import { fieldRequired } from '../../../Helpers/errorMessages';
-import 'react-date-range/dist/styles.css';
-import 'react-date-range/dist/theme/default.css';
 
 export default function ScheduleForm({ setOpenPopup }) {
   const dispatch = useDispatch();
@@ -23,7 +21,7 @@ export default function ScheduleForm({ setOpenPopup }) {
     let temp = {...errors}
 
     if('selectedDate' in fieldValues)
-      temp.selectedDate = fieldValues.selectedDate ? "": fieldRequired
+      temp.selectedDate = fieldValues.selectedDate ? "" : fieldRequired
     
     setErrors({ ...temp })
 

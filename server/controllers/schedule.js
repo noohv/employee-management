@@ -53,10 +53,9 @@ export const getSchedule = async (req,res) => {
   const { id } = req.params
 
   try {
-    const schedule =  await Schedule.findById(id).populate('shifts employeeSchedules.employee')
+    const schedule =  await Schedule.findById(id).populate('shifts employeeSchedules.employee employeeSchedules.employee.absences')
     res.status(200).json(schedule)
   } catch (error) {
-    console.log(error.message)
     res.status(404).json({ message: "Grafiks nav atrodams!" })
   }
 }

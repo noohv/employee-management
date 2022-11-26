@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-export default function AbsenceList({ empId, absences, confirmDialog , setConfirmDialog, setNotify, error, success }) {
+export default function AbsenceList({ empId, absences, confirmDialog , setConfirmDialog }) {
   const [filter, setFilter] = useState({fn: items => { return items; }})
   const dispatch = useDispatch()
 

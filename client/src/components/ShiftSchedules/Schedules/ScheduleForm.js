@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import * as locales from 'react-date-range/dist/locale';
-import { DateRange } from 'react-date-range';
-import { Button, Container, FormControl, FormLabel, FormGroup, Checkbox, FormControlLabel } from '@mui/material';
+import { Button, Container, FormControl, FormLabel, FormGroup, Checkbox, FormControlLabel, TextField } from '@mui/material';
+import { createSchedule } from "../../../actions/schedule";
+import { fieldRequired } from '../../../Helpers/errorMessages';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import { createSchedule } from "../../../actions/schedule";
 
 export default function ScheduleForm({ setOpenPopup }) {
   const dispatch = useDispatch();
+  const [errors, setErrors] = useState({})
 
   const [formData, setFormData] = useState({
     shifts:{
@@ -16,17 +16,28 @@ export default function ScheduleForm({ setOpenPopup }) {
       evening: false,
       night: false
     },
-    dates: [{
-      startDate: new Date(),
-      endDate: new Date(),
-      key: 'selection'
-    }]
+    selectedDate: ''
   })
 
+  const validate = (fieldValues = formData) => {
+    let temp = {...errors}
+
+    if('selectedDate' in fieldValues)
+      temp.selectedDate = fieldValues.selectedDate ? "": fieldRequired
+    
+    setErrors({ ...temp })
+
+    if(fieldValues == formData)
+      return Object.values(temp).every(x => x == "")
+  }
+
   const handleSubmit = (e) => {
-    dispatch(createSchedule(formData))
-    e.preventDefault();
-    setOpenPopup(false);
+    e.preventDefault()
+    
+    if(validate()) {
+      dispatch(createSchedule(formData))
+      setOpenPopup(false)
+    }
   }
 
   const handleChange = (e) => {
@@ -40,31 +51,17 @@ export default function ScheduleForm({ setOpenPopup }) {
     })
   }
 
-  console.log(formData)
-
-  const handleSelect = (ranges) => {
-    setFormData({...formData, dates: [ranges.selection]})
-  }
-
-  const getMonday = (d) => {
-    d = new Date(d);
-    let day = d.getDay(),
-        diff = d.getDate() - day + (day == 0 ? -6:1)
-    return new Date(d.setDate(diff));
+  const handleSelect = (e) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]:value })
+    validate({[name]: value})
   }
 
   return (
     <>
       <form onSubmit={handleSubmit}>
         <Container sx={{ display: 'flex', flexDirection:'column', justifyContent: 'center'}}>
-          <DateRange
-            editableDateInputs={false}
-            onChange={handleSelect}
-            moveRangeOnFirstSelection={false}
-            ranges={formData.dates}
-            locale={locales.lv}
-            minDate={getMonday(new Date())}
-          />
+        <TextField sx={{m:1}} name="selectedDate" variant="outlined" label="Izvēlies nedēļu" type="date" InputLabelProps={{shrink:true}} fullWidth value={formData.selectedDate.slice(0,10)} onChange={handleSelect} {...(errors?.selectedDate && {error:true, helperText:errors.selectedDate})} />
           <FormControl sx={{mt:1}} component="fieldset" variant="standard">
             <FormLabel id="radio-label">Maiņu izvēle:</FormLabel>
             <FormGroup>

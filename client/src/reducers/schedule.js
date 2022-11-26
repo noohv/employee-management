@@ -1,7 +1,10 @@
-import { ADD_SCHEDULE_SUCCESS, ADD_SCHEDULE_ERROR, FETCH_SCHEDULE_SUCCESS, FETCH_SCHEDULE_ERROR, FETCH_SCHEDULES_SUCCESS, FETCH_SCHEDULES_ERROR } from '../constants/actionTypes';
+import { ADD_SCHEDULE_SUCCESS, ADD_SCHEDULE_ERROR, FETCH_SCHEDULE_SUCCESS, FETCH_SCHEDULE_ERROR, FETCH_SCHEDULES_SUCCESS, FETCH_SCHEDULES_ERROR, CLEAR_SCHEDULES_MESSAGE } from '../constants/actionTypes';
 
 let initialState = { 
   data: [],
+  schedule: {
+    employeeSchedules: []
+  },
   error: null
 }
 
@@ -22,7 +25,7 @@ export default (state = initialState , action) => {
     case FETCH_SCHEDULE_SUCCESS:
     return {
       ...state,
-      data: action.payload
+      schedule: action.payload
     }
 
     case FETCH_SCHEDULE_ERROR:
@@ -41,6 +44,13 @@ export default (state = initialState , action) => {
       return {
         ...state,
         error: action.payload
+      }
+
+    case CLEAR_SCHEDULES_MESSAGE:
+      return {
+        ...state,
+        error: null,
+        success: null
       }
 
     default:

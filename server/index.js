@@ -9,7 +9,6 @@ import employeeRoutes from './routes/employees.js';
 import userRoutes from './routes/user.js';
 import jobTitleRoutes from './routes/jobTitle.js';
 import scheduleRoutes from './routes/schedule.js';
-import shiftRoutes from './routes/shift.js';
 
 const app = express()
 dotenv.config()
@@ -22,7 +21,6 @@ app.use('/user', userRoutes)
 app.use('/employees', employeeRoutes)
 app.use('/manage/jobtitle', jobTitleRoutes)
 app.use('/schedules', scheduleRoutes)
-app.use('/shifts', shiftRoutes)
 
 
 const PORT = process.env.PORT || 5000

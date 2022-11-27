@@ -28,6 +28,7 @@ export const fetchJobTitles = () => API.get('/manage/jobtitle')
 export const getSchedules = () => API.get(`/schedules`)
 export const getSchedule = (id) => API.get(`/schedules/${id}`)
 export const createSchedule = (schedule) => API.post(`/schedules`, schedule)
+export const updateSchedule = (id, empId, schedule) => API.patch(`/schedules/${id}/employee/schedule/${empId}`, schedule)
 
 // Auth API calls
 export const signIn = (formData) => API.post('/user/signin', formData)

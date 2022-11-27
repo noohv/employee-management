@@ -72,7 +72,7 @@ export const deleteEmployee = async (req,res) => {
 
     res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: "Lietotājs nav atrasts!"})
+    res.status(404).json({ message: "Neizdevās dzēst!"})
   }
 }
 

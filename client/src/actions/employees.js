@@ -67,7 +67,6 @@ export const updateEmployee = (id, employee) => async (dispatch) => {
     dispatch({ type: UPDATE_EMPLOYEE_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: UPDATE_EMPLOYEE_ERROR, payload: error.response.data.message })
-
   }
 }
 

@@ -31,7 +31,7 @@ export const createSchedule = async (req, res) => {
     if(!formatData.shifts.morning && !formatData.shifts.evening && !formatData.shifts.night)
       return res.status(400).json({ message: "Izvēlieties vismaz vienu maiņu!" })
 
-  const schedule = new Schedule(formatData)
+    const schedule = new Schedule(formatData)
 
     await schedule.save()
     res.status(201).json(schedule)
@@ -40,7 +40,7 @@ export const createSchedule = async (req, res) => {
   }
 }
 
-export const getSchedules = async (req,res) => {
+export const getSchedules = async (req, res) => {
   try {
     const schedules =  await Schedule.find().populate('shifts')
     res.status(200).json(schedules)
@@ -49,13 +49,36 @@ export const getSchedules = async (req,res) => {
   }
 }
 
-export const getSchedule = async (req,res) => {
+export const getSchedule = async (req, res) => {
   const { id } = req.params
 
   try {
     const schedule =  await Schedule.findById(id).populate('shifts employeeSchedules.employee employeeSchedules.employee.absences')
     res.status(200).json(schedule)
   } catch (error) {
-    res.status(404).json({ message: "Grafiks nav atrodams!" })
+    res.status(404).json({ message: "Grafiks nav atrasts!" })
+  }
+}
+
+export const updateSchedule = async (req, res) => {
+  const { id, empId } = req.params
+  const employeeSchedule = req.body
+
+  try {
+    // const updatedSchedule = await Schedule.findByIdAndUpdate(id, employeeSchedule, { new: true }).populate("shifts employeeSchedules.employee employeeSchedules.employee.absences")
+    res.json(employeeSchedule)
+    console.log(employeeSchedule)
+  } catch (error) {
+    res.status(404).json({ message: "Grafiks nav atrasts!"})
+  }
+}
+
+export const deleteSchedule = async (req, res) => {
+  const { id } = req.params
+  try {
+    const schedule = await Schedule.findById(id)
+    await schedule.remove()
+  } catch (error) {
+    res.status(404).json({ message: "Neizdevās dzēst!"})
   }
 }

@@ -63,8 +63,8 @@ export default function Schedules({ setNotify }) {
             recordsAfterPagingAndSorting().map(item => {
               return (
                 <TableRow key={item._id}>
-                  <TableCell>{item.startDate}</TableCell>
-                  <TableCell>{item.endDate}</TableCell>
+                  <TableCell>{item.startDate.slice(0,10)}</TableCell>
+                  <TableCell>{item.endDate.slice(0,10)}</TableCell>
                   <TableCell>
                   {item.shifts.morning ? <Chip label="Rīta" /> : ""}
                   {item.shifts.evening ? <Chip label="Vakara" /> : ""}

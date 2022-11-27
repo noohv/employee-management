@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Popup from "../../Reusable/Popup";
-import { Button, Container, TableBody, TableCell, TableRow, IconButton, Chip, FormControl, OutlinedInput, Box, Select, MenuItem } from '@mui/material';
+import { Button, Container, TableBody, TableCell, TableRow, IconButton, Chip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
@@ -11,6 +11,7 @@ import { getEmployees } from "../../../actions/employees";
 import { useParams, useNavigate } from 'react-router-dom';
 import useTable from '../../Reusable/useTable';
 import ShiftForm from '../Shifts/ShiftForm'
+import ShiftSelect from './ShiftSelect';
 
 export default function Schedules() {
   const initialData = {
@@ -18,6 +19,7 @@ export default function Schedules() {
     tuesday: [],
     wednesday: [],
     thursday: [],
+    friday: [],
     saturday: [],
     sunday: []
   }
@@ -36,14 +38,14 @@ export default function Schedules() {
     e.preventDefault()
 
     console.log(shift)
+    setShift(initialData) 
+
   } 
 
   const handleChange = (e, day) => {
-    const {
-      target: { value },
-    } = e;
-    setShift({...shift, [day]: typeof value === 'string' ? value.split(',') : value });
-  };
+    const { value } = e.target
+    setShift({...shift, [day]: typeof value === 'string' ? value.split(',') : value })
+  }
 
   const addDays = (days) => {
     if(schedule.startDate) {
@@ -80,6 +82,7 @@ export default function Schedules() {
   useEffect(() => {
     dispatch(getSchedule(id))
     dispatch(getEmployees())
+    document.title = "Grafiks"
   }, [])
   
   const {
@@ -91,177 +94,135 @@ export default function Schedules() {
   
   return (
     <>
-      <IconButton onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>
+      <IconButton onClick={()=> navigate(-1)}><ArrowBackRoundedIcon /></IconButton>
       <Container>
         <Button
           sx={{mt:5, mb: 2, ml:3}}
           variant='contained'
           size='large'
-          onClick={() => { setOpenPopup(true) }}>Rediģēt</Button>
-          <Container>
-            <TblContainer>
-              <TblHead />
-              <TableBody>
-                {
-                  recordsAfterPagingAndSorting().map(item => {
-                    const emp = employees.find(i => i._id === item.employee._id )
-                    const checkDate = (day) => {
-                      return emp?.absences.find(i => i.startDate <= day.toISOString() && i.endDate >= day.toISOString())?.absenceType
-                    }
-                    return (
-                      <TableRow key={item._id}>
-                        <TableCell>{`${item.employee.firstName} ${item.employee.lastName}`}</TableCell>
-                        <TableCell>
-                          {
-                            editing === item._id ? 
-                              (
-                                checkDate(dayDates.monday) ? <Chip label={checkDate(dayDates.monday)} /> :
-                                <FormControl>
-                                  <Select
-                                    onChange={(e) => handleChange(e, "monday")}
-                                    multiple
-                                    value={shift.monday}
-                                    renderValue={(selected) => (
-                                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                        {selected.map((value) => (
-                                          <Chip key={value} label={value} />
-                                        ))}
-                                      </Box>
-                                    )}
-                                  >
-                                    {schedule.shifts?.morning && <MenuItem
-                                      key={"morning"}
-                                      value={"Rīta"}
-                                      >
-                                      Rīta    
-                                    </MenuItem>}
-                                    {schedule.shifts?.evening && <MenuItem
-                                      key={"evening"}
-                                      value={"Vakara"}                                      
-                                    >
-                                      Vakara
-                                    </MenuItem>}
-                                    {schedule.shifts?.night && <MenuItem
-                                      key={"night"}
-                                      value={"Nakts"}                                      
-                                    > 
-                                      Nakts
-                                    </MenuItem>}
-                                  </Select>
-                                </FormControl>
-                              ) :
-                              (checkDate(dayDates.monday) ? <Chip label={checkDate(dayDates.monday)}/> : "")
-                          }
-                        </TableCell>
-                        <TableCell>
-                        {
-                            editing === item._id ? 
-                              (
-                                checkDate(dayDates.tuesday) ? <Chip label={checkDate(dayDates.tuesday)} /> :
-                                <FormControl>
-                                  <Select
-                                    onChange={(e) => handleChange(e, "tuesday")}
-                                    multiple
-                                    value={shift.tuesday}
-                                    renderValue={(selected) => (
-                                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                        {selected.map((value) => (
-                                          <Chip key={value} label={value} />
-                                        ))}
-                                      </Box>
-                                    )}
-                                  >
-                                    {schedule.shifts?.morning && <MenuItem
-                                      key={"morning"}
-                                      value={"Rīta"}
-                                      >
-                                      Rīta    
-                                    </MenuItem>}
-                                    {schedule.shifts?.evening && <MenuItem
-                                      key={"evening"}
-                                      value={"Vakara"}                                      
-                                    >
-                                      Vakara
-                                    </MenuItem>}
-                                    {schedule.shifts?.night && <MenuItem
-                                      key={"night"}
-                                      value={"Nakts"}                                      
-                                    > 
-                                      Nakts
-                                    </MenuItem>}
-                                  </Select>
-                                </FormControl>
-                              ) :
-                              (checkDate(dayDates.tuesday) ? <Chip label={checkDate(dayDates.tuesday)}/> : "")
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            checkDate(dayDates.wednesday) ? <Chip label={checkDate(dayDates.wednesday)} /> : ""
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            checkDate(dayDates.thursday) ? <Chip label={checkDate(dayDates.thursday)} /> : ""
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            checkDate(dayDates.friday) ? <Chip label={checkDate(dayDates.friday)} /> : ""
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            checkDate(dayDates.saturday) ? <Chip label={checkDate(dayDates.saturday)} /> : ""
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            checkDate(dayDates.sunday) ? <Chip label={checkDate(dayDates.sunday)} /> : ""
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            editing === item._id ? 
-                              <>
-                                <IconButton onClick={(e) => {
-                                  setEditing(null)
-                                  handleSubmit(e)
-                                }}>
-                                  <DoneIcon />
-                                </IconButton> 
-                                <IconButton onClick={() => {
-                                  setEditing(null)
-                                  setShift(initialData) 
-                                }}>
-                                  <CloseIcon />
-                                </IconButton> 
-                              </>
-                            :
-                              <IconButton onClick={() => setEditing(item._id)}>
-                                <EditIcon />
-                              </IconButton>  
-
-                          }
-                        </TableCell>
-                      </TableRow>
-                    )
-                  })
+          onClick={() => { setOpenPopup(true) }}>Rediģēt
+        </Button>
+        <TblContainer>
+          <TblHead />
+          <TableBody>
+            {
+              recordsAfterPagingAndSorting().map(item => {
+                const emp = employees.find(i => i?._id === item.employee?._id )
+                const checkDate = (day) => {
+                  return emp?.absences.find(i => i.startDate <= day.toISOString() && i.endDate >= day.toISOString())?.absenceType
                 }
-              </TableBody>
-           </TblContainer>
-            <TblPagination />
-        </Container>
-
-      <Popup
-        title="Rediģēt grafiku"
-        openPopup={openPopup}
-        setOpenPopup={setOpenPopup}
-      >
-        <ShiftForm setOpenPopup={setOpenPopup} />
-      </Popup>
-    </Container>
-
+                return (
+                  <TableRow key={item._id}>
+                    <TableCell>{ item.employee?.firstName ? `${item.employee?.firstName} ${item.employee?.lastName}` : `Dzēsts Darbinieks` }</TableCell>
+                    <TableCell>
+                      {
+                        editing === item._id ? 
+                          (
+                            checkDate(dayDates.monday) ? <Chip label={checkDate(dayDates.monday)} /> :
+                            <ShiftSelect day={"monday"} shifts={schedule.shifts} shift={shift} handleChange={handleChange} />
+                          ) :
+                          (checkDate(dayDates.monday) ? <Chip label={checkDate(dayDates.monday)}/> : "")
+                      }
+                    </TableCell>
+                    <TableCell>
+                    {
+                        editing === item._id ? 
+                          (
+                            checkDate(dayDates.tuesday) ? <Chip label={checkDate(dayDates.tuesday)} /> :
+                            <ShiftSelect day={"tuesday"} shifts={schedule.shifts} shift={shift} handleChange={handleChange} />
+                          ) :
+                          (checkDate(dayDates.tuesday) ? <Chip label={checkDate(dayDates.tuesday)}/> : "")
+                      }
+                    </TableCell>
+                    <TableCell>
+                      {
+                        editing === item._id ? 
+                          (
+                            checkDate(dayDates.wednesday) ? <Chip label={checkDate(dayDates.wednesday)} /> :
+                            <ShiftSelect day={"wednesday"} shifts={schedule.shifts} shift={shift} handleChange={handleChange} />
+                          ) :
+                          (checkDate(dayDates.wednesday) ? <Chip label={checkDate(dayDates.wednesday)}/> : "")
+                      }
+                    </TableCell>
+                    <TableCell>
+                      {
+                        editing === item._id ? 
+                          (
+                            checkDate(dayDates.thursday) ? <Chip label={checkDate(dayDates.thursday)} /> :
+                            <ShiftSelect day={"thursday"} shifts={schedule.shifts} shift={shift} handleChange={handleChange} />
+                          ) :
+                          (checkDate(dayDates.thursday) ? <Chip label={checkDate(dayDates.thursday)}/> : "")
+                      }                        
+                    </TableCell>
+                    <TableCell>
+                      {
+                        editing === item._id ? 
+                          (
+                            checkDate(dayDates.friday) ? <Chip label={checkDate(dayDates.friday)} /> :
+                            <ShiftSelect day={"friday"} shifts={schedule.shifts} shift={shift} handleChange={handleChange} />
+                          ) :
+                          (checkDate(dayDates.friday) ? <Chip label={checkDate(dayDates.friday)}/> : "")
+                      }
+                    </TableCell>
+                    <TableCell>
+                      {
+                        editing === item._id ? 
+                          (
+                            checkDate(dayDates.saturday) ? <Chip label={checkDate(dayDates.saturday)} /> :
+                            <ShiftSelect day={"saturday"} shifts={schedule.shifts} shift={shift} handleChange={handleChange} />
+                          ) :
+                          (checkDate(dayDates.saturday) ? <Chip label={checkDate(dayDates.saturday)}/> : "")
+                      }
+                    </TableCell>
+                    <TableCell>
+                      {
+                        editing === item._id ? 
+                          (
+                            checkDate(dayDates.sunday) ? <Chip label={checkDate(dayDates.sunday)} /> :
+                            <ShiftSelect day={"sunday"} shifts={schedule.shifts} shift={shift} handleChange={handleChange} />
+                          ) :
+                          (checkDate(dayDates.sunday) ? <Chip label={checkDate(dayDates.sunday)}/> : "")
+                      }
+                    </TableCell>
+                    <TableCell>
+                      {
+                        editing === item._id ? 
+                          <>
+                            <IconButton onClick={(e) => {
+                              setEditing(null)
+                              handleSubmit(e)
+                            }}>
+                              <DoneIcon />
+                            </IconButton> 
+                            <IconButton onClick={() => {
+                              setEditing(null)
+                              setShift(initialData) 
+                            }}>
+                              <CloseIcon />
+                            </IconButton> 
+                          </>
+                        : item.employee?.firstName ?
+                            <IconButton onClick={() => setEditing(item._id)}>
+                              <EditIcon />
+                            </IconButton>
+                          : ""
+                      }
+                    </TableCell>
+                  </TableRow>
+                )
+              })
+            }
+          </TableBody>
+        </TblContainer>
+        <TblPagination />
+        <Popup
+          title="Rediģēt grafiku"
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
+        >
+          <ShiftForm setOpenPopup={setOpenPopup} />
+        </Popup>
+      </Container>
     </>
   )
 }

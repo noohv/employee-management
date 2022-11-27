@@ -44,11 +44,12 @@ export default function Schedules({ setNotify }) {
       setNotify({ isOpen: true, message: success , type: 'success' })
       dispatch({type: 'CLEAR_SCHEDULES_MESSAGE'})
     }
+    document.title = "Grafiki"
   }, [error, success])
 
   return (
     <>
-      <IconButton onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>
+      <IconButton onClick={()=> navigate(-1)}><ArrowBackRoundedIcon /></IconButton>
       <Container>
       <Button
         sx={{mt:5, mb: 2, ml:3}}

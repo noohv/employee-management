@@ -5,6 +5,7 @@ export default function ShiftSelect({ shifts, day, shift, handleChange }) {
   return (
     <FormControl>
       <Select
+        id="multiple-chip"
         onChange={(e) => handleChange(e, day)}
         multiple
         value={shift[day]}

@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { getSchedule, updateSchedule } from "../../../actions/schedule";
 import { getEmployees } from "../../../actions/employees";
 import { useParams, useNavigate } from 'react-router-dom';
@@ -29,13 +29,13 @@ export default function Schedules() {
   const [filter, setFilter] = useState({ fn: items => { return items } })
   const [openPopup, setOpenPopup] = useState(false)
   const { schedule }  = useSelector((state) => state.schedule)
+  const sched  = useSelector((state) => state.schedule)
   const employees = useSelector((state) => state.employees.data)
   const [editing, setEditing] = useState(null)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   let { id } = useParams()  
   const [shift, setShift] = useState(initialData)
-  
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -44,10 +44,7 @@ export default function Schedules() {
 
     setShift(initialData) 
     setEditing(null)
-    
   } 
-
-  console.log(shift)
   
   const handleChange = (e, day) => {
     const { value } = e.target
@@ -90,6 +87,7 @@ export default function Schedules() {
     dispatch(getSchedule(id))
     dispatch(getEmployees())
     document.title = "Grafiks"
+    console.log("re-rendered")
   }, [])
   
   const {
@@ -129,7 +127,7 @@ export default function Schedules() {
                               checkDate(dayDates.monday) ? <Chip label={checkDate(dayDates.monday)} /> :
                               <ShiftSelect day={"monday"} shifts={schedule.shifts} shift={shift.employeeSchedules} handleChange={handleChange} />
                             ) :
-                            (checkDate(dayDates.monday) ? <Chip label={checkDate(dayDates.monday)}/> : "")
+                            (checkDate(dayDates.monday) ? <Chip label={checkDate(dayDates.monday)}/> : schedule.employeeSchedules.find(i => i._id === item._id).days.monday.toString())
                         }
                       </TableCell>
                       <TableCell>

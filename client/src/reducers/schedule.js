@@ -65,7 +65,6 @@ export default (state = initialState , action) => {
       }
     
     case UPDATE_SCHEDULE_ERROR:
-      console.log(action.payload)
       return {
         ...state,
         error: action.payload

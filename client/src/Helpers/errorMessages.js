@@ -1,0 +1,6 @@
+export const fieldRequired = "Šis lauks ir obligāts"
+export const phoneFormat = "Telefona formāts nav atbilstošs"
+export const emailFormat = "E-pasta formāts nav atbilstošs"
+export const endDateLargerThanStartDate = "Beigu datumam jābūt lielākam par sākuma datumu"
+export const matchingPasswords = "Paroles nesakrīt"
+export const passwordLength = "Paroles garumam jābūt vismaz 8 simboliem"

@@ -1,63 +1,78 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import * as locales from 'react-date-range/dist/locale';
-import { DateRange } from 'react-date-range';
-import { Button, Container, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel } from '@mui/material';
-import 'react-date-range/dist/styles.css';
-import 'react-date-range/dist/theme/default.css';
+import { Button, Container, FormControl, FormLabel, FormGroup, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { createSchedule } from "../../../actions/schedule";
+import { fieldRequired } from '../../../Helpers/errorMessages';
 
 export default function ScheduleForm({ setOpenPopup }) {
   const dispatch = useDispatch();
+  const [errors, setErrors] = useState({})
 
   const [formData, setFormData] = useState({
-    shiftCount: 0,
-    dates: [{
-      startDate: new Date(),
-      endDate: new Date(),
-      key: 'selection'
-    }]
+    shifts:{
+      morning: false,
+      evening: false,
+      night: false
+    },
+    selectedDate: ''
   })
 
+  const validate = (fieldValues = formData) => {
+    let temp = {...errors}
+
+    if('selectedDate' in fieldValues)
+      temp.selectedDate = fieldValues.selectedDate ? "" : fieldRequired
+    
+    setErrors({ ...temp })
+
+    if(fieldValues == formData)
+      return Object.values(temp).every(x => x == "")
+  }
+
   const handleSubmit = (e) => {
-    dispatch(createSchedule(formData))
-    e.preventDefault();
-    setOpenPopup(false);
+    e.preventDefault()
+    
+    if(validate()) {
+      dispatch(createSchedule(formData))
+      setOpenPopup(false)
+    }
   }
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, checked } = e.target
     setFormData({
       ...formData,
-      [name]: value
+      shifts: {
+        ...formData.shifts,
+        [name]: checked
+      }
     })
+  }
+
+  const handleSelect = (e) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]:value })
+    validate({[name]: value})
   }
 
   return (
     <>
       <form onSubmit={handleSubmit}>
         <Container sx={{ display: 'flex', flexDirection:'column', justifyContent: 'center'}}>
-          <DateRange
-            editableDateInputs={false}
-            onChange={item => setFormData({...formData, dates: [item.selection]})}
-            moveRangeOnFirstSelection={false}
-            ranges={formData.dates}
-            locale={locales.lv}
-          />
-          <FormControl sx={{mt:1}}>
-            <FormLabel id="radio-label">Maiņu skaits</FormLabel>
-            <RadioGroup
-              sx={{ display: 'flex', justifyContent: 'center' }}
-              aria-labelledby="radio-label"
-              name="radio-buttons-group"
-              row
-              value={formData.shiftCount}
-              onChange={handleChange}
-            >
-              <FormControlLabel name="shiftCount" value="1" control={<Radio required />} label="Viena" />
-              <FormControlLabel name="shiftCount" value="2" control={<Radio required />} label="Divas" />
-              <FormControlLabel name="shiftCount" value="3" control={<Radio required />} label="Trīs" />
-            </RadioGroup>
+        <TextField sx={{m:1}} name="selectedDate" variant="outlined" label="Izvēlies nedēļu" type="date" InputLabelProps={{shrink:true}} fullWidth value={formData.selectedDate.slice(0,10)} onChange={handleSelect} {...(errors?.selectedDate && {error:true, helperText:errors.selectedDate})} />
+          <FormControl sx={{mt:1}} component="fieldset" variant="standard">
+            <FormLabel id="radio-label">Maiņu izvēle:</FormLabel>
+            <FormGroup>
+              <FormControlLabel name="shiftCount" value="1" control={
+                <Checkbox checked={formData.shifts.one} onChange={handleChange} name="morning" />
+              } label="Rīta" />
+              <FormControlLabel name="shiftCount" value="1" control={
+                <Checkbox checked={formData.shifts.two} onChange={handleChange} name="evening" />
+              } label="Vakara" />
+              <FormControlLabel name="shiftCount" value="1" control={
+                <Checkbox checked={formData.shifts.three} onChange={handleChange} name="night" />
+              } label="Nakts" />
+            </FormGroup>
           </FormControl>
           <Button sx={{mt:4}} variant="contained" color="primary" size="large" type="submit" fullWidth>Izveidot</Button>
         </Container>

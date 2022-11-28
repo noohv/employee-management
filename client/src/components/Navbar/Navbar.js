@@ -39,13 +39,13 @@ export default function Navbar({ setNotify }) {
         </Container>
         {user && (
           <Stack direction='row' spacing={2}>
-            <Button color='secondary' component={Link}  to='/schedules'>Grafiks</Button>
-            <IconButton color="secondary" onClick={logout}><LogoutIcon /></IconButton>
+            <Button variant='outlined' color='secondary' component={Link}  to='/grafiki'>Grafiki</Button>
             <Tooltip title={user.result.name}>
               <Avatar alt={user.result.name} src={user.result.imageUrl}>
                 {user.result.name.charAt(0)}
               </Avatar>
             </Tooltip>
+            <IconButton color="secondary" onClick={logout}><LogoutIcon /></IconButton>
           </Stack>
         )}
       </Toolbar>

@@ -8,18 +8,29 @@ import EmployeesLoadingSkeleton from "./EmployeesLoadingSkeleton";
 import Popup from "../Reusable/Popup";
 import Form from "./Form/Form";
 import { Link } from "react-router-dom";
+import CircleIcon from '@mui/icons-material/Circle';
 
-export default function EmployeesList({ employees, jobTitles, notify, setNotify }) {
+export default function EmployeesList({ employees, jobTitles, setNotify }) {
   const showLoading = useSelector((state) => state.employees.isLoading)
   const [filter, setFilter] = useState({ fn: items => { return items } })
   const [openPopup, setOpenPopup] = useState(false)
+  const [currentDate, setCurrentDate] = useState(new Date())
 
   const headCells = [
+    { id: 'status', label: 'Statuss', disableSorting: true},
     { id: 'firstName', label: 'Vārds' },
     { id: 'lastName', label: 'Uzvārds' },
     { id: 'jobTitle', label: 'Amats' },
     { id: 'actions', label: 'Darbības', disableSorting: true }
   ]
+
+  const getStatus = (item) => {
+    const type = item.absences.filter(item => item.startDate < currentDate.toISOString() && item.endDate > currentDate.toISOString())[0]?.absenceType
+    if(type === "vacation") return "statusVacation"
+    else if(type === "sick") return "statusSick"
+    else if(type === "other") return "statusOther"
+    else return "statusActive"
+  }
 
   const {
     TblContainer,
@@ -29,17 +40,18 @@ export default function EmployeesList({ employees, jobTitles, notify, setNotify 
   } = useTable(employees, headCells, filter)
 
   const handleSearch = e => {
-    let target = e.target
+    const { value } = e.target
+
     setFilter({
       fn: items => {
-        if(target.value ==="")
+        if(value ==="")
           return items
-        else if(target.value===" ")
+        else if(value===" ")
           return []
         else
           return items.filter(x => {
-            let fullName = x.firstName.concat(" ", x.lastName)
-            return fullName.toLowerCase().includes(target.value.toLowerCase())
+            const data = x.firstName.concat(" ", x.lastName).concat(" ", x.jobTitle.name || jobTitles.data.find(y => y._id === y.jobTitle)?.name)
+            return data.toLowerCase().includes(value.toLowerCase())
           })
       }
     })
@@ -67,11 +79,12 @@ export default function EmployeesList({ employees, jobTitles, notify, setNotify 
                   recordsAfterPagingAndSorting().map(item => {
                     return (
                       <TableRow key={item._id}>
+                        <TableCell><CircleIcon color={getStatus(item)} /></TableCell>
                         <TableCell>{item.firstName}</TableCell>
                         <TableCell>{item.lastName}</TableCell>
                         <TableCell>{item.jobTitle.name || jobTitles.data.find(x => x._id === item.jobTitle)?.name}</TableCell>
                         <TableCell>
-                          <IconButton component={Link} to={`/employees/${item._id}`}>
+                          <IconButton component={Link} to={`/darbinieki/${item._id}`}>
                             <SettingsIcon />
                           </IconButton>   
                         </TableCell>

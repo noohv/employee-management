@@ -3,7 +3,7 @@ import { TextField, Grid, InputAdornment, IconButton } from '@mui/material';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-export default function Input({ name, half, label, handleChange, autoFocus, type, handleShowPassword }) {
+export default function Input({ name, half, label, handleChange, autoFocus, type, handleShowPassword, error=null }) {
   return (
     <Grid item xs={12} sm={half ? 6 : 12}>
       <TextField 
@@ -11,10 +11,10 @@ export default function Input({ name, half, label, handleChange, autoFocus, type
         type={type}
         onChange={handleChange}
         variant="outlined"
-        required
         fullWidth
         label={label}
         autoFocus={autoFocus}
+        { ...(error && {error: true, helperText: error}) }
         InputProps={name === "password" ? {
           endAdornment: (
             <InputAdornment position='end'>

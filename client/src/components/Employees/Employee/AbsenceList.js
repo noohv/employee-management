@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TableBody, TableCell, TableRow, IconButton } from "@mui/material";
 import { deleteAbsence } from '../../../actions/employees';
 import useTable from "../../Reusable/useTable";
@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-export default function AbsenceList({empId, absences, confirmDialog , setConfirmDialog, setNotify}) {
+export default function AbsenceList({ empId, absences, confirmDialog , setConfirmDialog }) {
   const [filter, setFilter] = useState({fn: items => { return items; }})
   const dispatch = useDispatch()
 
@@ -22,14 +22,7 @@ export default function AbsenceList({empId, absences, confirmDialog , setConfirm
       ...confirmDialog,
       isOpen: false
     })
-
     dispatch(deleteAbsence(item._id, empId))
-
-    setNotify({
-      isOpen: true,
-      message: 'Ieraksts veiksmīgi dzēsts!',
-      type: 'error'
-    })
   }
 
   const {
@@ -48,7 +41,7 @@ export default function AbsenceList({empId, absences, confirmDialog , setConfirm
           recordsAfterPagingAndSorting().map(item => {
             return (
               <TableRow key={item._id}>
-                <TableCell>{item.absenceType}</TableCell>
+                <TableCell>{item.absenceType === 'vacation' ? "Atvaļinājums" : item.absenceType === 'sick' ? "Slims" : "Cits"}</TableCell>
                 <TableCell>{item.startDate.slice(0,10)}</TableCell>
                 <TableCell>{item.endDate.slice(0,10)}</TableCell>
                 <TableCell>

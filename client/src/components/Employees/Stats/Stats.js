@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, Typography, Divider } from '@mui/material';
 import { PieChart, Pie, Sector, Tooltip, Legend, Cell, ResponsiveContainer, Label } from 'recharts';
-
+import EmptyStats from './EmptyStats';
 
 export default function Stats({ employees }) {
   
@@ -20,6 +20,8 @@ export default function Stats({ employees }) {
     {name: 'Cits', count: otherLeaveEmp().length}
   ]
 
+  if(employees.length === 0) return <EmptyStats />
+
   return (
     <>
       <Typography sx={{mt:3, mb:3}} variant='h5'>Darbinieku pašreizējā statistika</Typography>
@@ -30,7 +32,7 @@ export default function Stats({ employees }) {
               <Pie data={data} dataKey="count" innerRadius="60%" outerRadius="80%">
                <Label value={`Kopā ${employees.length}`} position="center" />
                 {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fillOpacity={0.9} strokeWidth={2} stroke={COLORS[index % COLORS.length]} fill={COLORS[index % COLORS.length]} />
+                  <Cell key={`cell-${index}`} fillOpacity={1} stroke={COLORS[index % COLORS.length]} fill={COLORS[index % COLORS.length]} />
                   ))}
               </Pie>
               <Tooltip wrapperStyle={{ outline: "none" }} />

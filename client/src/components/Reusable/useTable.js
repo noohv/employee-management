@@ -13,7 +13,6 @@ export default function useTable(records, headCells, filter) {
       <Table sx={{
           '& tbody tr:hover': {
               backgroundColor: '#fffbf2',
-              cursor: 'pointer',
           }
       }}>
           {props.children}

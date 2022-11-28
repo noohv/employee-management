@@ -28,6 +28,6 @@ export const getJobTitle = async (req, res) => {
     const jobTitle = await JobTitle.findById(id).populate('employees')
     res.status(200).json(jobTitle)
   } catch (error) {
-    res.status(404).json({ message: error.message })
+    res.status(404).json({ message: "Amats nav atrasts!" })
   }
 }

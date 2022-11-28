@@ -3,11 +3,28 @@ import mongoose from 'mongoose';
 const scheduleSchema = mongoose.Schema({ 
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
-  shiftCount: { type: Number, min: 1, max: 3, required: true },
-  // shifts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Shift" }],
+  shifts: {
+    morning: { type: Boolean },
+    evening: { type: Boolean },
+    night: { type: Boolean }
+  },
+
+  employeeSchedules: [{
+    employee: { type: mongoose.Schema.Types.ObjectId, ref: "EmployeeProfile" },
+    days: {
+      monday: [{ type: String }],
+      tuesday: [{ type: String }],
+      wednesday: [{ type: String }],
+      thursday: [{ type: String }],
+      friday: [{ type: String }],
+      saturday: [{ type: String }],
+      sunday: [{ type: String }],
+    }
+  }],
+
   createdAt: { type: Date, default: new Date() }
 })
 
-const scheduleAbsence = mongoose.model('Schedule', scheduleSchema)
+const schedule = mongoose.model('Schedule', scheduleSchema)
 
-export default scheduleAbsence
+export default schedule

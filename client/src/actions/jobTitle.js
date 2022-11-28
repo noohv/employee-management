@@ -1,20 +1,20 @@
-import { CREATE_JOBTITLE, FETCH_JOBTITLES } from '../constants/actionTypes';
+import { ADD_JOBTITLE_SUCCESS, ADD_JOBTITLE_ERROR, FETCH_JOBTITLES_SUCCESS, FETCH_JOBTITLES_ERROR } from '../constants/actionTypes';
 import * as api from '../api';
 
 export const createJobTitle = (jobTitle) => async (dispatch) => {
   try {
     const { data } = await api.createJobTitle(jobTitle)
-    dispatch({ type: CREATE_JOBTITLE, payload: data })
+    dispatch({ type: ADD_JOBTITLE_SUCCESS, payload: data })
   } catch (error) {
-    console.log(error.message)
+    dispatch({ type: ADD_JOBTITLE_ERROR, payload: error.response.data.message })
   }
 }
 
 export const getJobTitles = () => async (dispatch) => {
   try {
     const { data } = await api.fetchJobTitles()
-    dispatch({ type: FETCH_JOBTITLES, payload: data })
+    dispatch({ type: FETCH_JOBTITLES_SUCCESS, payload: data })
   } catch (error) {
-    console.log(error.message)
+    dispatch({ type: FETCH_JOBTITLES_ERROR, payload: error.response.data.message })
   }
 }

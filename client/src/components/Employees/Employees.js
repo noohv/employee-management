@@ -6,7 +6,7 @@ import { getEmployees } from '../../actions/employees';
 import { getJobTitles } from '../../actions/jobTitle'
 import Stats from './Stats/Stats';
 
-export default function Employees({ notify, setNotify }) {
+export default function Employees({ setNotify }) {
   const employees = useSelector((state) => state.employees.data)
   const jobTitles = useSelector((state) => state.jobTitle)
 
@@ -21,7 +21,11 @@ export default function Employees({ notify, setNotify }) {
   return (
     <Container>
       <Stats employees={employees} /> 
-      <EmployeesList employees={employees} jobTitles={jobTitles} setNotify={setNotify} notify={notify} />
+      <EmployeesList 
+        employees={employees} 
+        jobTitles={jobTitles} 
+        setNotify={setNotify} 
+      />
     </Container>
   )
 }

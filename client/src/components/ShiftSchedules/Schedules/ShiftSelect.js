@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, Box, Select, MenuItem, Chip } from '@mui/material';
+import { FormControl, Box, Select, MenuItem, Chip, OutlinedInput } from '@mui/material';
 
 export default function ShiftSelect({ shifts, day, shift, handleChange }) {
   return (
@@ -8,6 +8,7 @@ export default function ShiftSelect({ shifts, day, shift, handleChange }) {
         onChange={(e) => handleChange(e, day)}
         multiple
         value={shift[day]}
+        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
         renderValue={(selected) => (
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
             {selected.map((value) => (

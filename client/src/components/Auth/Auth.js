@@ -6,6 +6,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Input from './Input';
 import { signin, signup } from  '../../actions/auth';
 import { emailFormat, fieldRequired, matchingPasswords, passwordLength } from '../../Helpers/errorMessages'
+import Loader from '../Reusable/Loader';
 
 export default function Auth({ setNotify }) {
   const initialData = { firstName:'', lastName:'', email:'', password:'', confirmPassword:'' }
@@ -70,17 +71,19 @@ export default function Auth({ setNotify }) {
   }
   const handleShowPassword = () => setShowPassword(prev => !prev)
 
+  console.log(error)
+
   useEffect(() => {
     if(error) {
       setNotify({ isOpen: true, message: error , type: 'error' })
       dispatch({type: 'AUTH_CLEAR_ERROR', payload: null})
     }
-    if(success) setNotify({ isOpen: true, message: success , type: 'success' })
+    if(success) {
+      setNotify({ isOpen: true, message: success , type: 'success' })
+      dispatch({type: 'AUTH_CLEAR_ERROR', payload: null})
+    } 
 
   }, [error, success])
-  
-  if(isLoading) return <div>LAADDEEE</div>
-
   return (
     <Container sx={{mt:10}} component='main' maxWidth='sm'>
       <Container sx={{display:'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center'}}>
@@ -114,6 +117,7 @@ export default function Auth({ setNotify }) {
           </Grid>
         </Grid>
       </form>
+      {isLoading && <Loader />}
     </Container>
   )
 }

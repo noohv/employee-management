@@ -2,6 +2,7 @@ import { AUTH_SUCCESS, AUTH_ERROR, LOG_OUT, AUTH_CLEAR_ERROR, AUTH_SHOW_LOADING,
 
 const initialState = {
   authData: null,
+  isLoading: false
 }
 
 const authReducer = (state = initialState, action) => {

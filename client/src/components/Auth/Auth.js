@@ -13,7 +13,7 @@ export default function Auth({ setNotify }) {
   const [isSignup, setIsSignup] = useState(false)
   const [formData, setFormData] = useState(initialData)
   const [errors, setErrors] = useState({})
-  const { error, success } = useSelector(state => state.auth)
+  const { error, success, isLoading } = useSelector(state => state.auth)
 
   const dispatch = useDispatch()
   let navigate = useNavigate()
@@ -79,7 +79,8 @@ export default function Auth({ setNotify }) {
 
   }, [error, success])
   
-  // document.title = "Autorizācija"
+  if(isLoading) return <div>LAADDEEE</div>
+
   return (
     <Container sx={{mt:10}} component='main' maxWidth='sm'>
       <Container sx={{display:'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center'}}>

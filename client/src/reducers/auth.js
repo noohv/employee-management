@@ -1,4 +1,4 @@
-import { AUTH_SUCCESS, AUTH_ERROR, LOG_OUT, AUTH_CLEAR_ERROR} from '../constants/actionTypes';
+import { AUTH_SUCCESS, AUTH_ERROR, LOG_OUT, AUTH_CLEAR_ERROR, AUTH_SHOW_LOADING, AUTH_HIDE_LOADING} from '../constants/actionTypes';
 
 const initialState = {
   authData: null,
@@ -31,6 +31,17 @@ const authReducer = (state = initialState, action) => {
       return { 
         ...state, 
         authData: null
+      }
+    
+    case AUTH_SHOW_LOADING:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case AUTH_HIDE_LOADING:
+      return {
+        ...state,
+        isLoading: false
       }
 
     default:

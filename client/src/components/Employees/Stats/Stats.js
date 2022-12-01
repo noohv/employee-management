@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Container, Typography, Divider } from '@mui/material';
-import { PieChart, Pie, Sector, Tooltip, Legend, Cell, ResponsiveContainer, Label } from 'recharts';
-import EmptyStats from './EmptyStats';
+import { PieChart, Pie, Tooltip, Legend, Cell, ResponsiveContainer, Label } from 'recharts';
 
 export default function Stats({ employees }) {
   
@@ -20,7 +19,11 @@ export default function Stats({ employees }) {
     {name: 'Cits', count: otherLeaveEmp().length}
   ]
 
-  if(employees.length === 0) return <EmptyStats />
+  if(employees.length === 0) return (
+    <Container sx={{height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <Typography variant='h4'>Pievieno darbinieku, lai redzētu statistiku</Typography>
+    </Container>
+  )
 
   return (
     <>

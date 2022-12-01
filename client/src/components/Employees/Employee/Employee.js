@@ -72,7 +72,7 @@ export default function Employee({ setNotify }) {
     <>
       {!isLoading ?
         <> 
-          <IconButton onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>
+          <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>
           <Container sx={{display: 'flex', justifyContent: 'space-between'}}>
             <Container sx={{mb:3}}>
               <Typography variant='h4'>{`${employee.firstName} ${employee.lastName}`}</Typography>

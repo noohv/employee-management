@@ -6,6 +6,8 @@ import EmployeeProfile from '../models/employeeProfile.js';
 export const createSchedule = async (req, res) => {
   const data = req.body
   const selectedDate = new Date(data.selectedDate)
+
+  // Object with formatted data
   let formatData = {
     startDate: addHours(startOfWeek(selectedDate, {weekStartsOn: 1}), 2),
     endDate: addHours(endOfWeek(selectedDate, {weekStartsOn: 1}), 2),
@@ -70,7 +72,7 @@ export const updateSchedule = async (req, res) => {
           "employeeSchedules.$.days" : data.employeeSchedules
         }
      }, { new: true }).populate("shifts employeeSchedules.employee employeeSchedules.employee.absences")
-     console.log(updatedSchedule)
+
     res.json(updatedSchedule)
   } catch (error) {
     res.status(404).json({ message: "Grafiks nav atrasts!"})

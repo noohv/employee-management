@@ -18,6 +18,7 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
     validate({[name]: value})
   }
 
+  // Form validation rules
   const validate = (fieldValues = employeeData) => {
     let temp = {...errors}
 
@@ -59,6 +60,7 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
     }
   }
 
+  // Clear employeeData state and validation errors
   const clear = () => { 
     setEmployeeData(initialData)
     setErrors({})
@@ -69,8 +71,8 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
     if(error) {
       setNotify({ isOpen: true, message: error , type: 'error' })
       dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
-
     }
+
     if(success) {
       setNotify({ isOpen: true, message: success , type: 'success' })
       dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
@@ -103,5 +105,5 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
         } fullWidth>Atcelt</Button>
       </form>
     </Container>
-  );
+  )
 }

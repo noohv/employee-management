@@ -9,7 +9,7 @@ export default function ShiftSelect({ shifts, day, shift, handleChange }) {
         onChange={(e) => handleChange(e, day)}
         multiple
         value={shift[day]}
-        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+        input={<OutlinedInput id="select-multiple-chip" />}
         renderValue={(selected) => (
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
             {selected.map((value) => (

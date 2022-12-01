@@ -3,7 +3,6 @@ import { Container, Typography, Divider } from '@mui/material';
 import { PieChart, Pie, Tooltip, Legend, Cell, ResponsiveContainer, Label } from 'recharts';
 
 export default function Stats({ employees }) {
-  
   const current = new Date().toISOString()
   const COLORS = ['#003f5c', '#7a5195', '#ef5675', '#ffa600']
 
@@ -36,7 +35,7 @@ export default function Stats({ employees }) {
                <Label value={`Kopā ${employees.length}`} position="center" />
                 {data.map((entry, index) => (
                   <Cell key={`cell-${index}`} fillOpacity={1} stroke={COLORS[index % COLORS.length]} fill={COLORS[index % COLORS.length]} />
-                  ))}
+                ))}
               </Pie>
               <Tooltip wrapperStyle={{ outline: "none" }} />
               <Legend iconSize={12} iconType='circle' verticalAlign='middle' align='right' layout='vertical' />

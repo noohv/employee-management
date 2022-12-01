@@ -49,7 +49,7 @@ export default function Schedules({ setNotify }) {
 
   return (
     <>
-      <IconButton onClick={()=> navigate(-1)}><ArrowBackRoundedIcon /></IconButton>
+      <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate(-1)}><ArrowBackRoundedIcon /></IconButton>
       <Container>
       <Button
         sx={{mt:5, mb: 2, ml:3}}

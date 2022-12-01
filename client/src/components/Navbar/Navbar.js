@@ -40,6 +40,7 @@ export default function Navbar({ setNotify }) {
         {user && (
           <Stack direction='row' spacing={2}>
             <Button variant='outlined' color='secondary' component={Link}  to='/grafiki'>Grafiki</Button>
+            <Button variant='outlined' color='secondary' component={Link}  to='/amati'>Amati</Button>
             <Tooltip title={user.result.name}>
               <Avatar alt={user.result.name} src={user.result.imageUrl}>
                 {user.result.name.charAt(0)}

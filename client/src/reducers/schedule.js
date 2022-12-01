@@ -49,6 +49,7 @@ export default (state = initialState , action) => {
 
     case UPDATE_SCHEDULE_SUCCESS:
       return {
+        ...state,
         schedule: {...state.schedule,
           employeeSchedules: state.schedule.employeeSchedules.map((empSchedule)=> {
             if(empSchedule._id === action.payload.id) {
@@ -61,7 +62,7 @@ export default (state = initialState , action) => {
             }
           }),
         },
-        success: 'Lietotāja dati atjaunoti!'
+        success: 'Dati atjaunoti!'
       }
     
     case UPDATE_SCHEDULE_ERROR:

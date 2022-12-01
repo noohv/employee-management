@@ -28,13 +28,14 @@ export default function App() {
             <Route element={ <RequireAuth /> }>
               <Route index element={<Employees setNotify={setNotify} />} />
               <Route path="/darbinieki/:id" element={<Employee setNotify={setNotify} />} />
-              <Route path="/manage" element={<JobTitle setNotify={setNotify} />} />
+              <Route path="/amati" element={<JobTitle setNotify={setNotify} />} />
               <Route path="/grafiki" element={<Schedules setNotify={setNotify} />} />
               <Route path="/grafiki/:id" element={<Schedule setNotify={setNotify} />} />
               <Route path="*" element={<PageNotFound />} />
             </Route>
         </Route>
       </Routes>
+      {/* Notification snackbar for information about app process */}
       <Notification
         notify={notify}
         setNotify={setNotify}

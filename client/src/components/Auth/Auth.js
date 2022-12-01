@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Button, Grid, Container, Typography, getNativeSelectUtilityClasses } from '@mui/material';
+import { Avatar, Button, Grid, Container, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Input from './Input';
 import { signin, signup } from  '../../actions/auth';
 import { emailFormat, fieldRequired, matchingPasswords, passwordLength } from '../../Helpers/errorMessages'
+import Loader from '../Reusable/Loader';
 
 export default function Auth({ setNotify }) {
   const initialData = { firstName:'', lastName:'', email:'', password:'', confirmPassword:'' }
@@ -13,7 +14,7 @@ export default function Auth({ setNotify }) {
   const [isSignup, setIsSignup] = useState(false)
   const [formData, setFormData] = useState(initialData)
   const [errors, setErrors] = useState({})
-  const { error, success } = useSelector(state => state.auth)
+  const { error, success, isLoading } = useSelector(state => state.auth)
 
   const dispatch = useDispatch()
   let navigate = useNavigate()
@@ -41,8 +42,8 @@ export default function Auth({ setNotify }) {
 
     setErrors({ ...temp })
 
-    if(fieldValues == formData)
-      return Object.values(temp).every(x => x == "")
+    if(fieldValues === formData)
+      return Object.values(temp).every(x => x === "")
   }
 
   const handleChange = (e) => {
@@ -75,26 +76,29 @@ export default function Auth({ setNotify }) {
       setNotify({ isOpen: true, message: error , type: 'error' })
       dispatch({type: 'AUTH_CLEAR_ERROR', payload: null})
     }
-    if(success) setNotify({ isOpen: true, message: success , type: 'success' })
+
+    if(success) {
+      setNotify({ isOpen: true, message: success , type: 'success' })
+      dispatch({type: 'AUTH_CLEAR_ERROR', payload: null})
+    } 
 
   }, [error, success])
-  
-  // document.title = "Autorizācija"
+
   return (
-    <Container sx={{mt:10}} component='main' maxWidth='sm'>
-      <Container sx={{display:'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center'}}>
+    <Container sx={ {mt:10 }} component='main' maxWidth='sm'>
+      <Container sx={{ display:'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center' }}>
           <Avatar>
-              <LockOutlinedIcon />
+            <LockOutlinedIcon />
           </Avatar>
-          <Typography sx={{mb:2}} variant="h5">{isSignup ? 'Reģistrēties' : 'Ielogoties'}</Typography>
+          <Typography sx={{ mb:2 }} variant="h5">{ isSignup ? 'Reģistrēties' : 'Ielogoties' }</Typography>
       </Container>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           {
             isSignup && (
               <>
-                  <Input name="firstName" label="Vārds" handleChange={handleChange} autoFocus half error={errors.firstName} />
-                  <Input name="lastName" label="Uzvārds" handleChange={handleChange} half error={errors.lastName} />
+                <Input name="firstName" label="Vārds" handleChange={handleChange} autoFocus half error={errors.firstName} />
+                <Input name="lastName" label="Uzvārds" handleChange={handleChange} half error={errors.lastName} />
               </>
             )
           }
@@ -103,7 +107,7 @@ export default function Auth({ setNotify }) {
           {isSignup && <Input name="confirmPassword" label="Apstiprināt paroli" handleChange={handleChange} type="password" error={errors.confirmPassword} />}
         </Grid>
         <Button sx={{mt:2}} type="submit" fullWidth variant='contained' >
-          {isSignup ? 'Reģistrēties' : 'Ielogoties'}
+          { isSignup ? 'Reģistrēties' : 'Ielogoties' }
         </Button>
         <Grid container justify="flex-end">
           <Grid item>
@@ -113,6 +117,7 @@ export default function Auth({ setNotify }) {
           </Grid>
         </Grid>
       </form>
+      { isLoading && <Loader /> }
     </Container>
   )
 }

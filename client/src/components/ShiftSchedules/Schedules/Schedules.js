@@ -49,7 +49,7 @@ export default function Schedules({ setNotify }) {
 
   return (
     <>
-      <IconButton onClick={()=> navigate(-1)}><ArrowBackRoundedIcon /></IconButton>
+      <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate(-1)}><ArrowBackRoundedIcon /></IconButton>
       <Container>
       <Button
         sx={{mt:5, mb: 2, ml:3}}
@@ -67,9 +67,9 @@ export default function Schedules({ setNotify }) {
                   <TableCell>{item.startDate.slice(0,10)}</TableCell>
                   <TableCell>{item.endDate.slice(0,10)}</TableCell>
                   <TableCell>
-                  {item.shifts.morning ? <Chip label="Rīta" /> : ""}
-                  {item.shifts.evening ? <Chip label="Vakara" /> : ""}
-                  {item.shifts.night ? <Chip label="Nakts" /> : ""}
+                    {item.shifts.morning ? <Chip sx={{m:0.5}} label="Rīta" /> : ""}
+                    {item.shifts.evening ? <Chip sx={{m:0.5}} label="Vakara" /> : ""}
+                    {item.shifts.night ? <Chip sx={{m:0.5}} label="Nakts" /> : ""}
                   </TableCell>
                   <TableCell>
                     <IconButton component={Link} to={`/grafiki/${item._id}`}>

@@ -41,6 +41,7 @@ export default function Employee({ setNotify }) {
       dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
 
     }
+
     if(success) {
       setNotify({ isOpen: true, message: success , type: 'success' })
       dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
@@ -54,7 +55,7 @@ export default function Employee({ setNotify }) {
       <>
         {load ? <Loader /> : <PageNotFound />}
       </>
-      )
+    )
   }
 
   // Method to display date in format YYYY-MM-DD
@@ -72,7 +73,7 @@ export default function Employee({ setNotify }) {
     <>
       {!isLoading ?
         <> 
-          <IconButton onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>
+          <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>
           <Container sx={{display: 'flex', justifyContent: 'space-between'}}>
             <Container sx={{mb:3}}>
               <Typography variant='h4'>{`${employee.firstName} ${employee.lastName}`}</Typography>
@@ -115,7 +116,7 @@ export default function Employee({ setNotify }) {
               <Container sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%'}}>
                   <Typography variant='h4' sx={{mt: 20, fontWeight: 'bold'}}>Nav nevienas prombūtnes</Typography>
               </Container>
-              :
+            :
               <AbsenceList 
                 empId={employee._id} 
                 absences={employee.absences} 
@@ -134,9 +135,9 @@ export default function Employee({ setNotify }) {
             setOpenPopup={setOpenPopup}
           >
             {popupType==='absence' ?
-            <AbsenceForm types={absenceTypes} id={id} setOpenPopup={setOpenPopup} error={error} success={success} setNotify={setNotify}/>
+              <AbsenceForm types={absenceTypes} id={id} setOpenPopup={setOpenPopup} error={error} success={success} setNotify={setNotify}/>
             :
-            <Form currentId={id} setOpenPopup={setOpenPopup} setNotify={setNotify}  />
+              <Form currentId={id} setOpenPopup={setOpenPopup} setNotify={setNotify}  />
             }
           </Popup>
           <ConfirmDialog

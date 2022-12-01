@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { Container, Typography, Divider } from '@mui/material';
-import { PieChart, Pie, Sector, Tooltip, Legend, Cell, ResponsiveContainer, Label } from 'recharts';
-import EmptyStats from './EmptyStats';
+import { PieChart, Pie, Tooltip, Legend, Cell, ResponsiveContainer, Label } from 'recharts';
 
 export default function Stats({ employees }) {
-  
   const current = new Date().toISOString()
   const COLORS = ['#003f5c', '#7a5195', '#ef5675', '#ffa600']
 
@@ -20,7 +18,11 @@ export default function Stats({ employees }) {
     {name: 'Cits', count: otherLeaveEmp().length}
   ]
 
-  if(employees.length === 0) return <EmptyStats />
+  if(employees.length === 0) return (
+    <Container sx={{height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <Typography variant='h4'>Pievieno darbinieku, lai redzētu statistiku</Typography>
+    </Container>
+  )
 
   return (
     <>
@@ -33,7 +35,7 @@ export default function Stats({ employees }) {
                <Label value={`Kopā ${employees.length}`} position="center" />
                 {data.map((entry, index) => (
                   <Cell key={`cell-${index}`} fillOpacity={1} stroke={COLORS[index % COLORS.length]} fill={COLORS[index % COLORS.length]} />
-                  ))}
+                ))}
               </Pie>
               <Tooltip wrapperStyle={{ outline: "none" }} />
               <Legend iconSize={12} iconType='circle' verticalAlign='middle' align='right' layout='vertical' />

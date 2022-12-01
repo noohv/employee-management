@@ -47,6 +47,8 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS'
 export const AUTH_ERROR = 'AUTH_ERROR'
 export const AUTH_CLEAR_ERROR = 'AUTH_CLEAR_ERROR'
 export const LOG_OUT = 'LOG_OUT'
+export const AUTH_SHOW_LOADING = 'AUTH_SHOW_LOADING'
+export const AUTH_HIDE_LOADING = 'AUTH_HIDE_LOADING'
 
 // Constats for Loading
 export const SHOW_LOADER = 'SHOW_LOADER'

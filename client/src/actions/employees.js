@@ -17,9 +17,7 @@ import {
   HIDE_LOADER, } from '../constants/actionTypes';
 import * as api from '../api';
 
-// Employee action methods
-
-// Action to get list of all employees
+// Redux action creator for getting all employees
 export const getEmployees = () => async (dispatch) => {
   try {
     dispatch(showLoader())
@@ -31,6 +29,7 @@ export const getEmployees = () => async (dispatch) => {
   }
 }
 
+//Redux action creator for getting specific employee
 export const getEmployee = (id) => async (dispatch) => {
   try {
     dispatch(showLoader())
@@ -42,25 +41,27 @@ export const getEmployee = (id) => async (dispatch) => {
   }
 }
 
+// Redux action creator for employee delete
 export const deleteEmployee = (id) => async (dispatch) => {
   try {
-    await api.deleteEmployee(id);
+    await api.deleteEmployee(id)
     dispatch({ type: DELETE_EMPLOYEE_SUCCESS, payload: id })
   } catch (error) {
     dispatch({ type: DELETE_EMPLOYEE_ERROR, payload: error.response.data.message })
   }
 }
 
-
+// Redux action creator for employee creation
 export const createEmployee = (employee) => async (dispatch) => {
   try {
-    const { data } = await api.createEmployee(employee);
+    const { data } = await api.createEmployee(employee)
     dispatch({ type: ADD_EMPLOYEE_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: ADD_EMPLOYEE_ERROR, payload: error.response.data.message })
   }
 }
 
+// Redux action creator for employee update
 export const updateEmployee = (id, employee) => async (dispatch) => {
   try {
     const { data } = await api.updateEmployee(id, employee)
@@ -70,6 +71,7 @@ export const updateEmployee = (id, employee) => async (dispatch) => {
   }
 }
 
+// Redux action creator for employee absence creation
 export const createAbsence = (id, absence) => async (dispatch) => {
   try {
     const { data } = await api.createAbsence(id, absence)
@@ -80,6 +82,7 @@ export const createAbsence = (id, absence) => async (dispatch) => {
   }
 }
 
+// Redux action creator for employee absence deletion
 export const deleteAbsence = (id, empId) => async (dispatch) => {
   try {
     await api.deleteAbsence(id, empId)
@@ -89,10 +92,12 @@ export const deleteAbsence = (id, empId) => async (dispatch) => {
   }
 }
 
+// Redux action creator for loader display
 export const showLoader = () => async (dispatch) => {
     dispatch({ type: SHOW_LOADER })
 }
 
+// Redux action creator for loader hide
 export const hideLoader = () => async (dispatch) => {
     dispatch({ type: HIDE_LOADER })
 }

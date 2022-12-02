@@ -16,13 +16,15 @@ export const updateEmployee = (id,updatedData) => API.patch(`/employees/${id}`, 
 export const fetchEmployee = (id) => API.get(`/employees/${id}`)
 export const deleteEmployee = (id) => API.delete(`/employees/${id}`)
 
-// Absence API calls
+// Employee absence API calls
 export const createAbsence = (id, absence) => API.post(`/employees/${id}/absence`, absence)
 export const deleteAbsence = (id, empId) => API.delete(`/employees/${empId}/${id}/absence`)
 
 // Job Title API calls
 export const createJobTitle = (newJobTitle) => API.post(`/manage/jobtitle`,newJobTitle)
 export const fetchJobTitles = () => API.get('/manage/jobtitle')
+export const updateJobTitle = (id, jobTitle) => API.patch(`/manage/jobtitle/${id}`, jobTitle)
+export const deleteJobTitle = (id) => API.delete(`/manage/jobTitle/${id}`)
 
 // Schedule API calls
 export const getSchedules = () => API.get(`/schedules`)

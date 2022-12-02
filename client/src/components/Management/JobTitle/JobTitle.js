@@ -8,7 +8,6 @@ import { getJobTitles } from '../../../actions/jobTitle';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 
-
 export default function JobTitle() {
   const [openPopup, setOpenPopup] = useState(false)
   const { data } = useSelector((state) => state.jobTitle)

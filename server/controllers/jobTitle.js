@@ -33,15 +33,30 @@ export const getJobTitle = async (req, res) => {
   }
 }
 
+export const updateJobTitle = async (req, res) => {
+  const { id } = req.params
+  const jobTitle = req.body
+
+  try {
+    const updatedJobTitle = await JobTitle.findByIdAndUpdate(id, jobTitle, { new: true }).populate("employees")
+    res.json(updatedJobTitle)
+  } catch (error) {
+    res.status(404).json({ message: "Amats nav atrasts!"})
+  }
+}
+
 export const deleteJobTitle = async(req, res) => {
-  const {id} = req.params
+  const { id } = req.params
   try {
     const jobTitle = await JobTitle.findById(id).populate('employees')
     for(const jobEmp in jobTitle.employees) {
-
+        let newEmp = await EmployeeProfile.findById(jobEmp)
+        newEmp.jobTitle = ''
+        newEmp.save()
     }
-
+    
     jobTitle.remove()
+    res.status(200).json(id)
   } catch (error) {
     res.status(404).json({ message: "Neizdevās dzēst!" })
   }

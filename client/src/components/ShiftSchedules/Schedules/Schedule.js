@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Popup from "../../Reusable/Popup";
-import { Button, Container, TableBody, TableCell, TableRow, IconButton, Chip } from '@mui/material';
+import { Container, TableBody, TableCell, TableRow, IconButton, Chip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
@@ -99,13 +99,7 @@ export default function Schedules() {
   return (
     <>
       <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate(-1)}><ArrowBackRoundedIcon /></IconButton>
-      <Container maxWidth='xl' >
-        <Button
-          sx={{mt:5, mb: 2, ml:3}}
-          variant='contained'
-          size='large'
-          onClick={() => { setOpenPopup(true) }}>Rediģēt
-        </Button>
+      <Container maxWidth='xl'>
         <form onSubmit={handleSubmit}>
           <TblContainer sx={{width:'max-content'}}>
             <TblHead />

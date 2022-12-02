@@ -22,7 +22,7 @@ export default function Form({setOpenPopup}) {
   }
 
   const clear = () => {
-      setJobTitleData(initialData)
+    setJobTitleData(initialData)
   }
 
   return (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ScheduleForm from './ScheduleForm'
 import Popup from "../../Reusable/Popup";
-import { Button, Container, TableBody, TableCell, TableRow, Toolbar, IconButton, Chip } from '@mui/material';
+import { Button, Container, TableBody, TableCell, TableRow, IconButton, Chip } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,6 @@ export default function Schedules({ setNotify }) {
   const [filter, setFilter] = useState({ fn: items => { return items } })
   const [openPopup, setOpenPopup] = useState(false)
   const schedules = useSelector((state) => state.schedule.data)
-  const [currentDate, setCurrentDate] = useState(new Date())
   const { error, success } = useSelector((state) => state.schedule)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -22,7 +21,7 @@ export default function Schedules({ setNotify }) {
   const headCells = [
     { id: 'startDate', label: 'Sākuma datums' },
     { id: 'endDate', label: 'Beigu datums' },
-    { id: 'shiftCount', label: 'Maiņas' },
+    { id: 'shiftCount', label: 'Maiņas', disableSorting: true },
     { id: 'actions', label: 'Darbības', disableSorting: true }
   ]
 

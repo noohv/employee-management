@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import JobTitle from '../models/employeeJobTitle.js';
+import EmployeeProfile from '../models/employeeProfile.js';
 
 export const createJobTitle = async (req, res) => {
   const data = req.body
@@ -29,5 +30,19 @@ export const getJobTitle = async (req, res) => {
     res.status(200).json(jobTitle)
   } catch (error) {
     res.status(404).json({ message: "Amats nav atrasts!" })
+  }
+}
+
+export const deleteJobTitle = async(req, res) => {
+  const {id} = req.params
+  try {
+    const jobTitle = await JobTitle.findById(id).populate('employees')
+    for(const jobEmp in jobTitle.employees) {
+
+    }
+
+    jobTitle.remove()
+  } catch (error) {
+    res.status(404).json({ message: "Neizdevās dzēst!" })
   }
 }

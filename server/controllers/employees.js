@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import EmployeeProfile from '../models/employeeProfile.js';
 import EmployeeAbsence from "../models/employeeAbsence.js";
 import JobTitle from '../models/employeeJobTitle.js';
-import Schedule from '../models/schedule.js'
 
 export const getEmployees = async (req, res) => {
   try {

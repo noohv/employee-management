@@ -45,19 +45,18 @@ export const updateJobTitle = async (req, res) => {
   }
 }
 
-export const deleteJobTitle = async(req, res) => {
+export const deleteJobTitle = async (req, res) => {
   const { id } = req.params
   try {
     const jobTitle = await JobTitle.findById(id).populate('employees')
-    for(const jobEmp in jobTitle.employees) {
-        let newEmp = await EmployeeProfile.findById(jobEmp)
-        newEmp.jobTitle = ''
-        newEmp.save()
+    for(const jobEmp of jobTitle.employees) {
+      await EmployeeProfile.updateOne({"_id": jobEmp.id}, {jobTitle: null})
     }
     
-    jobTitle.remove()
+    await jobTitle.remove()
     res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: "Neizdevās dzēst!" })
+    console.log(error)
+    res.status(404).json({ message: "Dzēšot radās problēma!" })
   }
 }

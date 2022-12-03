@@ -85,6 +85,6 @@ export const deleteSchedule = async (req, res) => {
     const schedule = await Schedule.findById(id)
     await schedule.remove()
   } catch (error) {
-    res.status(404).json({ message: "Neizdevās dzēst!"})
+    res.status(404).json({ message: "Dzēšot radās problēma!"})
   }
 }

@@ -7,10 +7,14 @@ import Popup from "../../Reusable/Popup";
 import { getJobTitles } from '../../../actions/jobTitle';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+import ConfirmDialog from '../../Reusable/ConfirmDialog';
 
-export default function JobTitle() {
+export default function JobTitle({ setNotify }) {
+  const [popupType, setOpenPopupType] = useState()
+  const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: '', subTitle: ''})
   const [openPopup, setOpenPopup] = useState(false)
-  const { data } = useSelector((state) => state.jobTitle)
+  const [currentId, setCurrentId] = useState()
+  const { data, error, success } = useSelector((state) => state.jobTitle)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -27,21 +31,43 @@ export default function JobTitle() {
           sx={{mt:5, mb: 2, ml:3}}
           variant='contained'
           size='large'
-          onClick={() => { setOpenPopup(true) }}
+          onClick={() => { 
+            setOpenPopupType("add")
+            setOpenPopup(true) 
+          }}
         >
           Pievienot
         </Button>
         
-        <JobTitleList jobTitles={data} />
+        <JobTitleList 
+          setCurrentId={setCurrentId}
+          jobTitles={data} 
+          error={error}
+          success={success}
+          confirmDialog={confirmDialog} 
+          setConfirmDialog={setConfirmDialog} 
+          setOpenPopup={setOpenPopup} 
+          setOpenPopupType={setOpenPopupType} 
+          setNotify={setNotify}  
+        />
       </Container>
         
       <Popup
-        title="Pievienot prombūtni"
+        title={popupType==="add" ? "Pievienot amatu" : "Rediģēt amatu"}
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <JobTitleForm setOpenPopup={setOpenPopup} />
+        {
+          popupType==="add" ?
+            <JobTitleForm setNotify={setNotify} setOpenPopup={setOpenPopup} />
+          :
+            <JobTitleForm setNotify={setNotify} currentId={currentId} setOpenPopup={setOpenPopup} />
+        }
       </Popup>
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   )
 }

@@ -82,7 +82,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
                         <TableCell><CircleIcon color={getStatus(item)} /></TableCell>
                         <TableCell>{item.firstName}</TableCell>
                         <TableCell>{item.lastName}</TableCell>
-                        <TableCell>{item.jobTitle.name || jobTitles.data.find(x => x._id === item.jobTitle)?.name}</TableCell>
+                        <TableCell>{item.jobTitle?.name || jobTitles.data.find(x => x._id === item.jobTitle)?.name}</TableCell>
                         <TableCell>
                           <IconButton component={Link} to={`/darbinieki/${item._id}`}>
                             <SettingsIcon />

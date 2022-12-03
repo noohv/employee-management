@@ -59,20 +59,21 @@ export const deleteEmployee = async (req,res) => {
     const employee = await EmployeeProfile.findById(id)
     const absences = employee.absences
     const jobTitle = await JobTitle.findById(employee.jobTitle).populate('employees')
-
-    await employee.remove()
-
-    jobTitle.employees = jobTitle.employees.filter((i) => i.id !== employee.id)
-
-    await jobTitle.save()
+    
     for(let i = 0; i < absences.length; i++) {
       const abs = await EmployeeAbsence.findById(absences[i])
       await abs.remove()
     }
-
+    
+    if(jobTitle) {
+      jobTitle.employees = jobTitle.employees.filter((i) => i.id !== employee.id)
+      await jobTitle.save()
+    }
+    
+    await employee.remove()
     res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: "Neizdevās dzēst!"})
+    res.status(404).json({ message: "Dzēšot radās problēma!"})
   }
 }
 
@@ -113,6 +114,6 @@ export const deleteAbsence = async (req,res) => {
     await employee.save()
     res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: "Prombūtne nav atrasta!"})
+    res.status(404).json({ message: "Dzēšot radās problēma!"})
   }
 }

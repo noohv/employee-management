@@ -39,7 +39,6 @@ export default function Employee({ setNotify }) {
     if(error) {
       setNotify({ isOpen: true, message: error , type: 'error' })
       dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
-
     }
 
     if(success) {
@@ -78,7 +77,7 @@ export default function Employee({ setNotify }) {
             <Container sx={{mb:3}}>
               <Typography variant='h4'>{`${employee.firstName} ${employee.lastName}`}</Typography>
               <Divider />
-              <Typography sx={{mt:2}}><b>Amats:</b> {employee.jobTitle.name}</Typography>
+              <Typography sx={{mt:2}}><b>Amats:</b> {employee.jobTitle?.name}</Typography>
               <Typography><b>E-pasts:</b> {employee.email}</Typography>
               <Typography><b>Tālr. nr:</b> {employee.phone}</Typography>
               <Typography><b>Adrese:</b> {employee.address}</Typography>
@@ -130,7 +129,7 @@ export default function Employee({ setNotify }) {
           </Container>
         
           <Popup
-            title="Pievienot prombūtni"
+            title={popupType==='absence' ? "Pievienot prombūtni" : "Rediģēt darbinieka datus"}
             openPopup={openPopup}
             setOpenPopup={setOpenPopup}
           >

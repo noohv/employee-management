@@ -85,7 +85,7 @@ export default function Employee({ setNotify }) {
             </Container>
 
             <Container sx={{display: 'flex', flexDirection: 'column', justifyContent:"center", gap: 2}}>
-              <Button variant='outlined' 
+              <Button variant='outlined' color="secondary" 
                 onClick={() => {
                   setOpenPopup(true)
                   setOpenPopupType('employeeEdit')
@@ -104,6 +104,7 @@ export default function Employee({ setNotify }) {
           <Container>
             <Button size="large" variant="contained"
               sx={{ml:3}}
+              color="secondary"
               onClick = {() => {
                 setOpenPopup(true)
                 setOpenPopupType('absence')

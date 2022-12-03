@@ -55,6 +55,7 @@ export default function Schedules({ setNotify }) {
         sx={{mt:5, mb: 2, ml:3}}
         variant='contained'
         size='large'
+        color="secondary"
         onClick={() => { setOpenPopup(true) }}>Pievienot</Button>
       <Container>
       <TblContainer>

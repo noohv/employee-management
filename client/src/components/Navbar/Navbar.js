@@ -33,22 +33,22 @@ export default function Navbar({ setNotify }) {
     <AppBar color='primary' position="static">
       <Toolbar sx={{display: 'flex', justifyContent:'space-between'}}>
         <Container sx={{m:0, display: 'flex', flexDirection:"row"}}>
-          <IconButton color='black' size='large' edge="start" component={Link}  to='/'>
+          <IconButton color='white' size='large' edge="start" component={Link}  to='/'>
             <HomeRoundedIcon />
           </IconButton>
           <Stack sx={{ml:3}} direction='row' spacing={2}>
-            <Button variant='text' color='black' component={Link}  to='/grafiki'>Grafiki</Button>
-            <Button variant='text' color='black' component={Link}  to='/amati'>Amati</Button>
+            <Button variant='text' color='white' component={Link}  to='/grafiki'>Grafiki</Button>
+            <Button variant='text' color='white' component={Link}  to='/amati'>Amati</Button>
           </Stack>
         </Container>
         {user && (
           <Stack direction='row' spacing={2}>
             <Tooltip title={user.result.name}>
-              <Avatar alt={user.result.name} src={user.result.imageUrl}>
+              <Avatar>
                 {user.result.name.charAt(0)}
               </Avatar>
             </Tooltip>
-            <IconButton color="black" onClick={logout}><LogoutIcon /></IconButton>
+            <IconButton color="white" onClick={logout}><LogoutIcon /></IconButton>
           </Stack>
         )}
       </Toolbar>

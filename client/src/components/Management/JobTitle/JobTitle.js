@@ -31,6 +31,7 @@ export default function JobTitle({ setNotify }) {
           sx={{mt:5, mb: 2, ml:3}}
           variant='contained'
           size='large'
+          color="secondary"
           onClick={() => { 
             setOpenPopupType("add")
             setOpenPopup(true) 

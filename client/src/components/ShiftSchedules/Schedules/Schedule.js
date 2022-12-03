@@ -11,7 +11,6 @@ import { getEmployees } from "../../../actions/employees";
 import { useParams, useNavigate } from 'react-router-dom';
 import useTable from '../../Reusable/useTable';
 import ShiftSelect from './ShiftSelect';
-import ScheduleForm from './ScheduleForm';
 
 export default function Schedules() {
   const initialData = {

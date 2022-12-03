@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import ScheduleForm from './ScheduleForm'
 import Popup from "../../Reusable/Popup";
 import { Button, Container, TableBody, TableCell, TableRow, IconButton, Chip } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from "react-redux";
 import { getSchedules } from "../../../actions/schedule";
 import { useNavigate } from 'react-router-dom';
@@ -70,9 +71,12 @@ export default function Schedules({ setNotify }) {
                     {item.shifts.evening ? <Chip sx={{m:0.5}} label="Vakara" /> : ""}
                     {item.shifts.night ? <Chip sx={{m:0.5}} label="Nakts" /> : ""}
                   </TableCell>
-                  <TableCell>
+                  <TableCell>  
                     <IconButton component={Link} to={`/grafiki/${item._id}`}>
-                      <SettingsIcon />
+                      <DeleteIcon />
+                    </IconButton>  
+                    <IconButton component={Link} to={`/grafiki/${item._id}`}>
+                      <KeyboardArrowRightIcon />
                     </IconButton>   
                   </TableCell>
                 </TableRow>

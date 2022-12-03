@@ -6,7 +6,6 @@ export default function RequireAuth() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
   const location = useLocation()
 
-
   return (
     user ? <Outlet /> : <Navigate to="/auth" state={{ from: location }} replace />
   )

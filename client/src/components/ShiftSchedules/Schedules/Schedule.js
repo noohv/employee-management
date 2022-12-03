@@ -10,8 +10,8 @@ import { getSchedule, updateSchedule } from "../../../actions/schedule";
 import { getEmployees } from "../../../actions/employees";
 import { useParams, useNavigate } from 'react-router-dom';
 import useTable from '../../Reusable/useTable';
-import ShiftForm from '../Shifts/ShiftForm'
 import ShiftSelect from './ShiftSelect';
+import ScheduleForm from './ScheduleForm';
 
 export default function Schedules() {
   const initialData = {
@@ -85,7 +85,7 @@ export default function Schedules() {
   useEffect(() => {
     dispatch(getSchedule(id))
     dispatch(getEmployees())
-    document.title = "Grafiks"
+    document.title = "Darba Grafiks"
     if(success || error) dispatch({type:'CLEAR_SCHEDULES_MESSAGE'})
   }, [success, error])
   
@@ -215,13 +215,6 @@ export default function Schedules() {
           </TblContainer>
         </form>
         <TblPagination />
-        <Popup
-          title="Rediģēt grafiku"
-          openPopup={openPopup}
-          setOpenPopup={setOpenPopup}
-        >
-          <ShiftForm setOpenPopup={setOpenPopup} />
-        </Popup>
       </Container>
     </>
   )

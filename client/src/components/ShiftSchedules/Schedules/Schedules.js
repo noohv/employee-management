@@ -43,7 +43,7 @@ export default function Schedules({ setNotify }) {
       setNotify({ isOpen: true, message: success , type: 'success' })
       dispatch({type: 'CLEAR_SCHEDULES_MESSAGE'})
     }
-    document.title = "Grafiki"
+    document.title = "Darba Grafiki"
   }, [error, success])
 
   return (

@@ -82,6 +82,7 @@ export default function Auth({ setNotify }) {
       dispatch({type: 'AUTH_CLEAR_ERROR', payload: null})
     } 
 
+    document.title = "Pievienoties sistēmai"
   }, [error, success])
 
   return (

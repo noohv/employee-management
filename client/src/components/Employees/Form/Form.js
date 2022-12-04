@@ -38,7 +38,7 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
     if('address' in fieldValues)
       temp.address = fieldValues.address ? "": fieldRequired
     if('jobTitle' in fieldValues)
-      temp.jobTitle = fieldValues.jobTitle.length !=0 ? "": fieldRequired
+      temp.jobTitle = fieldValues.jobTitle.length !==0 ? "": fieldRequired
     
     setErrors({ ...temp })
 
@@ -67,7 +67,11 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
   }
 
   useEffect(() => {
-    if(employee) setEmployeeData(employee)
+    if(employee) {
+      if(employee.jobTitle === null) setEmployeeData({...employee, jobTitle: ''})
+      else setEmployeeData(employee)
+    } 
+
     if(error) {
       setNotify({ isOpen: true, message: error , type: 'error' })
       dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})

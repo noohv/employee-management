@@ -33,13 +33,15 @@ export default function Navbar({ setNotify }) {
     <AppBar color='primary' position="static">
       <Toolbar sx={{display: 'flex', justifyContent:'space-between'}}>
         <Container sx={{m:0, display: 'flex', flexDirection:"row"}}>
-          <IconButton color='white' size='large' edge="start" component={Link}  to='/'>
+          <IconButton color='secondary' size='large' edge="start" component={Link}  to='/'>
             <HomeRoundedIcon />
           </IconButton>
+        {user && (
           <Stack sx={{ml:3}} direction='row' spacing={2}>
             <Button variant='text' color='white' component={Link}  to='/grafiki'>Grafiki</Button>
             <Button variant='text' color='white' component={Link}  to='/amati'>Amati</Button>
           </Stack>
+        )}
         </Container>
         {user && (
           <Stack direction='row' spacing={2}>
@@ -48,7 +50,7 @@ export default function Navbar({ setNotify }) {
                 {user.result.name.charAt(0)}
               </Avatar>
             </Tooltip>
-            <IconButton color="white" onClick={logout}><LogoutIcon /></IconButton>
+            <IconButton color="secondary" onClick={logout}><LogoutIcon /></IconButton>
           </Stack>
         )}
       </Toolbar>

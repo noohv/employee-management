@@ -38,6 +38,5 @@ export default function ShiftSelect({ shifts, day, shift, handleChange }) {
         </MenuItem>}
       </Select>
     </FormControl>
-
   )
 }

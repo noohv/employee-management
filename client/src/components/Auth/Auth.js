@@ -107,7 +107,7 @@ export default function Auth({ setNotify }) {
           <Input name="password" label="Parole" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} error={errors.password} />
           {isSignup && <Input name="confirmPassword" label="Apstiprināt paroli" handleChange={handleChange} type="password" error={errors.confirmPassword} />}
         </Grid>
-        <Button sx={{mt:2}} type="submit" fullWidth variant='contained' >
+        <Button sx={{mt:2}} type="submit" color="secondary" variant='contained' fullWidth>
           { isSignup ? 'Reģistrēties' : 'Ielogoties' }
         </Button>
         <Grid container justify="flex-end">

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import Schedule from '../models/schedule.js';
 import EmployeeProfile from '../models/employeeProfile.js';
 
+// Create new schedule
 export const createSchedule = async (req, res) => {
   const data = req.body
   const selectedDate = new Date(data.selectedDate)
@@ -30,6 +31,7 @@ export const createSchedule = async (req, res) => {
     if(schedules.some(i => (i.startDate.toISOString().slice(0,10) <= formatData.endDate.toISOString().slice(0,10)) && (formatData.startDate.toISOString().slice(0,10) <= i.endDate.toISOString().slice(0,10))))
       return res.status(400).json({ message: "Grafiks šajā laika periodā jau ir pievienots!" })
 
+    // Check if at least one shift is selected
     if(!formatData.shifts.morning && !formatData.shifts.evening && !formatData.shifts.night)
       return res.status(400).json({ message: "Izvēlieties vismaz vienu maiņu!" })
 
@@ -42,6 +44,7 @@ export const createSchedule = async (req, res) => {
   }
 }
 
+// Get all Schedules
 export const getSchedules = async (req, res) => {
   try {
     const schedules =  await Schedule.find().populate('shifts')
@@ -51,6 +54,7 @@ export const getSchedules = async (req, res) => {
   }
 }
 
+// Get specific Schedule
 export const getSchedule = async (req, res) => {
   const { id } = req.params
 
@@ -62,6 +66,7 @@ export const getSchedule = async (req, res) => {
   }
 }
 
+// Update specific Schedule shifts
 export const updateSchedule = async (req, res) => {
   const { id, empId } = req.params
   const data = req.body
@@ -79,6 +84,7 @@ export const updateSchedule = async (req, res) => {
   }
 }
 
+// Delete specific Schedule
 export const deleteSchedule = async (req, res) => {
   const { id } = req.params
   try {

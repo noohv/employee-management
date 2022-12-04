@@ -1,4 +1,15 @@
-import { ADD_SCHEDULE_SUCCESS, ADD_SCHEDULE_ERROR, FETCH_SCHEDULES_SUCCESS, FETCH_SCHEDULES_ERROR, FETCH_SCHEDULE_SUCCESS, FETCH_SCHEDULE_ERROR, UPDATE_SCHEDULE_SUCCESS, UPDATE_SCHEDULE_ERROR } from '../constants/actionTypes';
+import { 
+  ADD_SCHEDULE_SUCCESS, 
+  ADD_SCHEDULE_ERROR, 
+  FETCH_SCHEDULES_SUCCESS, 
+  FETCH_SCHEDULES_ERROR, 
+  FETCH_SCHEDULE_SUCCESS, 
+  FETCH_SCHEDULE_ERROR, 
+  UPDATE_SCHEDULE_SUCCESS, 
+  UPDATE_SCHEDULE_ERROR, 
+  DELETE_SCHEDULE_SUCCESS, 
+  DELETE_SCHEDULE_ERROR 
+} from '../constants/actionTypes';
 import * as api from '../api';
 
 export const createSchedule = (schedule) => async (dispatch) => {
@@ -34,5 +45,14 @@ export const updateSchedule = (id, empId, empSchedule) => async (dispatch) => {
     dispatch({ type: UPDATE_SCHEDULE_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: UPDATE_SCHEDULE_ERROR, payload: error })
+  }
+}
+
+export const deleteSchedule = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.deleteSchedule(id)
+    dispatch({ type: DELETE_SCHEDULE_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({ type: DELETE_SCHEDULE_ERROR, payload: error })
   }
 }

@@ -1,5 +1,5 @@
 /* 
-    Constants for React Redux actions and reducers
+  Constants for React Redux actions and reducers
 */
 
 // Constants for Employees
@@ -46,6 +46,9 @@ export const ADD_SCHEDULE_SUCCESS = 'ADD_SCHEDULE_SUCCESS'
 export const ADD_SCHEDULE_ERROR = 'ADD_SCHEDULE_ERROR'
 export const UPDATE_SCHEDULE_SUCCESS = 'UPDATE_SCHEDULE_SUCCESS'
 export const UPDATE_SCHEDULE_ERROR = 'UPDATE_SCHEDULE_ERROR'
+export const DELETE_SCHEDULE_SUCCESS = 'DELETE_SCHEDULE_SUCCESS'
+export const DELETE_SCHEDULE_ERROR = 'DELETE_SCHEDULE_ERROR'
+
 export const CLEAR_SCHEDULES_MESSAGE = 'CLEAR_SCHEDULES_MESSAGE'
 
 

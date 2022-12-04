@@ -1,4 +1,11 @@
-import { AUTH_SUCCESS, AUTH_ERROR, LOG_OUT, AUTH_CLEAR_ERROR, AUTH_SHOW_LOADING, AUTH_HIDE_LOADING} from '../constants/actionTypes';
+import { 
+  AUTH_SUCCESS, 
+  AUTH_ERROR, 
+  LOG_OUT, 
+  AUTH_CLEAR_ERROR, 
+  AUTH_SHOW_LOADING, 
+  AUTH_HIDE_LOADING
+} from '../constants/actionTypes';
 
 const initialState = {
   authData: null,

@@ -14,7 +14,8 @@ import {
   ADD_ABSENCE_SUCCESS,
   ADD_ABSENCE_ERROR, 
   SHOW_LOADER, 
-  HIDE_LOADER, } from '../constants/actionTypes';
+  HIDE_LOADER, 
+} from '../constants/actionTypes';
 import * as api from '../api';
 
 // Redux action creator for getting all employees

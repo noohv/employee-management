@@ -6,13 +6,15 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from "react-redux";
-import { getSchedules } from "../../../actions/schedule";
+import { deleteSchedule, getSchedules } from "../../../actions/schedule";
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import useTable from '../../Reusable/useTable';
+import ConfirmDialog from '../../Reusable/ConfirmDialog';
 
 export default function Schedules({ setNotify }) {
   const [filter, setFilter] = useState({ fn: items => { return items } })
+  const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: '', subTitle: ''})
   const [openPopup, setOpenPopup] = useState(false)
   const schedules = useSelector((state) => state.schedule.data)
   const { error, success } = useSelector((state) => state.schedule)
@@ -25,6 +27,14 @@ export default function Schedules({ setNotify }) {
     { id: 'shiftCount', label: 'Maiņas', disableSorting: true },
     { id: 'actions', label: 'Darbības', disableSorting: true }
   ]
+
+  const onDelete = (id) => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false
+    })
+    dispatch(deleteSchedule(id))
+  }
 
   const {
     TblContainer,
@@ -73,7 +83,14 @@ export default function Schedules({ setNotify }) {
                     {item.shifts.night ? <Chip sx={{m:0.5}} label="Nakts" /> : ""}
                   </TableCell>
                   <TableCell>  
-                    <IconButton component={Link} to={`/grafiki/${item._id}`}>
+                    <IconButton onClick={() => { 
+                      setConfirmDialog({
+                        isOpen: true,
+                        title: 'Vai dzēst grafiku ierakstu?',
+                        subTitle: 'Dati tiks neatgriezeniski dzēsti',
+                        onConfirm: () => onDelete(item._id)
+                      })      
+                    }}>
                       <DeleteIcon />
                     </IconButton>  
                     <IconButton component={Link} to={`/grafiki/${item._id}`}>
@@ -96,6 +113,10 @@ export default function Schedules({ setNotify }) {
       >
         <ScheduleForm setOpenPopup={setOpenPopup} />
       </Popup>
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </Container>
     </>
   )

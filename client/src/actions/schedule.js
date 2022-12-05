@@ -12,15 +12,7 @@ import {
 } from '../constants/actionTypes';
 import * as api from '../api';
 
-export const createSchedule = (schedule) => async (dispatch) => {
-  try {
-    const { data } = await api.createSchedule(schedule)
-    dispatch({ type: ADD_SCHEDULE_SUCCESS, payload: data })
-  } catch (error) {
-    dispatch({ type: ADD_SCHEDULE_ERROR, payload: error.response.data.message })
-  }
-}
-
+// Redux action creator for getting all schedules
 export const getSchedules = () => async (dispatch) => {
   try {
     const { data } = await api.getSchedules()
@@ -30,6 +22,7 @@ export const getSchedules = () => async (dispatch) => {
   }
 }
 
+// Redux action creator for getting specific schedule
 export const getSchedule = (id) => async (dispatch) => {
   try {
     const { data } = await api.getSchedule(id)
@@ -39,6 +32,17 @@ export const getSchedule = (id) => async (dispatch) => {
   }
 }
 
+// Redux action creator for creating new schedule
+export const createSchedule = (schedule) => async (dispatch) => {
+  try {
+    const { data } = await api.createSchedule(schedule)
+    dispatch({ type: ADD_SCHEDULE_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({ type: ADD_SCHEDULE_ERROR, payload: error.response.data.message })
+  }
+}
+
+// Redux action creator for updating specific schedule
 export const updateSchedule = (id, empId, empSchedule) => async (dispatch) => {
   try {
     const { data } = await api.updateSchedule(id, empId, empSchedule)
@@ -48,10 +52,12 @@ export const updateSchedule = (id, empId, empSchedule) => async (dispatch) => {
   }
 }
 
+// Redux action creator for deleting a schedule
 export const deleteSchedule = (id) => async (dispatch) => {
   try {
-    const { data } = await api.deleteSchedule(id)
-    dispatch({ type: DELETE_SCHEDULE_SUCCESS, payload: data })
+    await api.deleteSchedule(id)
+    console.log("esmu sheit")
+    dispatch({ type: DELETE_SCHEDULE_SUCCESS, payload: id })
   } catch (error) {
     dispatch({ type: DELETE_SCHEDULE_ERROR, payload: error })
   }

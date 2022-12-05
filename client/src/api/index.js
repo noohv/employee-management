@@ -31,7 +31,7 @@ export const getSchedules = () => API.get(`/schedules`)
 export const getSchedule = (id) => API.get(`/schedules/${id}`)
 export const createSchedule = (schedule) => API.post(`/schedules`, schedule)
 export const updateSchedule = (id, empId, schedule) => API.patch(`/schedules/${id}/employee/schedule/${empId}`, schedule)
-export const deleteSchedule = (id) => API.patch(`/schedules/${id}`)
+export const deleteSchedule = (id) => API.delete(`/schedules/${id}`)
 
 // Auth API calls
 export const signIn = (formData) => API.post('/user/signin', formData)

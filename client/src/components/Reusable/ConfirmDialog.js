@@ -15,7 +15,7 @@ export default function ConfirmDialog(props) {
           {confirmDialog.subTitle}
         </Typography>
       </DialogContent>
-      <DialogActions sx={{justifyContent: 'center'}}>
+      <DialogActions sx={{justifyContent: 'center', mb: 2}}>
         <Button variant='outlined' color='gray' onClick={() => setConfirmDialog({...confirmDialog, isOpen:false})}>Nē</Button>
         <Button variant='contained' color='error' onClick={confirmDialog.onConfirm}>Jā</Button>
       </DialogActions>

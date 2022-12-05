@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { AppBar, Container, Toolbar, Button, Avatar, Tooltip, IconButton, Stack } from '@mui/material';
+import { AppBar, Container, Toolbar, Button, Avatar, Tooltip, IconButton, Stack, Tabs, Tab, Typography } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import { useDispatch } from 'react-redux';
@@ -38,8 +38,21 @@ export default function Navbar({ setNotify }) {
           </IconButton>
         {user && (
           <Stack sx={{ml:3}} direction='row' spacing={2}>
-            <Button variant='text' color='white' component={Link}  to='/grafiki'>Grafiki</Button>
-            <Button variant='text' color='white' component={Link}  to='/amati'>Amati</Button>
+            <Button variant='text' color={location.pathname === '/' || location.pathname.includes("/darbinieki") ? "white" : "lightgray"} component={Link} to='/'>
+              <Typography variant='body2' sx={location.pathname === '/' || location.pathname.includes("/darbinieki") ? {fontWeight: 'bold'} : null}>
+                Darbinieki
+              </Typography>
+            </Button>
+            <Button variant='text' color={location.pathname === '/grafiki' ? "white" : "lightgray"} component={Link} to='/grafiki'>
+              <Typography variant='body2' sx={location.pathname === '/grafiki' ? {fontWeight: 'bold'} : null}>
+                Grafiki
+              </Typography>
+            </Button>
+            <Button variant='text' color={location.pathname === '/amati' ? "white" : "lightgray"} component={Link} to='/amati'>
+              <Typography variant='body2' sx={location.pathname === '/amati' ? {fontWeight: 'bold'} : null}>
+                Amati
+              </Typography>
+            </Button>
           </Stack>
         )}
         </Container>

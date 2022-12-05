@@ -4,11 +4,12 @@ const Colors = {
   black: "#000",
   primary: "#02c39a",
   secondary: "#05668d",
+  lightgray: "#ececec",
   gray: "#5a5a5a",
-  statusActive: '#003f5c',
-  statusVacation: '#7a5195',
-  statusSick: '#ef5675',
-  statusOther: '#ffa600'
+  statusActive: "#003f5c",
+  statusVacation: "#7a5195",
+  statusSick: "#ef5675",
+  statusOther: "#ffa600"
 }
 
 const theme = createTheme({
@@ -27,6 +28,10 @@ const theme = createTheme({
     
     black: {
       main: Colors.black
+    },
+
+    lightgray: {
+      main: Colors.lightgray
     },
     
     gray: {

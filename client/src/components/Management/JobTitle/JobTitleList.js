@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TableBody, TableCell, TableRow, IconButton } from "@mui/material";
+import { TableBody, TableCell, TableRow, IconButton, Tooltip } from "@mui/material";
 import useTable from '../../Reusable/useTable';
 import { useDispatch } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -54,7 +54,13 @@ export default function AbsenceList({ setCurrentId, jobTitles, setNotify, error,
                 return (
                   <TableRow key={item._id}>
                     <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.description}</TableCell>
+                    <Tooltip title={item.description} placement="left">
+                      <TableCell>
+                        {
+                          item.description.length > 15 ? `${item.description.substring(0,15)}...` : item.description
+                        }
+                      </TableCell>
+                    </Tooltip>
                     <TableCell>{item.employees.length}</TableCell>
                     <TableCell>
                       <IconButton onClick={() => { 

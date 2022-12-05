@@ -8,25 +8,43 @@ export default function Form({setOpenPopup, currentId, setNotify}) {
   const initialData = { name: '', description:''}
   const [jobTitleData, setJobTitleData] = useState(initialData)
   const { data, error, success } = useSelector(state => state.jobTitle)
+  const [errors, setErrors] = useState({})
   const dispatch = useDispatch()
+
+  const validate = (fieldValues = jobTitleData) => {
+    let temp = {...errors}
+
+    if('name' in fieldValues)
+      temp.name = fieldValues.name ? "": "Šis lauks ir obligāts"
+    if('description' in fieldValues)
+      temp.description = fieldValues.description ? (fieldValues.description.length >250 ? "Apraksta maksimālais garums ir 250 rakstzīmes" : "") : "Šis lauks ir obligāts"
+
+    setErrors({ ...temp })
+
+    if(fieldValues == jobTitleData)
+      return Object.values(temp).every(x => x == "")
+  }
 
   const handleChange = (e) => {
       const { name, value } = e.target
-      setJobTitleData({ ...jobTitleData, [name]:value })
+      setJobTitleData({ ...jobTitleData, [name]: value })
+      validate({[name]: value})
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if(currentId) {
-      dispatch(updateJobTitle(currentId, jobTitleData))
+    if(validate()) {
+      if(currentId) {
+        dispatch(updateJobTitle(currentId, jobTitleData))
+      }
+      else {
+        dispatch(createJobTitle(jobTitleData));
+      }
+  
+      setOpenPopup(false)
+      clear()
     }
-    else {
-      dispatch(createJobTitle(jobTitleData));
-    }
-
-    setOpenPopup(false)
-    clear()
   }
 
   useEffect(() => {
@@ -51,10 +69,12 @@ export default function Form({setOpenPopup, currentId, setNotify}) {
   return (
     <Container>
       <form onSubmit={handleSubmit}>
-        <TextField sx={{m:0.5}} name="name" variant="outlined" label="Nosaukums" fullWidth autoFocus required value={jobTitleData.name} onChange={handleChange} />
-        <TextField sx={{m:0.5}} name="description" variant="outlined" label="Apraksts" multiline maxRows={4} minRows={4} fullWidth required value={jobTitleData.description} onChange={handleChange} />
-        <Button sx={{m:0.5}} variant="contained" color="primary" size="large" type="submit" fullWidth>Saglabāt</Button>
-        <Button sx={{m:0.5}} variant="contained" color="secondary" size="small" onClick={() => {
+        <TextField sx={{m:0.5}} name="name" variant="outlined" label="Nosaukums" fullWidth autoFocus 
+          value={jobTitleData.name} onChange={handleChange} {...(errors?.name && {error:true, helperText:errors.name})} />
+        <TextField sx={{m:0.5}} name="description" variant="outlined" label="Apraksts" multiline maxRows={4} minRows={4} fullWidth 
+          value={jobTitleData.description} onChange={handleChange} {...(errors?.description && {error:true, helperText:errors.description})} />
+        <Button sx={{m:1}} variant="contained" color="secondary" size="large" type="submit" fullWidth>Saglabāt</Button>
+        <Button sx={{ml:1, mr:1, mt:0.5}} variant="outlined" color="gray" size="small" onClick={() => {
           clear()
           setOpenPopup(false)}
         } fullWidth>Atcelt</Button>

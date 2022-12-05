@@ -48,7 +48,7 @@ export const updateSchedule = (id, empId, empSchedule) => async (dispatch) => {
     const { data } = await api.updateSchedule(id, empId, empSchedule)
     dispatch({ type: UPDATE_SCHEDULE_SUCCESS, payload: data })
   } catch (error) {
-    dispatch({ type: UPDATE_SCHEDULE_ERROR, payload: error })
+    dispatch({ type: UPDATE_SCHEDULE_ERROR, payload: error.response.data.message })
   }
 }
 
@@ -56,9 +56,8 @@ export const updateSchedule = (id, empId, empSchedule) => async (dispatch) => {
 export const deleteSchedule = (id) => async (dispatch) => {
   try {
     await api.deleteSchedule(id)
-    console.log("esmu sheit")
     dispatch({ type: DELETE_SCHEDULE_SUCCESS, payload: id })
   } catch (error) {
-    dispatch({ type: DELETE_SCHEDULE_ERROR, payload: error })
+    dispatch({ type: DELETE_SCHEDULE_ERROR, payload: error.response.data.message })
   }
 }

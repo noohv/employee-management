@@ -50,8 +50,8 @@ export default function AbsenceForm({id, setOpenPopup, types, error, success, se
     if(error) {
       setNotify({ isOpen: true, message: error , type: 'error' })
       dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
-
     }
+
     if(success) {
       setNotify({ isOpen: true, message: success , type: 'success' })
       dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
@@ -70,10 +70,12 @@ export default function AbsenceForm({id, setOpenPopup, types, error, success, se
         </Select>
         {errors?.absenceType && <FormHelperText>{errors.absenceType}</FormHelperText> }
       </FormControl>
-      <TextField sx={{m:1}} name="startDate" variant="outlined" label="Sākuma datums" type="date" InputLabelProps={{shrink:true}} fullWidth value={absenceData.startDate.slice(0,10)} onChange={handleChange} {...(errors?.startDate && {error:true, helperText:errors.startDate})} />
-      <TextField sx={{m:1}} name="endDate" variant="outlined" label="Beigu datums" type="date" InputLabelProps={{shrink:true}} fullWidth value={absenceData.endDate.slice(0,10)} onChange={handleChange} {...(errors?.endDate && {error:true, helperText:errors.endDate})} />
-      <Button sx={{m:0.5}} variant="contained" color="primary" size="large" type="submit" fullWidth>Saglabāt</Button>
-      <Button sx={{m:0.5}} variant="contained" color="secondary" size="small" onClick={() => {
+      <TextField sx={{m:1}} name="startDate" variant="outlined" label="Sākuma datums" type="date" InputLabelProps={{shrink:true}} fullWidth 
+        value={absenceData.startDate.slice(0,10)} onChange={handleChange} {...(errors?.startDate && {error:true, helperText:errors.startDate})} />
+      <TextField sx={{m:1}} name="endDate" variant="outlined" label="Beigu datums" type="date" InputLabelProps={{shrink:true}} fullWidth 
+        value={absenceData.endDate.slice(0,10)} onChange={handleChange} {...(errors?.endDate && {error:true, helperText:errors.endDate})} />
+      <Button sx={{m:1}} variant="contained" color="secondary" size="large" type="submit" fullWidth>Saglabāt</Button>
+      <Button sx={{ml:1, mr:1, mt:0.5}} variant="outlined" color="gray" size="small" onClick={() => {
         clear()
         setOpenPopup(false)}
         } fullWidth>Atcelt</Button>

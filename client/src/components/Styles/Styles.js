@@ -4,6 +4,7 @@ const Colors = {
   black: "#000",
   primary: "#02c39a",
   secondary: "#05668d",
+  gray: "#5a5a5a",
   statusActive: '#003f5c',
   statusVacation: '#7a5195',
   statusSick: '#ef5675',
@@ -26,6 +27,10 @@ const theme = createTheme({
     
     black: {
       main: Colors.black
+    },
+    
+    gray: {
+      main: Colors.gray
     },
 
     statusActive: {

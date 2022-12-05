@@ -18,8 +18,7 @@ export const signin = (formData, navigate) => async (dispatch) => {
     dispatch({ type: AUTH_SUCCESS, payload: data })
     navigate('/', {replace: true})
   } catch (error) {
-    const message = error.response.data.message
-    dispatch({ type: AUTH_ERROR, payload: message })
+    dispatch({ type: AUTH_ERROR, payload: error.response.data.message })
   }
   dispatch({ type: AUTH_HIDE_LOADING })
 }
@@ -34,8 +33,7 @@ export const signup = (formData, navigate) => async (dispatch) => {
     dispatch({ type: AUTH_SUCCESS, payload: data })
     navigate('/', {replace: true})
   } catch (error) {
-    const message = error.response.data.message
-    dispatch({ type: AUTH_ERROR, payload: message })
+    dispatch({ type: AUTH_ERROR, payload: error.response.data.message })
   }
   dispatch({ type: AUTH_HIDE_LOADING })
 }

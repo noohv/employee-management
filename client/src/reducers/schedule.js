@@ -1,4 +1,16 @@
-import { ADD_SCHEDULE_SUCCESS, ADD_SCHEDULE_ERROR, FETCH_SCHEDULE_SUCCESS, FETCH_SCHEDULE_ERROR, FETCH_SCHEDULES_SUCCESS, FETCH_SCHEDULES_ERROR, UPDATE_SCHEDULE_SUCCESS, UPDATE_SCHEDULE_ERROR, CLEAR_SCHEDULES_MESSAGE } from '../constants/actionTypes';
+import {
+  ADD_SCHEDULE_SUCCESS, 
+  ADD_SCHEDULE_ERROR, 
+  FETCH_SCHEDULE_SUCCESS, 
+  FETCH_SCHEDULE_ERROR, 
+  FETCH_SCHEDULES_SUCCESS, 
+  FETCH_SCHEDULES_ERROR, 
+  UPDATE_SCHEDULE_SUCCESS, 
+  UPDATE_SCHEDULE_ERROR, 
+  DELETE_SCHEDULE_SUCCESS,
+  DELETE_SCHEDULE_ERROR,
+  CLEAR_SCHEDULES_MESSAGE
+} from '../constants/actionTypes';
 
 let initialState = { 
   data: [],
@@ -66,6 +78,19 @@ export default (state = initialState , action) => {
       }
     
     case UPDATE_SCHEDULE_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      }
+
+    case DELETE_SCHEDULE_SUCCESS:
+      return {
+        ...state,
+        data: state.data.filter((i) => i._id !== action.payload),
+        success: 'Darba grafiks dzēsts!'
+      }
+    
+    case DELETE_SCHEDULE_ERROR:
       return {
         ...state,
         error: action.payload

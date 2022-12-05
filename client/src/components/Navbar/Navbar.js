@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { AppBar, Container, Toolbar, Button, Avatar, Tooltip, IconButton, Stack } from '@mui/material';
+import { AppBar, Container, Toolbar, Button, Avatar, Tooltip, IconButton, Stack, Tabs, Tab, Typography } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import { useDispatch } from 'react-redux';
@@ -32,17 +32,34 @@ export default function Navbar({ setNotify }) {
   return (
     <AppBar color='primary' position="static">
       <Toolbar sx={{display: 'flex', justifyContent:'space-between'}}>
-        <Container>
+        <Container sx={{m:0, display: 'flex', flexDirection:"row"}}>
           <IconButton color='secondary' size='large' edge="start" component={Link}  to='/'>
             <HomeRoundedIcon />
           </IconButton>
+        {user && (
+          <Stack sx={{ml:3}} direction='row' spacing={2}>
+            <Button variant='text' color={location.pathname === '/' || location.pathname.includes("/darbinieki") ? "white" : "lightgray"} component={Link} to='/'>
+              <Typography variant='body2' sx={location.pathname === '/' || location.pathname.includes("/darbinieki") ? {fontWeight: 'bold'} : null}>
+                Darbinieki
+              </Typography>
+            </Button>
+            <Button variant='text' color={location.pathname === '/grafiki' ? "white" : "lightgray"} component={Link} to='/grafiki'>
+              <Typography variant='body2' sx={location.pathname === '/grafiki' ? {fontWeight: 'bold'} : null}>
+                Grafiki
+              </Typography>
+            </Button>
+            <Button variant='text' color={location.pathname === '/amati' ? "white" : "lightgray"} component={Link} to='/amati'>
+              <Typography variant='body2' sx={location.pathname === '/amati' ? {fontWeight: 'bold'} : null}>
+                Amati
+              </Typography>
+            </Button>
+          </Stack>
+        )}
         </Container>
         {user && (
           <Stack direction='row' spacing={2}>
-            <Button variant='outlined' color='secondary' component={Link}  to='/grafiki'>Grafiki</Button>
-            <Button variant='outlined' color='secondary' component={Link}  to='/amati'>Amati</Button>
             <Tooltip title={user.result.name}>
-              <Avatar alt={user.result.name} src={user.result.imageUrl}>
+              <Avatar>
                 {user.result.name.charAt(0)}
               </Avatar>
             </Tooltip>

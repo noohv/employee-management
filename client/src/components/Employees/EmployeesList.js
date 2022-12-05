@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { InputAdornment, TableBody, TableCell, TableRow, Toolbar, IconButton, Button, TextField } from "@mui/material";
+import { InputAdornment, TableBody, TableCell, TableRow, Toolbar, IconButton, Button, TextField, Tooltip } from "@mui/material";
 import useTable from "../Reusable/useTable";
 import { Search } from "@mui/icons-material";
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -65,7 +65,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
             display:'flex',
             justifyContent: 'space-between'
           }}>
-            <Button size="large" variant="contained" onClick={() => setOpenPopup(true)}>Pievienot</Button>
+            <Button size="large" variant="contained" color="secondary" onClick={() => setOpenPopup(true)}>Pievienot</Button>
             <TextField label="Meklēt"
               InputProps={{ startAdornment:(<InputAdornment position="start"><Search /></InputAdornment>) }}
               sx={{ width:'35%' }}
@@ -79,10 +79,14 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
                   recordsAfterPagingAndSorting().map(item => {
                     return (
                       <TableRow key={item._id}>
-                        <TableCell><CircleIcon color={getStatus(item)} /></TableCell>
+                        <TableCell>
+                          <Tooltip title={getStatus(item) === "statusActive" ? "Aktīvs" : getStatus(item) === "statusVacation" ? "Atvaļinājumā" : getStatus(item)==="statusSick" ? "Slims" : "Cits"}>
+                            <CircleIcon color={getStatus(item)} />
+                          </Tooltip>
+                        </TableCell>
                         <TableCell>{item.firstName}</TableCell>
                         <TableCell>{item.lastName}</TableCell>
-                        <TableCell>{item.jobTitle.name || jobTitles.data.find(x => x._id === item.jobTitle)?.name}</TableCell>
+                        <TableCell>{item.jobTitle?.name || jobTitles.data.find(x => x._id === item.jobTitle)?.name}</TableCell>
                         <TableCell>
                           <IconButton component={Link} to={`/darbinieki/${item._id}`}>
                             <SettingsIcon />

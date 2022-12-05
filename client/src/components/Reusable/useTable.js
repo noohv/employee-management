@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, TableHead, TableRow, TableCell, TablePagination, TableSortLabel } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TablePagination, TableSortLabel, TableContainer } from '@mui/material';
 
 export default function useTable(records, headCells, filter) {
 
@@ -10,13 +10,16 @@ export default function useTable(records, headCells, filter) {
   const [order,setOrder] = useState()
   
   const TblContainer = props => (
+    <TableContainer>
       <Table sx={{
           '& tbody tr:hover': {
               backgroundColor: '#fffbf2',
-          }
+          },
+          minWidth: 650
       }}>
           {props.children}
       </Table>
+    </TableContainer>
   )
 
   const TblHead = (props) => {

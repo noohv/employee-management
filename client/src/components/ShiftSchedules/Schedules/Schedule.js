@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Popup from "../../Reusable/Popup";
-import { Button, Container, TableBody, TableCell, TableRow, IconButton, Chip } from '@mui/material';
+import { Container, TableBody, TableCell, TableRow, IconButton, Chip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
@@ -10,7 +10,6 @@ import { getSchedule, updateSchedule } from "../../../actions/schedule";
 import { getEmployees } from "../../../actions/employees";
 import { useParams, useNavigate } from 'react-router-dom';
 import useTable from '../../Reusable/useTable';
-import ShiftForm from '../Shifts/ShiftForm'
 import ShiftSelect from './ShiftSelect';
 
 export default function Schedules() {
@@ -85,7 +84,7 @@ export default function Schedules() {
   useEffect(() => {
     dispatch(getSchedule(id))
     dispatch(getEmployees())
-    document.title = "Grafiks"
+    document.title = "Darba Grafiks"
     if(success || error) dispatch({type:'CLEAR_SCHEDULES_MESSAGE'})
   }, [success, error])
   
@@ -99,13 +98,7 @@ export default function Schedules() {
   return (
     <>
       <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate(-1)}><ArrowBackRoundedIcon /></IconButton>
-      <Container maxWidth='xl' >
-        <Button
-          sx={{mt:5, mb: 2, ml:3}}
-          variant='contained'
-          size='large'
-          onClick={() => { setOpenPopup(true) }}>Rediģēt
-        </Button>
+      <Container maxWidth='xl'>
         <form onSubmit={handleSubmit}>
           <TblContainer sx={{width:'max-content'}}>
             <TblHead />
@@ -221,15 +214,7 @@ export default function Schedules() {
           </TblContainer>
         </form>
         <TblPagination />
-        <Popup
-          title="Rediģēt grafiku"
-          openPopup={openPopup}
-          setOpenPopup={setOpenPopup}
-        >
-          <ShiftForm setOpenPopup={setOpenPopup} />
-        </Popup>
       </Container>
     </>
   )
 }
-

@@ -5,17 +5,18 @@ import { createSchedule } from "../../../actions/schedule";
 import { fieldRequired } from '../../../Helpers/errorMessages';
 
 export default function ScheduleForm({ setOpenPopup }) {
-  const dispatch = useDispatch();
-  const [errors, setErrors] = useState({})
-
-  const [formData, setFormData] = useState({
+  const dispatch = useDispatch()
+  const initialData = {
     shifts:{
       morning: false,
       evening: false,
       night: false
     },
     selectedDate: ''
-  })
+  }
+
+  const [errors, setErrors] = useState({})
+  const [formData, setFormData] = useState(initialData)
 
   const validate = (fieldValues = formData) => {
     let temp = {...errors}
@@ -36,6 +37,11 @@ export default function ScheduleForm({ setOpenPopup }) {
       dispatch(createSchedule(formData))
       setOpenPopup(false)
     }
+  }
+
+  const clear = () => { 
+    setFormData(initialData)
+    setErrors({})
   }
 
   const handleChange = (e) => {
@@ -59,7 +65,8 @@ export default function ScheduleForm({ setOpenPopup }) {
     <>
       <form onSubmit={handleSubmit}>
         <Container sx={{ display: 'flex', flexDirection:'column', justifyContent: 'center'}}>
-        <TextField sx={{m:1}} name="selectedDate" variant="outlined" label="Izvēlies nedēļu" type="date" InputLabelProps={{shrink:true}} fullWidth value={formData.selectedDate.slice(0,10)} onChange={handleSelect} {...(errors?.selectedDate && {error:true, helperText:errors.selectedDate})} />
+        <TextField sx={{m:1}} name="selectedDate" variant="outlined" label="Izvēlies nedēļu" type="date" InputLabelProps={{shrink:true}} fullWidth 
+          value={formData.selectedDate.slice(0,10)} onChange={handleSelect} {...(errors?.selectedDate && {error:true, helperText:errors.selectedDate})} />
           <FormControl sx={{mt:1}} component="fieldset" variant="standard">
             <FormLabel id="radio-label">Maiņu izvēle:</FormLabel>
             <FormGroup>
@@ -74,7 +81,13 @@ export default function ScheduleForm({ setOpenPopup }) {
               } label="Nakts" />
             </FormGroup>
           </FormControl>
-          <Button sx={{mt:4}} variant="contained" color="primary" size="large" type="submit" fullWidth>Izveidot</Button>
+          <Button sx={{mt: 4}} variant="contained" color="secondary" size="large" type="submit" fullWidth>Izveidot</Button>
+          <Button sx={{mt: 1}} variant="outlined" color="gray" size="small" onClick={() => {
+            clear()
+            setOpenPopup(false)}
+          } fullWidth>
+            Atcelt
+          </Button>
         </Container>
       </form>
     </>

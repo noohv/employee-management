@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
-import { TableBody, TableCell, TableRow, Button } from "@mui/material";
+import React, { useState, useEffect } from 'react'
+import { TableBody, TableCell, TableRow, IconButton, Tooltip } from "@mui/material";
 import useTable from '../../Reusable/useTable';
 import { useDispatch } from 'react-redux';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { deleteJobTitle } from '../../../actions/jobTitle';
 
-
-export default function AbsenceList({ jobTitles }) {
+export default function AbsenceList({ setCurrentId, jobTitles, setNotify, error, success, confirmDialog, setOpenPopupType, setConfirmDialog, setOpenPopup }) {
   const [filter, setFilter] = useState({fn: items => { return items; }})
   const dispatch = useDispatch()
 
   const headCells = [
     { id: 'name', label: 'Nosaukums' },
     { id: 'description', label: 'Apraksts'},
-    { id: 'count', label:'Darbinieku daudz.' },
+    { id: 'count', label:'Darbinieku daudz.', disableSorting: true },
+    { id: 'properties', label:'Darbības', disableSorting: true },
   ]
 
   const {
@@ -20,6 +23,26 @@ export default function AbsenceList({ jobTitles }) {
     TblPagination,
     recordsAfterPagingAndSorting
   } = useTable(jobTitles, headCells, filter);
+
+  const onDelete = (item) => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false
+    })
+    dispatch(deleteJobTitle(item._id))
+  }
+
+  useEffect(() => {
+    if(error) {
+      setNotify({ isOpen: true, message: error , type: 'error' })
+      dispatch({type: 'CLEAR_JOBTITLE_MESSAGE'})
+    }
+
+    if(success) {
+      setNotify({ isOpen: true, message: success , type: 'success' })
+      dispatch({type: 'CLEAR_JOBTITLE_MESSAGE'})
+    }
+  }, [error, success])
 
   return (
     <>
@@ -31,8 +54,33 @@ export default function AbsenceList({ jobTitles }) {
                 return (
                   <TableRow key={item._id}>
                     <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.description}</TableCell>
+                    <Tooltip title={item.description} placement="left">
+                      <TableCell>
+                        {
+                          item.description.length > 15 ? `${item.description.substring(0,15)}...` : item.description
+                        }
+                      </TableCell>
+                    </Tooltip>
                     <TableCell>{item.employees.length}</TableCell>
+                    <TableCell>
+                      <IconButton onClick={() => { 
+                        setOpenPopupType("edit")
+                        setOpenPopup(true) 
+                        setCurrentId(item._id)  
+                      }}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton onClick={() => { 
+                        setConfirmDialog({
+                          isOpen: true,
+                          title: 'Vai dzēst amatu?',
+                          subTitle: 'Dati tiks neatgriezeniski dzēsti',
+                          onConfirm: () => onDelete(item)
+                        })      
+                      }}>
+                    <DeleteIcon />
+                  </IconButton>
+                    </TableCell>
                   </TableRow>
                 )
               })

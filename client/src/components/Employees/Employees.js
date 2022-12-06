@@ -7,7 +7,7 @@ import { getJobTitles } from '../../actions/jobTitle'
 import Stats from './Stats/Stats';
 
 export default function Employees({ setNotify }) {
-  const employees = useSelector((state) => state.employees.data)
+  const { data, error, success } = useSelector((state) => state.employees)
   const jobTitles = useSelector((state) => state.jobTitle)
 
   const dispatch = useDispatch();
@@ -15,14 +15,24 @@ export default function Employees({ setNotify }) {
   useEffect(() => {
     dispatch(getEmployees())
     dispatch(getJobTitles())
+    
+    if(error) {
+      setNotify({ isOpen: true, message: error , type: 'error' })
+      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
+    }
+
+    if(success) {
+      setNotify({ isOpen: true, message: success , type: 'success' })
+      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
+    }
     document.title = "Darbinieku saraksts"
-  }, [])
+  }, [error, success])
 
   return (
     <Container>
-      <Stats employees={employees} /> 
+      <Stats employees={data} /> 
       <EmployeesList 
-        employees={employees} 
+        employees={data} 
         jobTitles={jobTitles} 
         setNotify={setNotify} 
       />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ScheduleForm from './ScheduleForm'
 import Popup from "../../Reusable/Popup";
-import { Button, Container, TableBody, TableCell, TableRow, IconButton, Chip } from '@mui/material';
+import { Button, Container, TableBody, TableCell, TableRow, IconButton, Chip, Typography, Divider } from '@mui/material';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -60,6 +60,10 @@ export default function Schedules({ setNotify }) {
   return (
     <>
       <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate(-1)}><ArrowBackRoundedIcon /></IconButton>
+      <Container>
+        <Typography sx={{mt:3, mb:3}} variant='h4'>Grafiku saraksts</Typography>
+        <Divider/>
+      </Container>
       <Container>
       <Button
         sx={{mt:5, mb: 2, ml:3}}

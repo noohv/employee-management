@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, IconButton, Container } from '@mui/material';
+import { Button, IconButton, Container, Typography, Divider } from '@mui/material';
 import JobTitleForm from './JobTitleForm';
 import JobTitleList from './JobTitleList';
 import Popup from "../../Reusable/Popup";
@@ -26,6 +26,10 @@ export default function JobTitle({ setNotify }) {
   return (
     <>
       <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>
+      <Container>
+        <Typography sx={{mt:3, mb:3}} variant='h4'>Darba amati</Typography>
+        <Divider/>
+      </Container>
       <Container>
         <Button
           sx={{mt:5, mb: 2, ml:3}}

@@ -23,6 +23,8 @@ export const createSchedule = async (req, res) => {
   try {
     const schedules = await Schedule.find()
     const employeeList = await EmployeeProfile.find()
+    
+    // Add data to formatData employeeSchedules property
     for(const emp of employeeList) {
       formatData = {...formatData, employeeSchedules: [...formatData.employeeSchedules, {employee: emp}]}
     }
@@ -92,6 +94,6 @@ export const deleteSchedule = async (req, res) => {
     await schedule.remove()
     res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: "Dzēšot radās problēma!"})
+    res.status(404).json({ message: "Radusies kļūda!"})
   }
 }

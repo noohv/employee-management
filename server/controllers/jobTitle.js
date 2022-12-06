@@ -8,7 +8,7 @@ export const getJobTitles = async (req, res) => {
     const jobTitles =  await JobTitle.find().populate('employees')
     res.status(200).json(jobTitles)
   } catch (error) {
-    res.status(404).json({ message: error.message })
+    res.status(404).json({ message: "Radusies kļūda!" })
   }
 }
 
@@ -32,7 +32,7 @@ export const createJobTitle = async (req, res) => {
     await newJobTitle.save()
     res.status(201).json(newJobTitle);
   } catch (error) {
-    res.status(409).json({ message:error.message })
+    res.status(409).json({ message: "Radusies kļūda!" })
   }
 }
 
@@ -64,6 +64,6 @@ export const deleteJobTitle = async (req, res) => {
     res.status(200).json(id)
   } catch (error) {
     console.log(error)
-    res.status(404).json({ message: "Dzēšot radās problēma!" })
+    res.status(404).json({ message: "Radusies kļūda!" })
   }
 }

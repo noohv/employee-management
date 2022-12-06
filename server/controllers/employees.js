@@ -35,6 +35,7 @@ export const createEmployee = async (req, res) => {
   try {
     const jobTitle = await JobTitle.findById(employee.jobTitle)
     jobTitle.employees.push(newEmployee._id)
+
     await jobTitle.save()
     await newEmployee.save()
     res.status(201).json(newEmployee)
@@ -95,11 +96,13 @@ export const deleteEmployee = async (req,res) => {
     const absences = employee.absences
     const jobTitle = await JobTitle.findById(employee.jobTitle).populate('employees')
     
+    // Remove all employee absences
     for(let i = 0; i < absences.length; i++) {
       const abs = await EmployeeAbsence.findById(absences[i])
       await abs.remove()
     }
     
+    // Update employee list for job title document
     if(jobTitle) {
       jobTitle.employees = jobTitle.employees.filter((i) => i.id !== employee.id)
       await jobTitle.save()
@@ -108,7 +111,7 @@ export const deleteEmployee = async (req,res) => {
     await employee.remove()
     res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: "Dzēšot radās problēma!"})
+    res.status(404).json({ message: "Radusies kļūda!"})
   }
 }
 
@@ -149,7 +152,7 @@ export const updateAbsence = async (req, res) => {
     if(!absence) return res.status(404).json({ message: "Prombūtnes ieraksts neeksistē!" })
     if(!employee) return res.status(404).json({ message: "Darbinieks neeksistē!" })
     
-    // Check if date ranges are not overlapping
+    // Check if date ranges are not overlapping with OTHER absences of the employee
     if(employee.absences.length > 0) {
       if(employee.absences.some(i => 
         (i.startDate.toISOString().slice(0, 10) <= data.endDate) 
@@ -172,8 +175,11 @@ export const deleteAbsence = async (req,res) => {
   try {
     const absence = await EmployeeAbsence.findById(id)
     const employee = await EmployeeProfile.findById(empId).populate("absences")
+    
     if(!absence) return res.status(404).json({ message: "Prombūtnes ieraksts neeksistē!" })
     if(!employee) return res.status(404).json({ message: "Darbinieks vairs neeksistē!" })
+  
+    // Update absence list for employee document
     employee.absences = employee.absences.filter((i) => i.id !== id)
 
     await absence.remove()

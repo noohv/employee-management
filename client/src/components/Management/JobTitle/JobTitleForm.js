@@ -69,12 +69,12 @@ export default function Form({setOpenPopup, currentId, setNotify}) {
   return (
     <Container>
       <form onSubmit={handleSubmit}>
-        <TextField sx={{m:0.5}} name="name" variant="outlined" label="Nosaukums" fullWidth autoFocus 
+        <TextField sx={{mt: 1}} name="name" variant="outlined" label="Nosaukums" fullWidth autoFocus 
           value={jobTitleData.name} onChange={handleChange} {...(errors?.name && {error:true, helperText:errors.name})} />
-        <TextField sx={{m:0.5}} name="description" variant="outlined" label="Apraksts" multiline maxRows={4} minRows={4} fullWidth 
+        <TextField sx={{mt: 1}} name="description" variant="outlined" label="Apraksts" multiline maxRows={4} minRows={4} fullWidth 
           value={jobTitleData.description} onChange={handleChange} {...(errors?.description && {error:true, helperText:errors.description})} />
-        <Button sx={{m:1}} variant="contained" color="secondary" size="large" type="submit" fullWidth>Saglabāt</Button>
-        <Button sx={{ml:1, mr:1, mt:0.5}} variant="outlined" color="gray" size="small" onClick={() => {
+        <Button sx={{mt: 3}} variant="contained" color="secondary" size="large" type="submit" fullWidth>Saglabāt</Button>
+        <Button sx={{mt: 1}} variant="outlined" color="gray" size="small" onClick={() => {
           clear()
           setOpenPopup(false)}
         } fullWidth>Atcelt</Button>

@@ -62,34 +62,32 @@ export default function ScheduleForm({ setOpenPopup }) {
   }
 
   return (
-    <>
+    <Container>
       <form onSubmit={handleSubmit}>
-        <Container sx={{ display: 'flex', flexDirection:'column', justifyContent: 'center'}}>
-        <TextField sx={{m:1}} name="selectedDate" variant="outlined" label="Izvēlies nedēļu" type="date" InputLabelProps={{shrink:true}} fullWidth 
+        <TextField sx={{mt: 1}}  name="selectedDate" variant="outlined" label="Izvēlies nedēļu" type="date" InputLabelProps={{shrink:true}} fullWidth 
           value={formData.selectedDate.slice(0,10)} onChange={handleSelect} {...(errors?.selectedDate && {error:true, helperText:errors.selectedDate})} />
-          <FormControl sx={{mt:1}} component="fieldset" variant="standard">
-            <FormLabel id="radio-label">Maiņu izvēle:</FormLabel>
-            <FormGroup>
-              <FormControlLabel name="shiftCount" value="1" control={
-                <Checkbox checked={formData.shifts.one} onChange={handleChange} name="morning" />
-              } label="Rīta" />
-              <FormControlLabel name="shiftCount" value="1" control={
-                <Checkbox checked={formData.shifts.two} onChange={handleChange} name="evening" />
-              } label="Vakara" />
-              <FormControlLabel name="shiftCount" value="1" control={
-                <Checkbox checked={formData.shifts.three} onChange={handleChange} name="night" />
-              } label="Nakts" />
-            </FormGroup>
-          </FormControl>
-          <Button sx={{mt: 4}} variant="contained" color="secondary" size="large" type="submit" fullWidth>Izveidot</Button>
-          <Button sx={{mt: 1}} variant="outlined" color="gray" size="small" onClick={() => {
-            clear()
-            setOpenPopup(false)}
-          } fullWidth>
-            Atcelt
-          </Button>
-        </Container>
+        <FormControl sx={{mt: 1.5}}  component="fieldset" variant="standard">
+          <FormLabel id="radio-label">Maiņu izvēle:</FormLabel>
+          <FormGroup>
+            <FormControlLabel name="shiftCount" value="1" control={
+              <Checkbox checked={formData.shifts.one} onChange={handleChange} name="morning" />
+            } label="Rīta" />
+            <FormControlLabel name="shiftCount" value="1" control={
+              <Checkbox checked={formData.shifts.two} onChange={handleChange} name="evening" />
+            } label="Vakara" />
+            <FormControlLabel name="shiftCount" value="1" control={
+              <Checkbox checked={formData.shifts.three} onChange={handleChange} name="night" />
+            } label="Nakts" />
+          </FormGroup>
+        </FormControl>
+        <Button sx={{mt: 3}} variant="contained" color="secondary" size="large" type="submit" fullWidth>Izveidot</Button>
+        <Button sx={{mt: 1}} variant="outlined" color="gray" size="small" onClick={() => {
+          clear()
+          setOpenPopup(false)}
+        } fullWidth>
+          Atcelt
+        </Button>
       </form>
-    </>
+    </Container>
   )
 }

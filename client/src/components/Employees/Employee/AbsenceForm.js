@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
-import { createAbsence } from '../../../actions/employees';
+import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormHelperText, Container } from '@mui/material';
+import { createAbsence, updateAbsence } from '../../../actions/employees';
 
-export default function AbsenceForm({id, setOpenPopup, types, error, success, setNotify}) {
+export default function AbsenceForm({id, setOpenPopup, types, currentId, error, success, setNotify}) {
   const initialData = { absenceType:'', startDate:'', endDate: ''}
   const [absenceData, setAbsenceData] = useState(initialData)
   const [errors, setErrors] = useState({})
@@ -35,7 +35,12 @@ export default function AbsenceForm({id, setOpenPopup, types, error, success, se
     e.preventDefault()
     
     if(validate()) {
-      dispatch(createAbsence(id,absenceData))
+      if(currentId) {
+        dispatch(updateAbsence(currentId, id, absenceData))
+      }
+      else {
+        dispatch(createAbsence(id, absenceData))
+      }
       setOpenPopup(false)
       clear()
     }
@@ -60,25 +65,27 @@ export default function AbsenceForm({id, setOpenPopup, types, error, success, se
   }, [error, success])
 
   return (
-    <form onSubmit={handleSubmit} autoComplete="off">
-      <FormControl sx={{m:1}} fullWidth {...(errors?.absenceType && {error:true})}>
-        <InputLabel htmlFor="absenceType">Veids</InputLabel>
-        <Select labelId="absenceType" label="Veids" name="absenceType" onChange={handleChange} value={absenceData.absenceType}>
-          {types.map((item) => (
-            <MenuItem key={item.id} value={item.type}>{item.name}</MenuItem>
-          ))}
-        </Select>
-        {errors?.absenceType && <FormHelperText>{errors.absenceType}</FormHelperText> }
-      </FormControl>
-      <TextField sx={{m:1}} name="startDate" variant="outlined" label="Sākuma datums" type="date" InputLabelProps={{shrink:true}} fullWidth 
-        value={absenceData.startDate.slice(0,10)} onChange={handleChange} {...(errors?.startDate && {error:true, helperText:errors.startDate})} />
-      <TextField sx={{m:1}} name="endDate" variant="outlined" label="Beigu datums" type="date" InputLabelProps={{shrink:true}} fullWidth 
-        value={absenceData.endDate.slice(0,10)} onChange={handleChange} {...(errors?.endDate && {error:true, helperText:errors.endDate})} />
-      <Button sx={{m:1}} variant="contained" color="secondary" size="large" type="submit" fullWidth>Saglabāt</Button>
-      <Button sx={{ml:1, mr:1, mt:0.5}} variant="outlined" color="gray" size="small" onClick={() => {
-        clear()
-        setOpenPopup(false)}
-        } fullWidth>Atcelt</Button>
-    </form>
+    <Container>
+      <form onSubmit={handleSubmit} autoComplete="off">
+        <FormControl sx={{mt: 1}} fullWidth {...(errors?.absenceType && {error:true})}>
+          <InputLabel htmlFor="absenceType">Veids</InputLabel>
+          <Select labelId="absenceType" label="Veids" name="absenceType" onChange={handleChange} value={absenceData.absenceType}>
+            {types.map((item) => (
+              <MenuItem key={item.id} value={item.type}>{item.name}</MenuItem>
+            ))}
+          </Select>
+          {errors?.absenceType && <FormHelperText>{errors.absenceType}</FormHelperText> }
+        </FormControl>
+        <TextField sx={{mt: 1.5}} name="startDate" variant="outlined" label="Sākuma datums" type="date" InputLabelProps={{shrink:true}} fullWidth 
+          value={absenceData.startDate.slice(0,10)} onChange={handleChange} {...(errors?.startDate && {error:true, helperText:errors.startDate})} />
+        <TextField sx={{mt: 1.5}} name="endDate" variant="outlined" label="Beigu datums" type="date" InputLabelProps={{shrink:true}} fullWidth 
+          value={absenceData.endDate.slice(0,10)} onChange={handleChange} {...(errors?.endDate && {error:true, helperText:errors.endDate})} />
+        <Button sx={{mt: 3}} variant="contained" color="secondary" size="large" type="submit" fullWidth>Saglabāt</Button>
+        <Button sx={{mt: 1}} variant="outlined" color="gray" size="small" onClick={() => {
+          clear()
+          setOpenPopup(false)}
+          } fullWidth>Atcelt</Button>
+      </form>
+    </Container>
   )
 }

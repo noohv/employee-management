@@ -4,8 +4,9 @@ import { deleteAbsence } from '../../../actions/employees';
 import useTable from "../../Reusable/useTable";
 import { useDispatch } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
-export default function AbsenceList({ empId, absences, confirmDialog , setConfirmDialog }) {
+export default function AbsenceList({ empId, absences, confirmDialog , setConfirmDialog, setOpenPopup, setOpenPopupType, setCurrentId }) {
   const [filter, setFilter] = useState({fn: items => { return items; }})
   const dispatch = useDispatch()
 
@@ -44,6 +45,13 @@ export default function AbsenceList({ empId, absences, confirmDialog , setConfir
                 <TableCell>{item.startDate.slice(0,10)}</TableCell>
                 <TableCell>{item.endDate.slice(0,10)}</TableCell>
                 <TableCell>
+                  <IconButton onClick={() => { 
+                      setOpenPopupType("editAbsence")
+                      setOpenPopup(true) 
+                      setCurrentId(item._id)  
+                    }}>
+                      <EditIcon />
+                  </IconButton>
                   <IconButton onClick={() => { 
                     setConfirmDialog({
                       isOpen: true,

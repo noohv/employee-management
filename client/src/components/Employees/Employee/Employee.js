@@ -25,6 +25,7 @@ export default function Employee({ setNotify }) {
   const [openPopup, setOpenPopup] = useState(false)
   const [popupType, setOpenPopupType] = useState()
   const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: '', subTitle: ''})
+  const [currentId, setCurrentId] = useState()
   const [title, setTitle] = useState("Darbinieks")
   const [load, setLoad] = useState(true)
   const dispatch = useDispatch()
@@ -123,6 +124,9 @@ export default function Employee({ setNotify }) {
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog} 
                 setNotify={setNotify}
+                setOpenPopup={setOpenPopup}
+                setOpenPopupType={setOpenPopupType}
+                setCurrentId={setCurrentId}
                 error={error}
                 success={success}
               />
@@ -130,14 +134,17 @@ export default function Employee({ setNotify }) {
           </Container>
         
           <Popup
-            title={popupType==='absence' ? "Pievienot prombūtni" : "Rediģēt darbinieka datus"}
+            title={popupType==='absence' ? "Pievienot prombūtni" : popupType==='editAbsence' ? "Rediģēt prombūtni" :"Rediģēt darbinieka datus"}
             openPopup={openPopup}
             setOpenPopup={setOpenPopup}
           >
             {popupType==='absence' ?
               <AbsenceForm types={absenceTypes} id={id} setOpenPopup={setOpenPopup} error={error} success={success} setNotify={setNotify}/>
-            :
-              <Form currentId={id} setOpenPopup={setOpenPopup} setNotify={setNotify}  />
+              :
+              popupType==='editAbsence' ? 
+                <AbsenceForm types={absenceTypes} id={id} currentId={currentId} setOpenPopup={setOpenPopup} error={error} success={success} setNotify={setNotify}/>
+                :
+                <Form currentId={id} setOpenPopup={setOpenPopup} setNotify={setNotify}  />
             }
           </Popup>
           <ConfirmDialog

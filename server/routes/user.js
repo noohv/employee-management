@@ -3,8 +3,8 @@ import { signin, signup } from '../controllers/user.js';
 
 const router = express.Router()
 
-// USER AUTH ROUTES
-router.post('/signin', signin) // POST, User Sign In
-router.post('/signup', signup) // POST, User Sign Up
+// User auth routes
+router.post('/signin', signin) // POST method for user Log In
+router.post('/signup', signup) // POST method for user Registration
 
 export default router

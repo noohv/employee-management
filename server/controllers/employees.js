@@ -49,9 +49,7 @@ export const updateEmployee = async (req, res) => {
   const { id } = req.params
   const data = req.body
 
-  try {
-    // const updatedEmployee = await EmployeeProfile.findByIdAndUpdate(id, data, { new: true }).populate("absences jobTitle")
-    
+  try {    
     const updatedEmployee = await EmployeeProfile.findById(id) // Employee before
     const oldJobTitle = await JobTitle.findById(updatedEmployee.jobTitle).populate('employees') // Previous job title
     const newJobTitle = await JobTitle.findById(data.jobTitle).populate('employees') // Newly selected job title

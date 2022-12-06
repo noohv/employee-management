@@ -12,12 +12,13 @@ API.interceptors.request.use((req) => {
 // Employee API calls
 export const fetchEmployees = () => API.get('/employees')
 export const createEmployee = (newEmployee) => API.post('/employees', newEmployee)
-export const updateEmployee = (id,updatedData) => API.patch(`/employees/${id}`, updatedData)
+export const updateEmployee = (id, updatedData) => API.patch(`/employees/${id}`, updatedData)
 export const fetchEmployee = (id) => API.get(`/employees/${id}`)
 export const deleteEmployee = (id) => API.delete(`/employees/${id}`)
 
 // Employee absence API calls
 export const createAbsence = (id, absence) => API.post(`/employees/${id}/absence`, absence)
+export const updateAbsence = (id, empId, newData) => API.patch(`/employees/${empId}/${id}/absence`, newData)
 export const deleteAbsence = (id, empId) => API.delete(`/employees/${empId}/${id}/absence`)
 
 // Job Title API calls

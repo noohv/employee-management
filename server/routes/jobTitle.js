@@ -4,7 +4,7 @@ import auth from "../middleware/auth.js";
 
 const router = express.Router()
 
-// JOB TITLE ROUTES
+// Job Title routes, accessible only to registered user
 router.post('/', auth, createJobTitle) // POST, create Job Title
 router.get('/', auth, getJobTitles) // GET all Job Titles
 router.patch('/:id', auth, updateJobTitle) // PATCH, update Job Title

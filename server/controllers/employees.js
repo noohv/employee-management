@@ -39,7 +39,7 @@ export const createEmployee = async (req, res) => {
     await newEmployee.save()
     res.status(201).json(newEmployee)
   } catch (error) {
-    res.status(409).json({ message:error.message })
+    res.status(409).json({ message: "Radusies kļūda!" })
   }
 }
 
@@ -80,7 +80,7 @@ export const updateEmployee = async (req, res) => {
     }
     
     await updatedEmployee.updateOne(data, { new: true }).populate("absences jobTitle")
-    res.json(updatedEmployee)
+    res.status(200).json(updatedEmployee)
   } catch (error) {
     res.status(404).json({ message: "Lietotājs nav atrasts!"})
   }
@@ -121,11 +121,11 @@ export const createAbsence = async (req, res) => {
 
   try {
     const employee = await EmployeeProfile.findById(id).populate('absences')
-    if(!employee) return res.status(404).json({ message: "Darbinieks vairs neeksistē!" })
+    if(!employee) return res.status(404).json({ message: "Darbinieks neeksistē!" })
     
     // Check if date ranges are not overlapping
     if(employee.absences.length > 0) {
-      if(employee.absences.some(i => (i.startDate.toISOString().slice(0,10) <= data.endDate) && (data.startDate <= i.endDate.toISOString().slice(0,10))))
+      if(employee.absences.some(i => (i.startDate.toISOString().slice(0, 10) <= data.endDate) && (data.startDate <= i.endDate.toISOString().slice(0, 10))))
       return res.status(400).json({ message: "Prombūtne šajā laika periodā jau ir pievienota!" })
     }
     
@@ -134,7 +134,35 @@ export const createAbsence = async (req, res) => {
     await employee.save()
     res.status(201).json(absence)
   } catch (error) {
-    res.status(409).json({ message: error.message })
+    res.status(409).json({ message: "Radusies kļūda!" })
+  }
+}
+
+// Update employee absence
+export const updateAbsence = async (req, res) => {
+  const { id, empId } = req.params
+  const data = req.body
+
+  try {
+    const absence = await EmployeeAbsence.findById(id)
+    const employee = await EmployeeProfile.findById(empId).populate("absences")
+    if(!absence) return res.status(404).json({ message: "Prombūtnes ieraksts neeksistē!" })
+    if(!employee) return res.status(404).json({ message: "Darbinieks neeksistē!" })
+    
+    // Check if date ranges are not overlapping
+    if(employee.absences.length > 0) {
+      if(employee.absences.some(i => 
+        (i.startDate.toISOString().slice(0, 10) <= data.endDate) 
+          && (data.startDate <= i.endDate.toISOString().slice(0, 10)) 
+          && i.id !== id )
+      )
+        return res.status(400).json({ message: "Prombūtne šajā laika periodā jau ir pievienota!" })
+    }
+    
+    await absence.updateOne(data, {new: true})
+    res.status(201).json(absence)
+  } catch (error) {
+    res.status(409).json({ message: "Radusies kļūda!" })
   }
 }
 
@@ -144,6 +172,7 @@ export const deleteAbsence = async (req,res) => {
   try {
     const absence = await EmployeeAbsence.findById(id)
     const employee = await EmployeeProfile.findById(empId).populate("absences")
+    if(!absence) return res.status(404).json({ message: "Prombūtnes ieraksts neeksistē!" })
     if(!employee) return res.status(404).json({ message: "Darbinieks vairs neeksistē!" })
     employee.absences = employee.absences.filter((i) => i.id !== id)
 
@@ -151,6 +180,6 @@ export const deleteAbsence = async (req,res) => {
     await employee.save()
     res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: "Dzēšot radās problēma!"})
+    res.status(409).json({ message: "Radusies kļūda!"})
   }
 }

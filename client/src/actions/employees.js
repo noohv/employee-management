@@ -13,6 +13,8 @@ import {
   DELETE_ABSENCE_ERROR, 
   ADD_ABSENCE_SUCCESS,
   ADD_ABSENCE_ERROR, 
+  UPDATE_ABSENCE_SUCCESS,
+  UPDATE_ABSENCE_ERROR,
   SHOW_LOADER, 
   HIDE_LOADER, 
 } from '../constants/actionTypes';
@@ -80,6 +82,15 @@ export const createAbsence = (id, absence) => async (dispatch) => {
     dispatch({ type: ADD_ABSENCE_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: ADD_ABSENCE_ERROR, payload: error.response.data.message})
+  }
+}
+
+export const updateAbsence = (id, empId, newData) => async (dispatch) => {
+  try {
+    const { data } = await api.updateAbsence(id, empId, newData)
+    dispatch({ type: UPDATE_ABSENCE_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({ type: UPDATE_ABSENCE_ERROR, payload: error.response.data.message})
   }
 }
 

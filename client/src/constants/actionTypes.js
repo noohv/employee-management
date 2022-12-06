@@ -1,6 +1,4 @@
-/* 
-  Constants for React Redux actions and reducers
-*/
+//  Constants for React Redux actions and reducers
 
 // Constants for Employees
 export const FETCH_EMPLOYEES_SUCCESS = 'FETCH_EMPLOYEES_SUCCESS'
@@ -20,6 +18,8 @@ export const CLEAR_EMPLOYEES_MESSAGE = 'CLEAR_EMPLOYEES_MESSAGE'
 // Constants for Absences
 export const ADD_ABSENCE_SUCCESS = 'ADD_ABSENCE_SUCCESS'
 export const ADD_ABSENCE_ERROR = 'ADD_ABSENCE_ERROR'
+export const UPDATE_ABSENCE_SUCCESS = 'UPDATE_ABSENCE_SUCCESS'
+export const UPDATE_ABSENCE_ERROR = 'UPDATE_ABSENCE_ERROR'
 export const DELETE_ABSENCE_SUCCESS = 'DELETE_ABSENCE_SUCCESS'
 export const DELETE_ABSENCE_ERROR = 'DELETE_ABSENCE_ERROR'
 

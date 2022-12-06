@@ -15,7 +15,9 @@ import {
   ADD_ABSENCE_ERROR, 
   SHOW_LOADER, 
   HIDE_LOADER,
-  CLEAR_EMPLOYEES_MESSAGE
+  CLEAR_EMPLOYEES_MESSAGE,
+  UPDATE_ABSENCE_SUCCESS,
+  UPDATE_ABSENCE_ERROR
  } from '../constants/actionTypes';
 
 let initialState = { 
@@ -103,6 +105,18 @@ export default (state = initialState , action) => {
       }
       
     case ADD_ABSENCE_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      }
+
+    case UPDATE_ABSENCE_SUCCESS:
+      return {
+        ...state,
+        success: 'Darbinieka prombūtne atjaunota!'
+     }
+    
+    case UPDATE_ABSENCE_ERROR:
       return {
         ...state,
         error: action.payload

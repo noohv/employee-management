@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
-import { createAbsence } from '../../../actions/employees';
+import { createAbsence, updateAbsence } from '../../../actions/employees';
 
-export default function AbsenceForm({id, setOpenPopup, types, error, success, setNotify}) {
+export default function AbsenceForm({id, setOpenPopup, types, currentId, error, success, setNotify}) {
   const initialData = { absenceType:'', startDate:'', endDate: ''}
   const [absenceData, setAbsenceData] = useState(initialData)
   const [errors, setErrors] = useState({})
@@ -35,7 +35,12 @@ export default function AbsenceForm({id, setOpenPopup, types, error, success, se
     e.preventDefault()
     
     if(validate()) {
-      dispatch(createAbsence(id,absenceData))
+      if(currentId) {
+        dispatch(updateAbsence(currentId, id, absenceData))
+      }
+      else {
+        dispatch(createAbsence(id, absenceData))
+      }
       setOpenPopup(false)
       clear()
     }

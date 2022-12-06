@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createEmployee, updateEmployee } from "../../../actions/employees";
 import { emailFormat, phoneFormat, fieldRequired } from '../../../Helpers/errorMessages'
 
-export default function Form({ currentId, setOpenPopup, setNotify }) {
+export default function Form({ currentId, setOpenPopup }) {
   const initialData = { firstName:'', lastName:'', phone: '', email:'', address: '',  startDate: '', jobTitle:'' }
   const [employeeData, setEmployeeData] = useState(initialData)
   const [errors, setErrors] = useState({})
-  const { employee, error, success } = useSelector((state) => state.employees)
+  const { employee } = useSelector((state) => state.employees)
   const jobTitleList = useSelector((state) => state.jobTitle.data)
   const dispatch = useDispatch()
 
@@ -71,17 +71,7 @@ export default function Form({ currentId, setOpenPopup, setNotify }) {
       if(employee.jobTitle === null) setEmployeeData({...employee, jobTitle: ''})
       else setEmployeeData(employee)
     } 
-
-    if(error) {
-      setNotify({ isOpen: true, message: error , type: 'error' })
-      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
-    }
-
-    if(success) {
-      setNotify({ isOpen: true, message: success , type: 'success' })
-      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
-    }
-  }, [employee, error, success])
+  }, [employee])
 
   return (
     <Container>

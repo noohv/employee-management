@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react'
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 
 export default function RequireAuth() {

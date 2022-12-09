@@ -6,6 +6,6 @@ const router = express.Router()
 
 // User auth routes
 router.post('/signin', signin) // POST method for user Log In
-router.post('/signup', isAdmin, signup) // POST method for user Registration
+router.post('/signup', signup) // POST method for user Registration
 
 export default router

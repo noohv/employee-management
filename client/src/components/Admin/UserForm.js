@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Grid, Container, Typography } from '@mui/material';
-import Input from './UserInput';
+import Input from '../Reusable/AuthInput';
 import { createUser } from  '../../actions/auth';
 import { emailFormat, fieldRequired, matchingPasswords, passwordLength } from '../../Helpers/errorMessages'
-import Loader from '../Reusable/Loader';
 
 export default function UserForm({ setNotify, setOpenPopup }) {
   const roles = ["user", "admin"]
@@ -16,6 +15,7 @@ export default function UserForm({ setNotify, setOpenPopup }) {
 
   const dispatch = useDispatch()
 
+  // Form validation rules
   const validate = (fieldValues = formData) => {
     let temp = {...errors}
 
@@ -27,10 +27,8 @@ export default function UserForm({ setNotify, setOpenPopup }) {
       temp.firstName = fieldValues.firstName ? "" : fieldRequired
     if('lastName' in fieldValues)
       temp.lastName = fieldValues.lastName ? "" : fieldRequired
-    if('password' in fieldValues) {
-      temp.password = fieldValues.password ? "" : fieldRequired
-      if(fieldValues.password.length < 8) temp.password = passwordLength
-    }
+    if('password' in fieldValues)
+      temp.password = fieldValues.password ? fieldValues.password.length < 8 ? passwordLength : "" : fieldRequired
     if('confirmPassword' in fieldValues)
       temp.confirmPassword = fieldValues.confirmPassword !== formData.password ? matchingPasswords : fieldValues.confirmPassword ? "" : fieldRequired
 
@@ -52,6 +50,9 @@ export default function UserForm({ setNotify, setOpenPopup }) {
 
     if(validate()) {
       dispatch(createUser(formData))
+
+      setOpenPopup(false)
+      setFormData(initialData)
     }
   }
 
@@ -60,12 +61,12 @@ export default function UserForm({ setNotify, setOpenPopup }) {
   useEffect(() => {
     if(error) {
       setNotify({ isOpen: true, message: error , type: 'error' })
-      dispatch({type: 'AUTH_CLEAR_ERROR', payload: null})
+      dispatch({type: 'AUTH_CLEAR_MESSAGE', payload: null})
     }
 
     if(success) {
       setNotify({ isOpen: true, message: success , type: 'success' })
-      dispatch({type: 'AUTH_CLEAR_ERROR', payload: null})
+      dispatch({type: 'AUTH_CLEAR_MESSAGE', payload: null})
     } 
   }, [error, success])
 
@@ -83,7 +84,6 @@ export default function UserForm({ setNotify, setOpenPopup }) {
           Izveidot lietotāju
         </Button>
       </form>
-      { isLoading && <Loader /> }
     </Container>
   )
 }

@@ -3,15 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Button, Grid, Container, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Input from './Input';
+import Input from '../Reusable/AuthInput';
 import { signin } from  '../../actions/auth';
-import { emailFormat, fieldRequired, matchingPasswords, passwordLength } from '../../Helpers/errorMessages'
+import { emailFormat, fieldRequired } from '../../Helpers/errorMessages'
 import Loader from '../Reusable/Loader';
 
 export default function Auth({ setNotify }) {
-  const initialData = { firstName:'', lastName:'', email:'', password:'', confirmPassword:'' }
+  const initialData = {email:'', password:'' }
   const [showPassword, setShowPassword] = useState(false)
-  const [isSignup, setIsSignup] = useState(false)
   const [formData, setFormData] = useState(initialData)
   const [errors, setErrors] = useState({})
   const { error, success, isLoading } = useSelector(state => state.auth)
@@ -53,12 +52,12 @@ export default function Auth({ setNotify }) {
   useEffect(() => {
     if(error) {
       setNotify({ isOpen: true, message: error , type: 'error' })
-      dispatch({type: 'AUTH_CLEAR_ERROR', payload: null})
+      dispatch({type: 'AUTH_CLEAR_MESSAGE', payload: null})
     }
 
     if(success) {
       setNotify({ isOpen: true, message: success , type: 'success' })
-      dispatch({type: 'AUTH_CLEAR_ERROR', payload: null})
+      dispatch({type: 'AUTH_CLEAR_MESSAGE', payload: null})
     } 
 
     document.title = "Pievienoties sistēmai"

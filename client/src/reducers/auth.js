@@ -2,7 +2,7 @@ import {
   AUTH_SUCCESS, 
   AUTH_ERROR, 
   LOG_OUT, 
-  AUTH_CLEAR_ERROR, 
+  AUTH_CLEAR_MESSAGE, 
   AUTH_SHOW_LOADING, 
   AUTH_HIDE_LOADING,
   FETCH_USERS_SUCCESS,
@@ -33,16 +33,10 @@ const authReducer = (state = initialState, action) => {
         error: action.payload
       }
     
-    case AUTH_CLEAR_ERROR:
-      return {
-        ...state,
-        error: null
-      }
-    
     case CREATE_USER_SUCCESS:
       return {
         ...state,
-        users: [...state.authData, action.payload],
+        users: [...state.users, action.payload],
         success: "Lietotājs veiksmīgi pievienots"
       }
 
@@ -80,6 +74,13 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         error: null
+      }
+
+    case AUTH_CLEAR_MESSAGE:
+      return {
+        ...state,
+        error: null,
+        success: null
       }
 
     default:

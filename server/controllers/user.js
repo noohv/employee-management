@@ -44,7 +44,7 @@ export const createUser = async (req, res) => {
     const newUser = new User({ email, password: hashedPassword, name: `${firstName} ${lastName}`, role })
 
     newUser.save()
-    res.status(200).json({ newUser })
+    res.status(200).json(newUser)
   } catch (error) {
     res.status(500).json({ message: "Neizdevās reģistrēties!" })
   }

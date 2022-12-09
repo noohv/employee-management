@@ -21,18 +21,18 @@ export default function JobTitle({ setNotify }) {
   useEffect(() => {
     dispatch(getJobTitles())
     document.title = "Darbinieku Amati"
-  },[])
+  }, [])
 
   return (
     <>
-      <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>
+      <IconButton sx={{ mt:'1%', ml:'1%' }} onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>
       <Container>
-        <Typography sx={{mt:3, mb:3}} variant='h4'>Darba amati</Typography>
+        <Typography sx={{ mt:3, mb:3 }} variant='h4'>Darba amati</Typography>
         <Divider/>
       </Container>
       <Container>
         <Button
-          sx={{mt:5, mb: 2, ml:3}}
+          sx={{ mt:5, mb: 2, ml:3 }}
           variant='contained'
           size='large'
           color="secondary"

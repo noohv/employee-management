@@ -34,7 +34,7 @@ export default function Form({ currentId, setOpenPopup }) {
         ? "" : phoneFormat
 
     if('email' in fieldValues)
-      temp.email = fieldValues.email==="" ? fieldRequired : (/$^|.+@.+..+/).test(fieldValues.email) ? "" : emailFormat
+      temp.email = fieldValues.email==="" ? fieldRequired : ((/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)).test(fieldValues.email) ? "" : emailFormat
     if('address' in fieldValues)
       temp.address = fieldValues.address ? "": fieldRequired
     if('jobTitle' in fieldValues)
@@ -42,8 +42,8 @@ export default function Form({ currentId, setOpenPopup }) {
     
     setErrors({ ...temp })
 
-    if(fieldValues == employeeData)
-      return Object.values(temp).every(x => x == "")
+    if(fieldValues === employeeData)
+      return Object.values(temp).every(x => x === "")
   }
 
   const handleSubmit = (e) => {

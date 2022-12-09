@@ -2,13 +2,18 @@ import {
   AUTH_SUCCESS, 
   AUTH_ERROR, 
   LOG_OUT, 
-  AUTH_CLEAR_ERROR, 
+  AUTH_CLEAR_MESSAGE, 
   AUTH_SHOW_LOADING, 
-  AUTH_HIDE_LOADING
+  AUTH_HIDE_LOADING,
+  FETCH_USERS_SUCCESS,
+  FETCH_USERS_ERROR,
+  CREATE_USER_SUCCESS,
+  CREATE_USER_ERROR
 } from '../constants/actionTypes';
 
 const initialState = {
   authData: null,
+  users: [],
   isLoading: false
 }
 
@@ -28,12 +33,19 @@ const authReducer = (state = initialState, action) => {
         error: action.payload
       }
     
-    case AUTH_CLEAR_ERROR:
+    case CREATE_USER_SUCCESS:
       return {
         ...state,
-        error: null
+        users: [...state.users, action.payload],
+        success: "Lietotājs veiksmīgi pievienots"
       }
-    
+
+    case CREATE_USER_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      }
+
     case LOG_OUT:
       localStorage.clear()
       return { 
@@ -50,6 +62,25 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false
+      }
+
+    case FETCH_USERS_SUCCESS:
+      return {
+        ...state,
+        users: action.payload,
+      }
+
+    case FETCH_USERS_ERROR:
+      return {
+        ...state,
+        error: null
+      }
+
+    case AUTH_CLEAR_MESSAGE:
+      return {
+        ...state,
+        error: null,
+        success: null
       }
 
     default:

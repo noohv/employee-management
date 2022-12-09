@@ -23,7 +23,7 @@ export default function Auth({ setNotify }) {
     let temp = {...errors}
 
     if('email' in fieldValues) 
-      temp.email = fieldValues.email==="" ? fieldRequired : (/$^|.+@.+..+/).test(fieldValues.email) ? "": emailFormat    
+      temp.email = fieldValues.email==="" ? fieldRequired : (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(fieldValues.email) ? "": emailFormat    
     if('password' in fieldValues)
       temp.password = fieldValues.password ? "" : fieldRequired
 

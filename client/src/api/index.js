@@ -36,4 +36,5 @@ export const deleteSchedule = (id) => API.delete(`/schedules/${id}`)
 
 // Auth API calls
 export const signIn = (formData) => API.post('/user/signin', formData)
-export const signUp = (formData) => API.post('/user/signup', formData)
+export const createUser = (formData) => API.post('/user/create', formData)
+export const getUsers = () => API.get(`/user/users`)

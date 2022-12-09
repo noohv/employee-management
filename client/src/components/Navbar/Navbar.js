@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { AppBar, Container, Toolbar, Button, Avatar, Tooltip, IconButton, Stack, Tabs, Tab, Typography } from '@mui/material';
+import { AppBar, Container, Toolbar, Button, Avatar, Tooltip, IconButton, Stack, Typography } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import { useDispatch } from 'react-redux';
@@ -53,6 +53,13 @@ export default function Navbar({ setNotify }) {
                 Amati
               </Typography>
             </Button>
+            {user?.result.role === "admin" && 
+              <Button variant='text' color={location.pathname === '/admin' ? "white" : "lightgray"} component={Link} to='/admin'>
+                <Typography variant='body2' sx={location.pathname === '/admin' ? {fontWeight: 'bold'} : null}>
+                  Admin
+                </Typography>
+              </Button>
+            }
           </Stack>
         )}
         </Container>

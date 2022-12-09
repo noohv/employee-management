@@ -23,6 +23,8 @@ export default function JobTitle({ setNotify }) {
     document.title = "Darbinieku Amati"
   },[])
 
+  console.log(data)
+
   return (
     <>
       <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>

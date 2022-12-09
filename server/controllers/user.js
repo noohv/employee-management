@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import User from '../models/user.js';
 
 dotenv.config()
@@ -27,7 +28,7 @@ export const signin = async (req, res) => {
 }
 
 // User sign up (register)
-export const signup = async (req, res) => {
+export const createUser = async (req, res) => {
   const { firstName, lastName, email, password, confirmPassword, role } = req.body
 
   try {
@@ -39,12 +40,21 @@ export const signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12)
 
-    const result = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}`, role })
+    // const result = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}`, role })
+    const newUser = new User({ email, password: hashedPassword, name: `${firstName} ${lastName}`, role })
 
-    const token = jwt.sign({ email:result.email, id:result._id }, process.env.TOKEN, {expiresIn: '8h'} )
-
-    res.status(200).json({ result, token })
+    newUser.save()
+    res.status(200).json({ newUser })
   } catch (error) {
     res.status(500).json({ message: "Neizdevās reģistrēties!" })
+  }
+}
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find()
+    res.status(200).json(users)
+  } catch (error) {
+    res.status(404).json({ message: error.message })  
   }
 }

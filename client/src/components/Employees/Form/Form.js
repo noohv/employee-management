@@ -42,8 +42,8 @@ export default function Form({ currentId, setOpenPopup }) {
     
     setErrors({ ...temp })
 
-    if(fieldValues == employeeData)
-      return Object.values(temp).every(x => x == "")
+    if(fieldValues === employeeData)
+      return Object.values(temp).every(x => x === "")
   }
 
   const handleSubmit = (e) => {

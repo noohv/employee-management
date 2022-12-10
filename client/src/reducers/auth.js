@@ -8,7 +8,9 @@ import {
   FETCH_USERS_SUCCESS,
   FETCH_USERS_ERROR,
   CREATE_USER_SUCCESS,
-  CREATE_USER_ERROR
+  CREATE_USER_ERROR,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_ERROR
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -32,6 +34,18 @@ const authReducer = (state = initialState, action) => {
         ...state,
         error: action.payload
       }
+
+    case FETCH_USERS_SUCCESS:
+      return {
+        ...state,
+        users: action.payload,
+      }
+
+    case FETCH_USERS_ERROR:
+      return {
+        ...state,
+        error: null
+      }
     
     case CREATE_USER_SUCCESS:
       return {
@@ -41,6 +55,19 @@ const authReducer = (state = initialState, action) => {
       }
 
     case CREATE_USER_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      }
+
+    case DELETE_USER_SUCCESS:
+      return {
+        ...state,
+        user: state.users.filter((i) => i._id !== action.payload),
+        success: 'Lietotājs dzēsts!'
+      }
+
+    case DELETE_USER_ERROR:
       return {
         ...state,
         error: action.payload
@@ -62,18 +89,6 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false
-      }
-
-    case FETCH_USERS_SUCCESS:
-      return {
-        ...state,
-        users: action.payload,
-      }
-
-    case FETCH_USERS_ERROR:
-      return {
-        ...state,
-        error: null
       }
 
     case AUTH_CLEAR_MESSAGE:

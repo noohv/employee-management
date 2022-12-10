@@ -14,14 +14,14 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
   const showLoading = useSelector((state) => state.employees.isLoading)
   const [filter, setFilter] = useState({ fn: items => { return items } })
   const [openPopup, setOpenPopup] = useState(false)
-  const [currentDate, setCurrentDate] = useState(new Date())
+  const currentDate = new Date()
 
   const headCells = [
     { id: 'status', label: 'Statuss', disableSorting: true},
     { id: 'firstName', label: 'Vārds' },
     { id: 'lastName', label: 'Uzvārds' },
     { id: 'jobTitle', label: 'Amats' },
-    { id: 'actions', label: 'Darbības', disableSorting: true }
+    { id: 'actions', label: '', disableSorting: true }
   ]
 
   const getStatus = (item) => {
@@ -44,9 +44,9 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
 
     setFilter({
       fn: items => {
-        if(value ==="")
+        if(value === "")
           return items
-        else if(value===" ")
+        else if(value === " ")
           return []
         else
           return items.filter(x => {
@@ -87,7 +87,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
                         <TableCell>{item.firstName}</TableCell>
                         <TableCell>{item.lastName}</TableCell>
                         <TableCell>{item.jobTitle?.name || jobTitles.data.find(x => x._id === item.jobTitle)?.name}</TableCell>
-                        <TableCell>
+                        <TableCell align="center">
                           <IconButton component={Link} to={`/darbinieki/${item._id}`}>
                             <SettingsIcon />
                           </IconButton>   

@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from "react";
-import { Button, Container, TableBody, TableCell, TableRow, IconButton, Chip, Typography, Divider } from '@mui/material';
+import { Button, Container, Typography, Divider } from '@mui/material';
 import UserList from "./UserList";
 import UserForm from "./UserForm";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,8 +13,19 @@ export default function AdminPanel ({ setNotify }) {
 
   useEffect(() => {
     dispatch(getUsers())
+    
+    if(error) {
+      setNotify({ isOpen: true, message: error , type: 'error' })
+      dispatch({type: 'AUTH_CLEAR_MESSAGE'})
+    }
+
+    if(success) {
+      setNotify({ isOpen: true, message: success , type: 'success' })
+      dispatch({type: 'AUTH_CLEAR_MESSAGE'})
+    }
+
     document.title = "Sistēmas lietotāji"
-  },[])
+  }, [error, success])
 
   return (
     <>

@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Grid, Container, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Button, Grid, Container, FormControl, InputLabel, Select, MenuItem, FormHelperText  } from '@mui/material';
 import Input from '../Reusable/AuthInput';
 import { createUser } from  '../../actions/auth';
 import { emailFormat, fieldRequired, matchingPasswords, passwordLength } from '../../Helpers/errorMessages'
 
-export default function UserForm({ setNotify, setOpenPopup }) {
-  const roles = ["user", "admin"]
-  const initialData = { firstName:'', lastName:'', email:'', password:'', confirmPassword:'', role:'user' }
+export default function UserForm({ setOpenPopup }) {
+  const roles = [{role: "user"}, {role: "admin"}]
+  const initialData = { firstName:'', lastName:'', email:'', password:'', confirmPassword:'', role: '' }
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState(initialData)
   const [errors, setErrors] = useState({})
-  const { error, success, isLoading } = useSelector(state => state.auth)
 
   const dispatch = useDispatch()
 
@@ -31,8 +30,10 @@ export default function UserForm({ setNotify, setOpenPopup }) {
       temp.password = fieldValues.password ? fieldValues.password.length < 8 ? passwordLength : "" : fieldRequired
     if('confirmPassword' in fieldValues)
       temp.confirmPassword = fieldValues.confirmPassword !== formData.password ? matchingPasswords : fieldValues.confirmPassword ? "" : fieldRequired
+    if('role' in fieldValues)
+      temp.role = fieldValues.role ? "" : fieldRequired    
 
-    setErrors({ ...temp })
+      setErrors({ ...temp })
 
     if(fieldValues === formData)
       return Object.values(temp).every(x => x === "")
@@ -58,18 +59,6 @@ export default function UserForm({ setNotify, setOpenPopup }) {
 
   const handleShowPassword = () => setShowPassword(prev => !prev)
 
-  useEffect(() => {
-    if(error) {
-      setNotify({ isOpen: true, message: error , type: 'error' })
-      dispatch({type: 'AUTH_CLEAR_MESSAGE', payload: null})
-    }
-
-    if(success) {
-      setNotify({ isOpen: true, message: success , type: 'success' })
-      dispatch({type: 'AUTH_CLEAR_MESSAGE', payload: null})
-    } 
-  }, [error, success])
-
   return (
     <Container sx={{ mt: 1 }} component='main' maxWidth='sm'>
       <form onSubmit={handleSubmit}>
@@ -79,6 +68,18 @@ export default function UserForm({ setNotify, setOpenPopup }) {
           <Input name="email" label="Epasta Adrese" handleChange={handleChange} type="text" error={errors.email} />
           <Input name="password" label="Parole" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} error={errors.password} />
           <Input name="confirmPassword" label="Apstiprināt paroli" handleChange={handleChange} type="password" error={errors.confirmPassword} />
+          <Grid item xs={12}>
+            <FormControl xs={12} fullWidth {...(errors?.jobTitle && {error:true})}>
+              <InputLabel htmlFor="role">Loma</InputLabel>
+              <Select labelId="role" label="Loma" name="role" onChange={handleChange} 
+                value={formData.role} >
+                {roles.map((item) => (
+                  <MenuItem key={item.role} value={item.role}>{item.role === "admin" ? "Administrators" : "Lietotājs"}</MenuItem>
+                ))}
+              </Select>
+              {errors?.role && <FormHelperText>{errors.role}</FormHelperText> }
+            </FormControl>
+          </Grid>
         </Grid>
         <Button sx={{mt:2}} type="submit" color="secondary" variant='contained' fullWidth>
           Izveidot lietotāju

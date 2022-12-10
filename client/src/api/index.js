@@ -36,6 +36,7 @@ export const updateSchedule = (id, empId, schedule) => API.patch(`/schedules/${i
 export const deleteSchedule = (id) => API.delete(`/schedules/${id}`)
 
 // Auth API calls
-export const signIn = (formData) => API.post('/user/signin', formData)
-export const createUser = (formData) => API.post('/user/create', formData)
+export const signIn = (formData) => API.post(`/user/signin`, formData)
 export const getUsers = () => API.get(`/user/users`)
+export const createUser = (formData) => API.post(`/user/create`, formData)
+export const deleteUser = (id) => API.delete(`/user/delete/${id}`)

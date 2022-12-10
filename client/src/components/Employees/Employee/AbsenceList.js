@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { TableBody, TableCell, TableRow, IconButton } from "@mui/material";
 import { deleteAbsence } from '../../../actions/employees';
 import useTable from "../../Reusable/useTable";
@@ -14,7 +14,7 @@ export default function AbsenceList({ empId, absences, confirmDialog , setConfir
     { id: 'absenceType', label: 'Veids' },
     { id: 'startDate', label: 'No'},
     { id: 'endDate', label:'Līdz' },
-    { id: 'actions', label: 'Darbības', disableSorting:true}
+    { id: 'actions', label: '', disableSorting:true}
   ]  
 
   const onDelete = (item) => {
@@ -44,7 +44,7 @@ export default function AbsenceList({ empId, absences, confirmDialog , setConfir
                 <TableCell>{item.absenceType === 'vacation' ? "Atvaļinājums" : item.absenceType === 'sick' ? "Slims" : "Cits"}</TableCell>
                 <TableCell>{item.startDate.slice(0,10)}</TableCell>
                 <TableCell>{item.endDate.slice(0,10)}</TableCell>
-                <TableCell>
+                <TableCell align='center'>
                   <IconButton onClick={() => { 
                       setOpenPopupType("editAbsence")
                       setOpenPopup(true) 

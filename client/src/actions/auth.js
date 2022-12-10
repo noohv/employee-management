@@ -6,7 +6,9 @@ import {
   FETCH_USERS_ERROR,
   FETCH_USERS_SUCCESS,
   CREATE_USER_SUCCESS,
-  CREATE_USER_ERROR
+  CREATE_USER_ERROR,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_ERROR
 } from '../constants/actionTypes';
 import * as api from '../api';
 
@@ -27,6 +29,18 @@ export const signin = (formData, navigate) => async (dispatch) => {
   dispatch({ type: AUTH_HIDE_LOADING })
 }
 
+// Redux action creator for getting user list
+export const getUsers = () => async (dispatch) => {
+  try {
+    dispatch({ type: AUTH_SHOW_LOADING })
+    let { data } = await api.getUsers()
+    dispatch({ type: FETCH_USERS_SUCCESS, payload: data })
+    dispatch({ type: AUTH_HIDE_LOADING })
+  } catch (error) {
+    dispatch({ type: FETCH_USERS_ERROR, payload: error.response.data.message })
+  }
+}
+
 // Redux action creator for user sign up
 export const createUser = (formData) => async (dispatch) => {
   try {
@@ -37,14 +51,12 @@ export const createUser = (formData) => async (dispatch) => {
   }
 }
 
-// Redux action creator for getting user list
-export const getUsers = () => async (dispatch) => {
+export const deleteUser = (id) => async (dispatch) => {
   try {
-    dispatch({ type: AUTH_SHOW_LOADING })
-    let { data } = await api.getUsers()
-    dispatch({ type: FETCH_USERS_SUCCESS, payload: data })
-    dispatch({ type: AUTH_HIDE_LOADING })
+    await api.deleteUser(id)
+    dispatch({ type: DELETE_USER_SUCCESS, payload: id })
+
   } catch (error) {
-    dispatch({ type: FETCH_USERS_ERROR, payload: error.response.data.message })
+    dispatch({ type: DELETE_USER_ERROR, payload: error.response.data.message })
   }
 }

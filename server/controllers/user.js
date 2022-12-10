@@ -27,7 +27,16 @@ export const signin = async (req, res) => {
   }
 }
 
-// User sign up (register)
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find()
+    res.status(200).json(users)
+  } catch (error) {
+    res.status(404).json({ message: error.message })  
+  }
+}
+
+// Create new system user
 export const createUser = async (req, res) => {
   const { firstName, lastName, email, password, confirmPassword, role } = req.body
 
@@ -50,11 +59,15 @@ export const createUser = async (req, res) => {
   }
 }
 
-export const getUsers = async (req, res) => {
+export const deleteUser = async (req, res) => {
+  const { id } = req.params
+
   try {
-    const users = await User.find()
-    res.status(200).json(users)
+    const user = await User.findById(id)
+    
+    await user.remove()
+    res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: error.message })  
+    res.status(404).json({ message: "Radusies kļūda!"})
   }
 }

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, TextField, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { createJobTitle, updateJobTitle } from "../../../actions/jobTitle";
+import { createJobTitle, updateJobTitle } from "../../actions/jobTitle";
 
-
-export default function Form({setOpenPopup, currentId, setNotify}) {
+export default function Form({ setOpenPopup, currentId }) {
   const initialData = { name: '', description:''}
   const [jobTitleData, setJobTitleData] = useState(initialData)
-  const { data, error, success } = useSelector(state => state.jobTitle)
+  const { data } = useSelector(state => state.jobTitle)
   const [errors, setErrors] = useState({})
   const dispatch = useDispatch()
 
@@ -17,12 +16,12 @@ export default function Form({setOpenPopup, currentId, setNotify}) {
     if('name' in fieldValues)
       temp.name = fieldValues.name ? "": "Šis lauks ir obligāts"
     if('description' in fieldValues)
-      temp.description = fieldValues.description ? (fieldValues.description.length >250 ? "Apraksta maksimālais garums ir 250 rakstzīmes" : "") : "Šis lauks ir obligāts"
+      temp.description = fieldValues.description ? (fieldValues.description.length > 250 ? "Apraksta maksimālais garums ir 250 rakstzīmes" : "") : "Šis lauks ir obligāts"
 
     setErrors({ ...temp })
 
-    if(fieldValues == jobTitleData)
-      return Object.values(temp).every(x => x == "")
+    if(fieldValues === jobTitleData)
+      return Object.values(temp).every(x => x === "")
   }
 
   const handleChange = (e) => {
@@ -50,17 +49,7 @@ export default function Form({setOpenPopup, currentId, setNotify}) {
   useEffect(() => {
     const jobTitle = data.find(item => item._id === currentId)
     if(jobTitle) setJobTitleData(jobTitle)
-
-    if(error) {
-      setNotify({ isOpen: true, message: error , type: 'error' })
-      dispatch({type: 'CLEAR_JOBTITLE_MESSAGE'})
-    }
-
-    if(success) {
-      setNotify({ isOpen: true, message: success , type: 'success' })
-      dispatch({type: 'CLEAR_JOBTITLE_MESSAGE'})
-    }
-  }, [data, error, success])
+  }, [data])
 
   const clear = () => {
     setJobTitleData(initialData)
@@ -72,7 +61,7 @@ export default function Form({setOpenPopup, currentId, setNotify}) {
         <TextField sx={{mt: 1}} name="name" variant="outlined" label="Nosaukums" fullWidth autoFocus 
           value={jobTitleData.name} onChange={handleChange} {...(errors?.name && {error:true, helperText:errors.name})} />
         <TextField sx={{mt: 1}} name="description" variant="outlined" label="Apraksts" multiline maxRows={4} minRows={4} fullWidth 
-          value={jobTitleData.description} onChange={handleChange} {...(errors?.description && {error:true, helperText:errors.description})} />
+          value={jobTitleData.description} onChange={handleChange} {...(errors?.description && {error: true, helperText: errors.description})} />
         <Button sx={{mt: 3}} variant="contained" color="secondary" size="large" type="submit" fullWidth>Saglabāt</Button>
         <Button sx={{mt: 1}} variant="outlined" color="gray" size="small" onClick={() => {
           clear()

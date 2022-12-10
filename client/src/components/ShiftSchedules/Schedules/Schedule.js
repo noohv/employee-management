@@ -78,7 +78,7 @@ export default function Schedules() {
     { id: 'friday', label: `Piektdiena (${dayDates.friday.toISOString().slice(8,10)}/${dayDates.friday.toISOString().slice(5,7)})`, disableSorting: true },
     { id: 'saturday', label: `Sestdiena (${dayDates.saturday.toISOString().slice(8,10)}/${dayDates.saturday.toISOString().slice(5,7)})`, disableSorting: true },
     { id: 'sunday', label: `Svētdiena (${dayDates.sunday.toISOString().slice(8,10)}/${dayDates.sunday.toISOString().slice(5,7)})`, disableSorting: true },
-    { id: 'edit', label: 'Rediģēt', disableSorting: true }
+    { id: 'edit', label: '', disableSorting: true }
   ]
 
   useEffect(() => {
@@ -182,7 +182,7 @@ export default function Schedules() {
                             (checkDate(dayDates.sunday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.sunday)}/> : schedule.employeeSchedules.find(i => i._id === item._id).days.sunday.map(j => (<Chip sx={{ m: 0.5 }} key={j} label={j} />)))
                         }
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="center">
                         {
                           editing === item._id ? 
                             <>

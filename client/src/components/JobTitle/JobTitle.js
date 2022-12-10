@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, IconButton, Container, Typography, Divider } from '@mui/material';
 import JobTitleForm from './JobTitleForm';
 import JobTitleList from './JobTitleList';
-import Popup from "../../Reusable/Popup";
-import { getJobTitles } from '../../../actions/jobTitle';
+import Popup from "../Reusable/Popup";
+import { getJobTitles } from '../../actions/jobTitle';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import ConfirmDialog from '../../Reusable/ConfirmDialog';
+import ConfirmDialog from '../Reusable/ConfirmDialog';
 
 export default function JobTitle({ setNotify }) {
   const [popupType, setOpenPopupType] = useState()
@@ -21,7 +21,17 @@ export default function JobTitle({ setNotify }) {
   useEffect(() => {
     dispatch(getJobTitles())
     document.title = "Darbinieku Amati"
-  }, [])
+
+    if(error) {
+      setNotify({ isOpen: true, message: error , type: 'error' })
+      dispatch({type: 'CLEAR_JOBTITLE_MESSAGE'})
+    }
+
+    if(success) {
+      setNotify({ isOpen: true, message: success , type: 'success' })
+      dispatch({type: 'CLEAR_JOBTITLE_MESSAGE'})
+    }
+  }, [error, success])
 
   return (
     <>

@@ -26,7 +26,6 @@ export default function Employee({ setNotify }) {
   const [popupType, setOpenPopupType] = useState()
   const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: '', subTitle: ''})
   const [currentId, setCurrentId] = useState()
-  const [title, setTitle] = useState("Darbinieks")
   const [load, setLoad] = useState(true)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -35,7 +34,7 @@ export default function Employee({ setNotify }) {
   useEffect(() => {
     dispatch(getEmployee(id))
     dispatch(getJobTitles())
-    document.title = title
+    document.title = "Darbinieks"
     
     if(error) {
       setNotify({ isOpen: true, message: error , type: 'error' })
@@ -134,7 +133,7 @@ export default function Employee({ setNotify }) {
           </Container>
         
           <Popup
-            title={popupType==='absence' ? "Pievienot prombūtni" : popupType==='editAbsence' ? "Rediģēt prombūtni" :"Rediģēt darbinieka datus"}
+            title={popupType==='absence' ? "Pievienot prombūtni" : popupType==='editAbsence' ? "Rediģēt prombūtni" : "Rediģēt darbinieka datus"}
             openPopup={openPopup}
             setOpenPopup={setOpenPopup}
           >
@@ -142,7 +141,7 @@ export default function Employee({ setNotify }) {
               <AbsenceForm types={absenceTypes} id={id} setOpenPopup={setOpenPopup} error={error} success={success} setNotify={setNotify}/>
               :
               popupType==='editAbsence' ? 
-                <AbsenceForm types={absenceTypes} id={id} currentId={currentId} setOpenPopup={setOpenPopup} error={error} success={success} setNotify={setNotify}/>
+                <AbsenceForm types={absenceTypes} id={id} currentId={currentId} absences={employee.absences} setOpenPopup={setOpenPopup} error={error} success={success} setNotify={setNotify}/>
                 :
                 <Form currentId={id} setOpenPopup={setOpenPopup} setNotify={setNotify}  />
             }

@@ -14,7 +14,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
   const showLoading = useSelector((state) => state.employees.isLoading)
   const [filter, setFilter] = useState({ fn: items => { return items } })
   const [openPopup, setOpenPopup] = useState(false)
-  const [currentDate, setCurrentDate] = useState(new Date())
+  const currentDate = new Date()
 
   const headCells = [
     { id: 'status', label: 'Statuss', disableSorting: true},

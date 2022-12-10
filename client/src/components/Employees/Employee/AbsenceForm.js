@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormHelperText, Container } from '@mui/material';
 import { createAbsence, updateAbsence } from '../../../actions/employees';

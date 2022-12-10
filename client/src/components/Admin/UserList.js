@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { IconButton, TableBody, TableCell, TableRow } from "@mui/material";
 import useTable from '../Reusable/useTable';
-import { useDispatch } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function UserList({ users }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
-  const [filter, setFilter] = useState({fn: items => { return items; }})
-  const dispatch = useDispatch()
+  const [filter, setFilter] = useState({fn: items => { return items }})
 
   const headCells = [
     { id: 'name', label: 'Vārds Uzvārds' },

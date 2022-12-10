@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, Grid, Container } from '@mui/material';
 import Input from '../Reusable/AuthInput';
 import { createUser } from  '../../actions/auth';

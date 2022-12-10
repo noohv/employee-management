@@ -87,7 +87,7 @@ export const updateEmployee = async (req, res) => {
 
 // Delete single employee
 export const deleteEmployee = async (req,res) => {
-  const { id } = req.params;
+  const { id } = req.params
 
   try {
     const employee = await EmployeeProfile.findById(id)

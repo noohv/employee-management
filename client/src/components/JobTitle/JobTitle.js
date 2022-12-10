@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, IconButton, Container, Typography, Divider } from '@mui/material';
 import JobTitleForm from './JobTitleForm';
 import JobTitleList from './JobTitleList';
-import Popup from "../../Reusable/Popup";
-import { getJobTitles } from '../../../actions/jobTitle';
+import Popup from "../Reusable/Popup";
+import { getJobTitles } from '../../actions/jobTitle';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import ConfirmDialog from '../../Reusable/ConfirmDialog';
+import ConfirmDialog from '../Reusable/ConfirmDialog';
 
 export default function JobTitle({ setNotify }) {
   const [popupType, setOpenPopupType] = useState()

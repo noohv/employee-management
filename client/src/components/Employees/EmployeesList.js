@@ -21,7 +21,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
     { id: 'firstName', label: 'Vārds' },
     { id: 'lastName', label: 'Uzvārds' },
     { id: 'jobTitle', label: 'Amats' },
-    { id: 'actions', label: 'Darbības', disableSorting: true }
+    { id: 'actions', label: '', disableSorting: true }
   ]
 
   const getStatus = (item) => {
@@ -87,7 +87,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
                         <TableCell>{item.firstName}</TableCell>
                         <TableCell>{item.lastName}</TableCell>
                         <TableCell>{item.jobTitle?.name || jobTitles.data.find(x => x._id === item.jobTitle)?.name}</TableCell>
-                        <TableCell>
+                        <TableCell align="center">
                           <IconButton component={Link} to={`/darbinieki/${item._id}`}>
                             <SettingsIcon />
                           </IconButton>   

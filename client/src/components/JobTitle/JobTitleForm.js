@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Container, TextField, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { createJobTitle, updateJobTitle } from "../../../actions/jobTitle";
+import { createJobTitle, updateJobTitle } from "../../actions/jobTitle";
 
-
-export default function Form({setOpenPopup, currentId, setNotify}) {
+export default function Form({ setOpenPopup, currentId }) {
   const initialData = { name: '', description:''}
   const [jobTitleData, setJobTitleData] = useState(initialData)
   const { data } = useSelector(state => state.jobTitle)

@@ -25,7 +25,7 @@ export default function Schedules({ setNotify }) {
     { id: 'startDate', label: 'Sākuma datums' },
     { id: 'endDate', label: 'Beigu datums' },
     { id: 'shiftCount', label: 'Maiņas', disableSorting: true },
-    { id: 'actions', label: 'Darbības', disableSorting: true }
+    { id: 'actions', label: '', disableSorting: true }
   ]
 
   const onDelete = (id) => {
@@ -86,7 +86,7 @@ export default function Schedules({ setNotify }) {
                     {item.shifts.evening ? <Chip sx={{m:0.5}} label="Vakara" /> : ""}
                     {item.shifts.night ? <Chip sx={{m:0.5}} label="Nakts" /> : ""}
                   </TableCell>
-                  <TableCell>  
+                  <TableCell align="center">  
                     <IconButton onClick={() => { 
                       setConfirmDialog({
                         isOpen: true,

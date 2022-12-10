@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, Grid, Container } from '@mui/material';
+import { Button, Grid, Container, FormControl, InputLabel, Select, MenuItem, FormHelperText  } from '@mui/material';
 import Input from '../Reusable/AuthInput';
 import { createUser } from  '../../actions/auth';
 import { emailFormat, fieldRequired, matchingPasswords, passwordLength } from '../../Helpers/errorMessages'
 
 export default function UserForm({ setOpenPopup }) {
-  const roles = ["user", "admin"]
-  const initialData = { firstName:'', lastName:'', email:'', password:'', confirmPassword:'', role:'user' }
+  const roles = [{role: "user"}, {role: "admin"}]
+  const initialData = { firstName:'', lastName:'', email:'', password:'', confirmPassword:'', role: '' }
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState(initialData)
   const [errors, setErrors] = useState({})
@@ -30,8 +30,10 @@ export default function UserForm({ setOpenPopup }) {
       temp.password = fieldValues.password ? fieldValues.password.length < 8 ? passwordLength : "" : fieldRequired
     if('confirmPassword' in fieldValues)
       temp.confirmPassword = fieldValues.confirmPassword !== formData.password ? matchingPasswords : fieldValues.confirmPassword ? "" : fieldRequired
+    if('role' in fieldValues)
+      temp.role = fieldValues.role ? "" : fieldRequired    
 
-    setErrors({ ...temp })
+      setErrors({ ...temp })
 
     if(fieldValues === formData)
       return Object.values(temp).every(x => x === "")
@@ -66,6 +68,17 @@ export default function UserForm({ setOpenPopup }) {
           <Input name="email" label="Epasta Adrese" handleChange={handleChange} type="text" error={errors.email} />
           <Input name="password" label="Parole" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} error={errors.password} />
           <Input name="confirmPassword" label="Apstiprināt paroli" handleChange={handleChange} type="password" error={errors.confirmPassword} />
+          <FormControl sx={{mt: 1}} fullWidth {...(errors?.jobTitle && {error:true})}>
+          <InputLabel htmlFor="role">Loma</InputLabel>
+            <Select labelId="role" label="Loma" name="role" onChange={handleChange} 
+              value={formData.role} >
+              {roles.map((item) => (
+                <MenuItem key={item.role} value={item.role}>{item.role === "admin" ? "Administrators" : "Lietotājs"}</MenuItem>
+              ))}
+            </Select>
+            {errors?.role && <FormHelperText>{errors.role}</FormHelperText> }
+          </FormControl>
+
         </Grid>
         <Button sx={{mt:2}} type="submit" color="secondary" variant='contained' fullWidth>
           Izveidot lietotāju

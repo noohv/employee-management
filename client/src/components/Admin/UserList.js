@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { TableBody, TableCell, TableRow } from "@mui/material";
+import { IconButton, TableBody, TableCell, TableRow } from "@mui/material";
 import useTable from '../Reusable/useTable';
 import { useDispatch } from 'react-redux';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function UserList({ users, setNotify, error, success }) {
+export default function UserList({ users }) {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
   const [filter, setFilter] = useState({fn: items => { return items; }})
   const dispatch = useDispatch()
 
@@ -11,6 +13,7 @@ export default function UserList({ users, setNotify, error, success }) {
     { id: 'name', label: 'Vārds Uzvārds' },
     { id: 'email', label: 'E-pasts'},
     { id: 'role', label:'Loma' },
+    { id: 'properties', label:'Darbības', disableSorting: true },
   ]
 
   const {
@@ -19,19 +22,6 @@ export default function UserList({ users, setNotify, error, success }) {
     TblPagination,
     recordsAfterPagingAndSorting
   } = useTable(users, headCells, filter);
-
-
-  useEffect(() => {
-    if(error) {
-      setNotify({ isOpen: true, message: error , type: 'error' })
-      dispatch({type: 'CLEAR_AUTH_MESSAGE'})
-    }
-
-    if(success) {
-      setNotify({ isOpen: true, message: success , type: 'success' })
-      dispatch({type: 'CLEAR_AUTH_MESSAGE'})
-    }
-  }, [error, success])
 
   return (
     <>
@@ -45,6 +35,13 @@ export default function UserList({ users, setNotify, error, success }) {
                     <TableCell>{item.name}</TableCell>
                     <TableCell>{item.email}</TableCell>
                     <TableCell>{item.role}</TableCell>
+                    <TableCell>
+                    {item._id !== user?.result._id &&
+                      <IconButton>
+                        <DeleteIcon />
+                      </IconButton>
+                    }
+                    </TableCell>
                   </TableRow>
                 )
               })

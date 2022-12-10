@@ -44,9 +44,9 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
 
     setFilter({
       fn: items => {
-        if(value ==="")
+        if(value === "")
           return items
-        else if(value===" ")
+        else if(value === " ")
           return []
         else
           return items.filter(x => {

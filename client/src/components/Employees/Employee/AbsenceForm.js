@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormHelperText, Container } from '@mui/material';
 import { createAbsence, updateAbsence } from '../../../actions/employees';
 
-export default function AbsenceForm({id, setOpenPopup, types, currentId, error, success, setNotify}) {
+export default function AbsenceForm({ id, setOpenPopup, types, currentId }) {
   const initialData = { absenceType:'', startDate:'', endDate: ''}
   const [absenceData, setAbsenceData] = useState(initialData)
   const [errors, setErrors] = useState({})
@@ -13,7 +13,7 @@ export default function AbsenceForm({id, setOpenPopup, types, currentId, error, 
     let temp = {...errors}
 
     if('absenceType' in fieldValues)
-      temp.absenceType = fieldValues.absenceType.length != 0 ? "" : "Šis lauks ir obligāts"
+      temp.absenceType = fieldValues.absenceType.length !== 0 ? "" : "Šis lauks ir obligāts"
     if('startDate' in fieldValues)
       temp.startDate =  fieldValues.startDate ? "": "Šis lauks ir obligāts"
     if('endDate' in fieldValues)
@@ -21,8 +21,8 @@ export default function AbsenceForm({id, setOpenPopup, types, currentId, error, 
 
     setErrors({ ...temp })
 
-    if(fieldValues == absenceData)
-      return Object.values(temp).every(x => x == "")
+    if(fieldValues === absenceData)
+      return Object.values(temp).every(x => x === "")
   }
 
   const handleChange = (e) => {
@@ -50,19 +50,6 @@ export default function AbsenceForm({id, setOpenPopup, types, currentId, error, 
     setAbsenceData(initialData) 
     setErrors({})
   }
-
-  useEffect(()=> {
-    if(error) {
-      setNotify({ isOpen: true, message: error , type: 'error' })
-      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
-    }
-
-    if(success) {
-      setNotify({ isOpen: true, message: success , type: 'success' })
-      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
-    }
-
-  }, [error, success])
 
   return (
     <Container>

@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Grid, Container, Typography } from '@mui/material';
+import { Button, Grid, Container } from '@mui/material';
 import Input from '../Reusable/AuthInput';
 import { createUser } from  '../../actions/auth';
 import { emailFormat, fieldRequired, matchingPasswords, passwordLength } from '../../Helpers/errorMessages'
 
-export default function UserForm({ setNotify, setOpenPopup }) {
+export default function UserForm({ setOpenPopup }) {
   const roles = ["user", "admin"]
   const initialData = { firstName:'', lastName:'', email:'', password:'', confirmPassword:'', role:'user' }
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState(initialData)
   const [errors, setErrors] = useState({})
-  const { error, success, isLoading } = useSelector(state => state.auth)
 
   const dispatch = useDispatch()
 
@@ -57,18 +56,6 @@ export default function UserForm({ setNotify, setOpenPopup }) {
   }
 
   const handleShowPassword = () => setShowPassword(prev => !prev)
-
-  useEffect(() => {
-    if(error) {
-      setNotify({ isOpen: true, message: error , type: 'error' })
-      dispatch({type: 'AUTH_CLEAR_MESSAGE', payload: null})
-    }
-
-    if(success) {
-      setNotify({ isOpen: true, message: success , type: 'success' })
-      dispatch({type: 'AUTH_CLEAR_MESSAGE', payload: null})
-    } 
-  }, [error, success])
 
   return (
     <Container sx={{ mt: 1 }} component='main' maxWidth='sm'>

@@ -6,27 +6,20 @@ import dotenv from 'dotenv';
 dotenv.config()
 
 export const seedAdmin = async () => {
-  const user = {
-    name: process.env.NAME,
-    email: process.env.EMAIL,
-    password: process.env.PASSWORD,
-    role: "admin"
-  }
-
   try {
-    const existingUser = await User.findOne({email: user.email}) // Find existing user in database
+    // Create initial admin account if all the values are provided
+    if(process.env.EMAIL && process.env.NAME && process.env.PASSWORD) {
+      const existingUser = await User.findOne({email: process.env.EMAIL}) // Find existing user in database
     
-    if(existingUser) {
-      console.log("Admin exists")
-      return
+      if(!existingUser) {
+        const hashedPassword = await bcrypt.hash(process.env.PASSWORD, 12)
+  
+        const newUser = new User({ email: process.env.EMAIL, password: hashedPassword, name: process.env.NAME, role: "admin" })
+    
+        newUser.save()
+        console.log("Initial admin account created")
+      }
     }
-    
-    const hashedPassword = await bcrypt.hash(user.password, 12)
-
-    const newUser = new User({ email: user.email, password: hashedPassword, name: user.name, role: user.role })
-
-    newUser.save()
-    console.log("Admin created")
   } catch (error) {
     console.log(error)
   }

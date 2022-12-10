@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { TableBody, TableCell, TableRow, IconButton } from "@mui/material";
 import { deleteAbsence } from '../../../actions/employees';
 import useTable from "../../Reusable/useTable";

@@ -68,17 +68,18 @@ export default function UserForm({ setOpenPopup }) {
           <Input name="email" label="Epasta Adrese" handleChange={handleChange} type="text" error={errors.email} />
           <Input name="password" label="Parole" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} error={errors.password} />
           <Input name="confirmPassword" label="Apstiprināt paroli" handleChange={handleChange} type="password" error={errors.confirmPassword} />
-          <FormControl sx={{mt: 1}} fullWidth {...(errors?.jobTitle && {error:true})}>
-          <InputLabel htmlFor="role">Loma</InputLabel>
-            <Select labelId="role" label="Loma" name="role" onChange={handleChange} 
-              value={formData.role} >
-              {roles.map((item) => (
-                <MenuItem key={item.role} value={item.role}>{item.role === "admin" ? "Administrators" : "Lietotājs"}</MenuItem>
-              ))}
-            </Select>
-            {errors?.role && <FormHelperText>{errors.role}</FormHelperText> }
-          </FormControl>
-
+          <Grid item xs={12}>
+            <FormControl xs={12} fullWidth {...(errors?.jobTitle && {error:true})}>
+              <InputLabel htmlFor="role">Loma</InputLabel>
+              <Select labelId="role" label="Loma" name="role" onChange={handleChange} 
+                value={formData.role} >
+                {roles.map((item) => (
+                  <MenuItem key={item.role} value={item.role}>{item.role === "admin" ? "Administrators" : "Lietotājs"}</MenuItem>
+                ))}
+              </Select>
+              {errors?.role && <FormHelperText>{errors.role}</FormHelperText> }
+            </FormControl>
+          </Grid>
         </Grid>
         <Button sx={{mt:2}} type="submit" color="secondary" variant='contained' fullWidth>
           Izveidot lietotāju

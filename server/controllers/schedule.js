@@ -2,6 +2,7 @@ import { addHours, startOfWeek, endOfWeek } from 'date-fns';
 import mongoose from 'mongoose';
 import Schedule from '../models/schedule.js';
 import EmployeeProfile from '../models/employeeProfile.js';
+import { OTHER_ERROR, SCHEDULE_EXIST, SCHEDULE_NOT_FOUND, SHIFT_NOT_CHOSEN } from '../errorMessages.js';
 
 // Create new schedule
 export const createSchedule = async (req, res) => {
@@ -31,18 +32,18 @@ export const createSchedule = async (req, res) => {
   
     // Check if date ranges are not overlapping
     if(schedules.some(i => (i.startDate.toISOString().slice(0,10) <= formatData.endDate.toISOString().slice(0,10)) && (formatData.startDate.toISOString().slice(0,10) <= i.endDate.toISOString().slice(0,10))))
-      return res.status(400).json({ message: "Grafiks šajā laika periodā jau ir pievienots!" })
+      return res.status(400).json({ message: SCHEDULE_EXIST })
 
     // Check if at least one shift is selected
     if(!formatData.shifts.morning && !formatData.shifts.evening && !formatData.shifts.night)
-      return res.status(400).json({ message: "Izvēlieties vismaz vienu maiņu!" })
+      return res.status(400).json({ message: SHIFT_NOT_CHOSEN })
 
     const schedule = new Schedule(formatData)
 
     await schedule.save()
     res.status(201).json(schedule)
   } catch (error) {
-    res.status(409).json({ message:error.message })
+    res.status(409).json({ message: OTHER_ERROR })
   }
 }
 
@@ -52,7 +53,7 @@ export const getSchedules = async (req, res) => {
     const schedules =  await Schedule.find().populate('shifts')
     res.status(200).json(schedules)
   } catch (error) {
-    res.status(404).json({ message: error.message })
+    res.status(404).json({ message: SCHEDULE_NOT_FOUND })
   }
 }
 
@@ -64,7 +65,7 @@ export const getSchedule = async (req, res) => {
     const schedule =  await Schedule.findById(id).populate('shifts employeeSchedules.employee employeeSchedules.employee.absences')
     res.status(200).json(schedule)
   } catch (error) {
-    res.status(404).json({ message: "Grafiks nav atrasts!" })
+    res.status(404).json({ message: SCHEDULE_NOT_FOUND })
   }
 }
 
@@ -82,7 +83,7 @@ export const updateSchedule = async (req, res) => {
 
     res.json(updatedSchedule)
   } catch (error) {
-    res.status(404).json({ message: "Grafiks nav atrasts!"})
+    res.status(404).json({ message: SCHEDULE_NOT_FOUND })
   }
 }
 
@@ -94,6 +95,6 @@ export const deleteSchedule = async (req, res) => {
     await schedule.remove()
     res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: "Radusies kļūda!"})
+    res.status(404).json({ message: SCHEDULE_NOT_FOUND })
   }
 }

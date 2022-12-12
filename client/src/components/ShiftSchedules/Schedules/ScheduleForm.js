@@ -7,7 +7,7 @@ import { fieldRequired } from '../../../Helpers/errorMessages';
 export default function ScheduleForm({ setOpenPopup }) {
   const dispatch = useDispatch()
   const initialData = {
-    shifts:{
+    shifts: {
       morning: false,
       evening: false,
       night: false

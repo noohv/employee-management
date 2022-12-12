@@ -43,15 +43,18 @@ export const getUsers = () => async (dispatch) => {
 
 // Redux action creator for user sign up
 export const createUser = (formData) => async (dispatch) => {
+  dispatch({ type: AUTH_SHOW_LOADING })
   try {
     let { data } = await api.createUser(formData)
     dispatch({ type: CREATE_USER_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: CREATE_USER_ERROR, payload: error.response.data.message })
   }
+  dispatch({ type: AUTH_HIDE_LOADING })
 }
 
 export const deleteUser = (id) => async (dispatch) => {
+  dispatch({ type: AUTH_SHOW_LOADING })
   try {
     await api.deleteUser(id)
     dispatch({ type: DELETE_USER_SUCCESS, payload: id })
@@ -59,4 +62,5 @@ export const deleteUser = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: DELETE_USER_ERROR, payload: error.response.data.message })
   }
+  dispatch({ type: AUTH_HIDE_LOADING })
 }

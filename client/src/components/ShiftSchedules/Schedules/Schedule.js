@@ -4,12 +4,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getSchedule, updateSchedule } from "../../../actions/schedule";
 import { getEmployees } from "../../../actions/employees";
 import { useParams, useNavigate } from 'react-router-dom';
 import useTable from '../../Reusable/useTable';
 import ShiftSelect from './ShiftSelect';
+import Loader from '../../Reusable/Loader';
 
 export default function Schedules() {
   const initialData = {
@@ -31,24 +32,11 @@ export default function Schedules() {
   const [editing, setEditing] = useState(null)
   const [shift, setShift] = useState(initialData)
   const [currentId, setCurrentId] = useState('')
+  const [load, setLoad] = useState(true)
+  const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
   const dispatch = useDispatch()
   const navigate = useNavigate()
   let { id } = useParams()  
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    dispatch(updateSchedule(id, editing, shift))
-
-    setShift(initialData) 
-    setEditing(null)
-    setCurrentId('')
-  } 
-  
-  const handleChange = (e, day) => {
-    const { value } = e.target
-    setShift({...shift, employeeSchedules: {...shift.employeeSchedules, [day]: typeof value === 'string' ? value.split(',') : value }})
-  }
 
   const addDays = (days) => {
     if(schedule.startDate) {
@@ -69,7 +57,7 @@ export default function Schedules() {
     saturday: addDays(5),
     sunday: addDays(6)
   }
-  
+
   const headCells = [
     { id: 'fullName', label: 'Vārds Uzvārds', disableSorting: true },
     { id: 'monday', label: `Pirmdiena (${dayDates.monday.toISOString().slice(8,10)}/${dayDates.monday.toISOString().slice(5,7)})`, disableSorting: true },
@@ -82,6 +70,28 @@ export default function Schedules() {
     { id: 'edit', label: '', disableSorting: true }
   ]
 
+  const {
+    TblContainer,
+    TblHead,
+    TblPagination,
+    recordsAfterPagingAndSorting
+  } = useTable(schedule.employeeSchedules, headCells, filter)
+
+  const handleChange = (e, day) => {
+    const { value } = e.target
+    setShift({...shift, employeeSchedules: {...shift.employeeSchedules, [day]: typeof value === 'string' ? value.split(',') : value }})
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    dispatch(updateSchedule(id, editing, shift))
+
+    setShift(initialData) 
+    setEditing(null)
+    setCurrentId('')
+  } 
+
   useEffect(() => {
     dispatch(getSchedule(id))
     dispatch(getEmployees())
@@ -90,16 +100,18 @@ export default function Schedules() {
       setShift({ id: currentId, employeeSchedules: schedule.employeeSchedules.find(i => i._id === currentId).days})
     }
 
-    document.title = "Darba Grafiks"
+    if(schedule.employeeSchedules.length === 0) {
+      setTimeout(() => {setLoad(false)} , 4000) // Show loader for 4 seconds before showing 404 page
+      if(error) navigate('/404')  
+    }
+    
     if(success || error) dispatch({type:'CLEAR_SCHEDULES_MESSAGE'})
+    document.title = "Darba Grafiks"
   }, [currentId, success, error])
   
-  const {
-    TblContainer,
-    TblHead,
-    TblPagination,
-    recordsAfterPagingAndSorting
-  } = useTable(schedule.employeeSchedules, headCells, filter)
+  if(schedule.employeeSchedules.length === 0) {
+    if(load) return <Loader />
+  }
   
   return (
     <>
@@ -118,76 +130,28 @@ export default function Schedules() {
                   return (
                     <TableRow key={item._id}>
                       <TableCell>{ item.employee?.firstName ? `${item.employee?.firstName} ${item.employee?.lastName}` : `Dzēsts Darbinieks` }</TableCell>
-                      <TableCell>
-                        {
-                          editing === item._id ? 
-                            (
-                              checkDate(dayDates.monday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.monday)} /> :
-                              <ShiftSelect day={"monday"} shifts={schedule.shifts} shift={shift.employeeSchedules} handleChange={handleChange} />
-                            ) :
-                            (checkDate(dayDates.monday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.monday)}/> : schedule.employeeSchedules.find(i => i._id === item._id).days.monday.map(j => (<Chip sx={{ m: 0.5 }} key={j} label={j} />)))
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {
-                            editing === item._id ? 
-                              (
-                                checkDate(dayDates.tuesday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.tuesday)} /> :
-                                <ShiftSelect day={"tuesday"} shifts={schedule.shifts} shift={shift.employeeSchedules} handleChange={handleChange} />
-                              ) :
-                              (checkDate(dayDates.tuesday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.tuesday)}/> : schedule.employeeSchedules.find(i => i._id === item._id).days.tuesday.map(j => (<Chip sx={{ m: 0.5 }} key={j} label={j} />)))
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {
-                          editing === item._id ? 
-                            (
-                              checkDate(dayDates.wednesday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.wednesday)} /> :
-                              <ShiftSelect day={"wednesday"} shifts={schedule.shifts} shift={shift.employeeSchedules} handleChange={handleChange} />
-                            ) :
-                            (checkDate(dayDates.wednesday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.wednesday)}/> : schedule.employeeSchedules.find(i => i._id === item._id).days.wednesday.map(j => (<Chip sx={{ m: 0.5 }} key={j} label={j} />)))
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {
-                          editing === item._id ? 
-                            (
-                              checkDate(dayDates.thursday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.thursday)} /> :
-                              <ShiftSelect day={"thursday"} shifts={schedule.shifts} shift={shift.employeeSchedules} handleChange={handleChange} />
-                            ) :
-                            (checkDate(dayDates.thursday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.thursday)}/> : schedule.employeeSchedules.find(i => i._id === item._id).days.thursday.map(j => (<Chip sx={{ m: 0.5 }} key={j} label={j} />)))
-                        }                        
-                      </TableCell>
-                      <TableCell>
-                        {
-                          editing === item._id ? 
-                            (
-                              checkDate(dayDates.friday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.friday)} /> :
-                              <ShiftSelect day={"friday"} shifts={schedule.shifts} shift={shift.employeeSchedules} handleChange={handleChange} />
-                            ) :
-                            (checkDate(dayDates.friday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.friday)}/> : schedule.employeeSchedules.find(i => i._id === item._id).days.friday.map(j => (<Chip sx={{ m: 0.5 }} key={j} label={j} />)))
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {
-                          editing === item._id ? 
-                            (
-                              checkDate(dayDates.saturday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.saturday)} /> :
-                              <ShiftSelect day={"saturday"} shifts={schedule.shifts} shift={shift.employeeSchedules} handleChange={handleChange} />
-                            ) :
-                            (checkDate(dayDates.saturday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.saturday)}/> : schedule.employeeSchedules.find(i => i._id === item._id).days.saturday.map(j => (<Chip sx={{ m: 0.5 }} key={j} label={j} />)))
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {
-                          editing === item._id ? 
-                            (
-                              checkDate(dayDates.sunday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.sunday)} /> :
-                              <ShiftSelect day={"sunday"} shifts={schedule.shifts} shift={shift.employeeSchedules} handleChange={handleChange} />
-                            ) :
-                            (checkDate(dayDates.sunday) ? <Chip sx={{ m: 0.5 }} label={checkDate(dayDates.sunday)}/> : schedule.employeeSchedules.find(i => i._id === item._id).days.sunday.map(j => (<Chip sx={{ m: 0.5 }} key={j} label={j} />)))
-                        }
-                      </TableCell>
+                      {
+                        days.map(day => {
+                          return (
+                            <TableCell key={day}>
+                              {
+                                editing === item._id ? 
+                                  (
+                                    checkDate(dayDates[day]) ? 
+                                      <Chip sx={{ m: 0.5 }} label={checkDate(dayDates[day]) === "vacation" ? "Atvaļinājumā" : checkDate(dayDates[day]) === "sick" ? "Slims" : "Cits iemesls"} /> :
+                                      <ShiftSelect day={day} shifts={schedule.shifts} shift={shift.employeeSchedules} handleChange={handleChange} />
+                                  ) :
+                                  (
+                                    checkDate(dayDates[day]) ? 
+                                      <Chip sx={{ m: 0.5 }} label={checkDate(dayDates[day]) === "vacation" ? "Atvaļinājumā" : checkDate(dayDates[day]) === "sick" ? "Slims" : "Cits iemesls"} />  :
+                                      schedule.employeeSchedules.find(i => i._id === item._id).days[day].map(j => (<Chip sx={{ m: 0.5 }} key={j} label={j} />))
+                                  )
+                              }
+                            </TableCell>
+                          )
+                        })
+                      }
+
                       <TableCell align="center">
                         {
                           editing === item._id ? 

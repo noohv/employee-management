@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import EmployeeProfile from '../models/employeeProfile.js';
 import EmployeeAbsence from "../models/employeeAbsence.js";
 import JobTitle from '../models/employeeJobTitle.js';
+import { OTHER_ERROR, EMPLOYEE_NOT_FOUND, ABSENCE_EXIST, ABSENCE_NOT_FOUND } from '../errorMessages.js';
+
 
 // Get all employees
 export const getEmployees = async (req, res) => {
@@ -10,7 +12,7 @@ export const getEmployees = async (req, res) => {
       
     res.status(200).json(employeeProfile)
   } catch (error) {
-    res.status(404).json({ message: error.message })
+    res.status(404).json({ message: OTHER_ERROR })
   }
 }
 
@@ -23,7 +25,7 @@ export const getEmployee = async (req, res) => {
 
     res.status(200).json(employee)
   } catch (error) {
-    res.status(404).json({ message: "Lietotājs nav atrasts!" })
+    res.status(404).json({ message: EMPLOYEE_NOT_FOUND })
   }
 }
 
@@ -40,7 +42,7 @@ export const createEmployee = async (req, res) => {
     await newEmployee.save()
     res.status(201).json(newEmployee)
   } catch (error) {
-    res.status(409).json({ message: "Radusies kļūda!" })
+    res.status(409).json({ message: OTHER_ERROR })
   }
 }
 
@@ -81,7 +83,7 @@ export const updateEmployee = async (req, res) => {
     await updatedEmployee.updateOne(data, { new: true }).populate("absences jobTitle")
     res.status(200).json(updatedEmployee)
   } catch (error) {
-    res.status(404).json({ message: "Lietotājs nav atrasts!"})
+    res.status(404).json({ message: EMPLOYEE_NOT_FOUND })
   }
 }
 
@@ -109,7 +111,7 @@ export const deleteEmployee = async (req,res) => {
     await employee.remove()
     res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: "Radusies kļūda!"})
+    res.status(404).json({ message: OTHER_ERROR })
   }
 }
 
@@ -122,12 +124,12 @@ export const createAbsence = async (req, res) => {
 
   try {
     const employee = await EmployeeProfile.findById(id).populate('absences')
-    if(!employee) return res.status(404).json({ message: "Darbinieks neeksistē!" })
+    if(!employee) return res.status(404).json({ message: EMPLOYEE_NOT_FOUND })
     
     // Check if date ranges are not overlapping
     if(employee.absences.length > 0) {
       if(employee.absences.some(i => (i.startDate.toISOString().slice(0, 10) <= data.endDate) && (data.startDate <= i.endDate.toISOString().slice(0, 10))))
-      return res.status(400).json({ message: "Prombūtne šajā laika periodā jau ir pievienota!" })
+      return res.status(400).json({ message: ABSENCE_EXIST })
     }
     
     const absence = await EmployeeAbsence.create(data)
@@ -135,7 +137,7 @@ export const createAbsence = async (req, res) => {
     await employee.save()
     res.status(201).json(absence)
   } catch (error) {
-    res.status(409).json({ message: "Radusies kļūda!" })
+    res.status(409).json({ message: OTHER_ERROR })
   }
 }
 
@@ -147,8 +149,8 @@ export const updateAbsence = async (req, res) => {
   try {
     const absence = await EmployeeAbsence.findById(id)
     const employee = await EmployeeProfile.findById(empId).populate("absences")
-    if(!absence) return res.status(404).json({ message: "Prombūtnes ieraksts neeksistē!" })
-    if(!employee) return res.status(404).json({ message: "Darbinieks neeksistē!" })
+    if(!absence) return res.status(404).json({ message: ABSENCE_NOT_FOUND })
+    if(!employee) return res.status(404).json({ message: EMPLOYEE_NOT_FOUND })
     
     // Check if date ranges are not overlapping with OTHER absences of the employee
     if(employee.absences.length > 0) {
@@ -157,13 +159,13 @@ export const updateAbsence = async (req, res) => {
           && (data.startDate <= i.endDate.toISOString().slice(0, 10)) 
           && i.id !== id )
       )
-        return res.status(400).json({ message: "Prombūtne šajā laika periodā jau ir pievienota!" })
+        return res.status(400).json({ message: ABSENCE_EXIST })
     }
     
     await absence.updateOne(data, {new: true})
     res.status(201).json(absence)
   } catch (error) {
-    res.status(409).json({ message: "Radusies kļūda!" })
+    res.status(409).json({ message: OTHER_ERROR })
   }
 }
 
@@ -174,8 +176,8 @@ export const deleteAbsence = async (req,res) => {
     const absence = await EmployeeAbsence.findById(id)
     const employee = await EmployeeProfile.findById(empId).populate("absences")
     
-    if(!absence) return res.status(404).json({ message: "Prombūtnes ieraksts neeksistē!" })
-    if(!employee) return res.status(404).json({ message: "Darbinieks vairs neeksistē!" })
+    if(!absence) return res.status(404).json({ message: ABSENCE_NOT_FOUND })
+    if(!employee) return res.status(404).json({ message: EMPLOYEE_NOT_FOUND })
   
     // Update absence list for employee document
     employee.absences = employee.absences.filter((i) => i.id !== id)
@@ -184,6 +186,6 @@ export const deleteAbsence = async (req,res) => {
     await employee.save()
     res.status(200).json(id)
   } catch (error) {
-    res.status(409).json({ message: "Radusies kļūda!"})
+    res.status(409).json({ message: OTHER_ERROR })
   }
 }

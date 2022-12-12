@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import User from '../models/user.js';
+import { INCORRECT_PASSWORD, USER_NOT_FOUND, PASSWORDS_NOT_MATCHING, USER_CREATE_ERROR, OTHER_ERROR, USER_EXISTS, SIGNIN_ERROR } from '../errorMessages.js';
 
 dotenv.config()
 
@@ -13,18 +14,18 @@ export const signin = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email }) // Find existing user in database
     
-    if(!existingUser) return res.status(404).json({ message: "Lietotājs neeksistē" }) // Message return if user does not exist
+    if(!existingUser) return res.status(404).json({ message: USER_NOT_FOUND }) // Message return if user does not exist
     
     const isPasswordCorrect = await bcrypt.compare(password, existingUser.password)
     
-    if(!isPasswordCorrect) return res.status(400).json({ message: "Ievadītā parole nav pareiza!" })
+    if(!isPasswordCorrect) return res.status(400).json({ message: INCORRECT_PASSWORD })
     
     const token = jwt.sign({ email:existingUser.email, id:existingUser._id }, process.env.TOKEN, {expiresIn: '8h' })
     
     res.status(200).json({ result: existingUser, token })
   } catch (error) {
     console.log(error.message)
-    res.status(500).json({ message: "Neizdevās pieslēgties!" })
+    res.status(500).json({ message: SIGNIN_ERROR })
   }
 }
 
@@ -44,19 +45,18 @@ export const createUser = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email }) // Find existing user in database
     
-    if(existingUser) return res.status(400).json({ message: "Lietotājs jau eksistē" }) // Message return if user does not exist
+    if(existingUser) return res.status(400).json({ message: USER_EXISTS }) // Message return if user does not exist
     
-    if(password !== confirmPassword) return res.status(400).json({ message: "Paroles nesakrīt" })
+    if(password !== confirmPassword) return res.status(400).json({ message: PASSWORDS_NOT_MATCHING })
 
     const hashedPassword = await bcrypt.hash(password, 12)
 
-    // const result = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}`, role })
     const newUser = new User({ email, password: hashedPassword, name: `${firstName} ${lastName}`, role })
 
     newUser.save()
     res.status(200).json(newUser)
   } catch (error) {
-    res.status(500).json({ message: "Neizdevās reģistrēties!" })
+    res.status(500).json({ message: USER_CREATE_ERROR })
   }
 }
 
@@ -69,6 +69,6 @@ export const deleteUser = async (req, res) => {
     await user.remove()
     res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: "Radusies kļūda!"})
+    res.status(404).json({ message: OTHER_ERROR })
   }
 }

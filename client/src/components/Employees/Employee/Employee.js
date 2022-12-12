@@ -45,16 +45,17 @@ export default function Employee({ setNotify }) {
       setNotify({ isOpen: true, message: success , type: 'success' })
       dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
     }
+
+    if(!employee) {
+      setTimeout(() => {setLoad(false)} , 4000) // Show loader for 4 seconds before showing 404 page
+      if(error) navigate('/404')
+    }
+
   }, [id, error, success])
 
   // Case when employee does not exist/ has not been loaded in the state yet
   if(!employee) {
-    setTimeout(() => {setLoad(false)} , 4000) // Show loader for 4 seconds before showing 404 page
-    return (
-      <>
-        {load ? <Loader /> : <PageNotFound />}
-      </>
-    )
+    if(load) return <Loader />
   }
 
   // Method to display date in format YYYY-MM-DD
@@ -133,7 +134,7 @@ export default function Employee({ setNotify }) {
           </Container>
         
           <Popup
-            title={popupType==='absence' ? "Pievienot prombūtni" : popupType==='editAbsence' ? "Rediģēt prombūtni" : "Rediģēt darbinieka datus"}
+            title={popupType==='absence' ? "Pievienot prombūtni" : popupType === 'editAbsence' ? "Rediģēt prombūtni" : "Rediģēt darbinieka datus"}
             openPopup={openPopup}
             setOpenPopup={setOpenPopup}
           >

@@ -33,6 +33,7 @@ export default function App() {
               <Route path="/amati" element={<JobTitle setNotify={setNotify} />} />
               <Route path="/grafiki" element={<Schedules setNotify={setNotify} />} />
               <Route path="/grafiki/:id" element={<Schedule setNotify={setNotify} />} />
+              <Route path="/404" element={<PageNotFound />} />
               <Route path="*" element={<PageNotFound />} />
               
               {/* Route available only to registered users with admin role */}

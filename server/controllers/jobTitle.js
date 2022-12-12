@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import JobTitle from '../models/employeeJobTitle.js';
 import EmployeeProfile from '../models/employeeProfile.js';
+import { JOBTITLE_NOT_FOUND, OTHER_ERROR } from '../errorMessages.js';
 
 // Get all job titles
 export const getJobTitles = async (req, res) => {
@@ -8,7 +9,7 @@ export const getJobTitles = async (req, res) => {
     const jobTitles =  await JobTitle.find().populate('employees')
     res.status(200).json(jobTitles)
   } catch (error) {
-    res.status(404).json({ message: "Radusies kļūda!" })
+    res.status(404).json({ message: OTHER_ERROR })
   }
 }
 
@@ -20,7 +21,7 @@ export const getJobTitle = async (req, res) => {
     const jobTitle = await JobTitle.findById(id).populate('employees')
     res.status(200).json(jobTitle)
   } catch (error) {
-    res.status(404).json({ message: "Amats nav atrasts!" })
+    res.status(404).json({ message: JOBTITLE_NOT_FOUND })
   }
 }
 
@@ -32,7 +33,7 @@ export const createJobTitle = async (req, res) => {
     await newJobTitle.save()
     res.status(201).json(newJobTitle);
   } catch (error) {
-    res.status(409).json({ message: "Radusies kļūda!" })
+    res.status(409).json({ message: OTHER_ERROR })
   }
 }
 
@@ -45,7 +46,7 @@ export const updateJobTitle = async (req, res) => {
     const updatedJobTitle = await JobTitle.findByIdAndUpdate(id, jobTitle, { new: true }).populate("employees")
     res.json(updatedJobTitle)
   } catch (error) {
-    res.status(404).json({ message: "Amats nav atrasts!"})
+    res.status(404).json({ message: JOBTITLE_NOT_FOUND })
   }
 }
 
@@ -64,6 +65,6 @@ export const deleteJobTitle = async (req, res) => {
     res.status(200).json(id)
   } catch (error) {
     console.log(error)
-    res.status(404).json({ message: "Radusies kļūda!" })
+    res.status(404).json({ message: OTHER_ERROR })
   }
 }

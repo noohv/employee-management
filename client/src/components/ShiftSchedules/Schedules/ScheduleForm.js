@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { Button, Container, FormControl, FormLabel, FormGroup, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { createSchedule } from "../../../actions/schedule";
@@ -7,7 +7,7 @@ import { fieldRequired } from '../../../Helpers/errorMessages';
 export default function ScheduleForm({ setOpenPopup }) {
   const dispatch = useDispatch()
   const initialData = {
-    shifts:{
+    shifts: {
       morning: false,
       evening: false,
       night: false
@@ -26,22 +26,19 @@ export default function ScheduleForm({ setOpenPopup }) {
     
     setErrors({ ...temp })
 
-    if(fieldValues == formData)
-      return Object.values(temp).every(x => x == "")
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    
-    if(validate()) {
-      dispatch(createSchedule(formData))
-      setOpenPopup(false)
-    }
+    if(fieldValues === formData)
+      return Object.values(temp).every(x => x === "")
   }
 
   const clear = () => { 
     setFormData(initialData)
     setErrors({})
+  }
+
+  const handleSelect = (e) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]:value })
+    validate({[name]: value})
   }
 
   const handleChange = (e) => {
@@ -55,10 +52,13 @@ export default function ScheduleForm({ setOpenPopup }) {
     })
   }
 
-  const handleSelect = (e) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]:value })
-    validate({[name]: value})
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    
+    if(validate()) {
+      dispatch(createSchedule(formData))
+      setOpenPopup(false)
+    }
   }
 
   return (

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Popup from "../../Reusable/Popup";
 import { Container, TableBody, TableCell, TableRow, IconButton, Chip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
@@ -25,15 +24,16 @@ export default function Schedules() {
       sunday: []
     }
   }
+  
   const [filter, setFilter] = useState({ fn: items => { return items } })
-  const [openPopup, setOpenPopup] = useState(false)
   const { schedule, success, error }  = useSelector((state) => state.schedule)
   const employees = useSelector((state) => state.employees.data)
   const [editing, setEditing] = useState(null)
+  const [shift, setShift] = useState(initialData)
+  const [currentId, setCurrentId] = useState('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
   let { id } = useParams()  
-  const [shift, setShift] = useState(initialData)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -42,6 +42,7 @@ export default function Schedules() {
 
     setShift(initialData) 
     setEditing(null)
+    setCurrentId('')
   } 
   
   const handleChange = (e, day) => {
@@ -84,9 +85,14 @@ export default function Schedules() {
   useEffect(() => {
     dispatch(getSchedule(id))
     dispatch(getEmployees())
+
+    if(currentId) {
+      setShift({ id: currentId, employeeSchedules: schedule.employeeSchedules.find(i => i._id === currentId).days})
+    }
+
     document.title = "Darba Grafiks"
     if(success || error) dispatch({type:'CLEAR_SCHEDULES_MESSAGE'})
-  }, [success, error])
+  }, [currentId, success, error])
   
   const {
     TblContainer,
@@ -192,6 +198,7 @@ export default function Schedules() {
                               <IconButton onClick={() => {
                                 setEditing(null)
                                 setShift(initialData) 
+                                setCurrentId('')
                               }}>
                                 <CloseIcon />
                               </IconButton> 
@@ -200,6 +207,7 @@ export default function Schedules() {
                               <IconButton onClick={() => {
                                 setEditing(item._id)
                                 setShift({ ...shift, id: item._id }) 
+                                setCurrentId(item._id)
                               }}>
                                 <EditIcon />
                               </IconButton>

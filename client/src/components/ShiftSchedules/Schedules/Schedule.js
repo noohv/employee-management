@@ -36,41 +36,6 @@ export default function Schedules() {
   const navigate = useNavigate()
   let { id } = useParams()  
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    dispatch(updateSchedule(id, editing, shift))
-
-    setShift(initialData) 
-    setEditing(null)
-    setCurrentId('')
-  } 
-  
-  const handleChange = (e, day) => {
-    const { value } = e.target
-    setShift({...shift, employeeSchedules: {...shift.employeeSchedules, [day]: typeof value === 'string' ? value.split(',') : value }})
-  }
-
-  const addDays = (days) => {
-    if(schedule.startDate) {
-      let result
-      result = new Date(schedule.startDate)
-      result.setDate(result.getDate() + days)
-      return result
-    }
-    return new Date()
-  }
-
-  const dayDates = {
-    monday: addDays(0),
-    tuesday: addDays(1),
-    wednesday: addDays(2),
-    thursday: addDays(3),
-    friday: addDays(4),
-    saturday: addDays(5),
-    sunday: addDays(6)
-  }
-  
   const headCells = [
     { id: 'fullName', label: 'Vārds Uzvārds', disableSorting: true },
     { id: 'monday', label: `Pirmdiena (${dayDates.monday.toISOString().slice(8,10)}/${dayDates.monday.toISOString().slice(5,7)})`, disableSorting: true },
@@ -82,6 +47,41 @@ export default function Schedules() {
     { id: 'sunday', label: `Svētdiena (${dayDates.sunday.toISOString().slice(8,10)}/${dayDates.sunday.toISOString().slice(5,7)})`, disableSorting: true },
     { id: 'edit', label: '', disableSorting: true }
   ]
+
+  const dayDates = {
+    monday: addDays(0),
+    tuesday: addDays(1),
+    wednesday: addDays(2),
+    thursday: addDays(3),
+    friday: addDays(4),
+    saturday: addDays(5),
+    sunday: addDays(6)
+  }
+  
+  const addDays = (days) => {
+    if(schedule.startDate) {
+      let result
+      result = new Date(schedule.startDate)
+      result.setDate(result.getDate() + days)
+      return result
+    }
+    return new Date()
+  }
+
+  const handleChange = (e, day) => {
+    const { value } = e.target
+    setShift({...shift, employeeSchedules: {...shift.employeeSchedules, [day]: typeof value === 'string' ? value.split(',') : value }})
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    dispatch(updateSchedule(id, editing, shift))
+
+    setShift(initialData) 
+    setEditing(null)
+    setCurrentId('')
+  } 
 
   useEffect(() => {
     dispatch(getSchedule(id))

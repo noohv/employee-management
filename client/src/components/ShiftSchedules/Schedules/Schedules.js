@@ -28,6 +28,13 @@ export default function Schedules({ setNotify }) {
     { id: 'actions', label: '', disableSorting: true }
   ]
 
+  const {
+    TblContainer,
+    TblHead,
+    TblPagination,
+    recordsAfterPagingAndSorting
+  } = useTable(schedules, headCells, filter)
+
   const onDelete = (id) => {
     setConfirmDialog({
       ...confirmDialog,
@@ -35,13 +42,6 @@ export default function Schedules({ setNotify }) {
     })
     dispatch(deleteSchedule(id))
   }
-
-  const {
-    TblContainer,
-    TblHead,
-    TblPagination,
-    recordsAfterPagingAndSorting
-  } = useTable(schedules, headCells, filter)
 
   useEffect(() => {
     dispatch(getSchedules())

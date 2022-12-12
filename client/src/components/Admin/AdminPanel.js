@@ -5,6 +5,7 @@ import UserForm from "./UserForm";
 import { useDispatch, useSelector } from "react-redux";
 import Popup from "../Reusable/Popup";
 import { getUsers } from  '../../actions/auth';
+import Loader from "../Reusable/Loader";
 
 export default function AdminPanel ({ setNotify }) {
   const [openPopup, setOpenPopup] = useState(false)
@@ -62,6 +63,7 @@ export default function AdminPanel ({ setNotify }) {
       >
         <UserForm setNotify={setNotify} setOpenPopup={setOpenPopup}/>
       </Popup>
+      {isLoading && <Loader />}
     </>
   )
 }

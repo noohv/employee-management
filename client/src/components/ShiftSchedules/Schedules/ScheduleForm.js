@@ -26,8 +26,8 @@ export default function ScheduleForm({ setOpenPopup }) {
     
     setErrors({ ...temp })
 
-    if(fieldValues == formData)
-      return Object.values(temp).every(x => x == "")
+    if(fieldValues === formData)
+      return Object.values(temp).every(x => x === "")
   }
 
   const handleSubmit = (e) => {

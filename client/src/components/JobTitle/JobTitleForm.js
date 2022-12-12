@@ -38,7 +38,7 @@ export default function Form({ setOpenPopup, currentId }) {
         dispatch(updateJobTitle(currentId, jobTitleData))
       }
       else {
-        dispatch(createJobTitle(jobTitleData));
+        dispatch(createJobTitle(jobTitleData))
       }
   
       setOpenPopup(false)

@@ -10,6 +10,7 @@ import { getEmployees } from "../../../actions/employees";
 import { useParams, useNavigate } from 'react-router-dom';
 import useTable from '../../Reusable/useTable';
 import ShiftSelect from './ShiftSelect';
+import Loader from '../../Reusable/Loader';
 
 export default function Schedules() {
   const initialData = {
@@ -31,10 +32,31 @@ export default function Schedules() {
   const [editing, setEditing] = useState(null)
   const [shift, setShift] = useState(initialData)
   const [currentId, setCurrentId] = useState('')
+  const [load, setLoad] = useState(true)
   const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
   const dispatch = useDispatch()
   const navigate = useNavigate()
   let { id } = useParams()  
+
+  const addDays = (days) => {
+    if(schedule.startDate) {
+      let result
+      result = new Date(schedule.startDate)
+      result.setDate(result.getDate() + days)
+      return result
+    }
+    return new Date()
+  }
+
+  const dayDates = {
+    monday: addDays(0),
+    tuesday: addDays(1),
+    wednesday: addDays(2),
+    thursday: addDays(3),
+    friday: addDays(4),
+    saturday: addDays(5),
+    sunday: addDays(6)
+  }
 
   const headCells = [
     { id: 'fullName', label: 'Vārds Uzvārds', disableSorting: true },
@@ -48,25 +70,12 @@ export default function Schedules() {
     { id: 'edit', label: '', disableSorting: true }
   ]
 
-  const dayDates = {
-    monday: addDays(0),
-    tuesday: addDays(1),
-    wednesday: addDays(2),
-    thursday: addDays(3),
-    friday: addDays(4),
-    saturday: addDays(5),
-    sunday: addDays(6)
-  }
-  
-  const addDays = (days) => {
-    if(schedule.startDate) {
-      let result
-      result = new Date(schedule.startDate)
-      result.setDate(result.getDate() + days)
-      return result
-    }
-    return new Date()
-  }
+  const {
+    TblContainer,
+    TblHead,
+    TblPagination,
+    recordsAfterPagingAndSorting
+  } = useTable(schedule.employeeSchedules, headCells, filter)
 
   const handleChange = (e, day) => {
     const { value } = e.target
@@ -91,16 +100,18 @@ export default function Schedules() {
       setShift({ id: currentId, employeeSchedules: schedule.employeeSchedules.find(i => i._id === currentId).days})
     }
 
-    document.title = "Darba Grafiks"
+    if(schedule.employeeSchedules.length === 0) {
+      setTimeout(() => {setLoad(false)} , 4000) // Show loader for 4 seconds before showing 404 page
+      if(error) navigate('/404')  
+    }
+    
     if(success || error) dispatch({type:'CLEAR_SCHEDULES_MESSAGE'})
+    document.title = "Darba Grafiks"
   }, [currentId, success, error])
   
-  const {
-    TblContainer,
-    TblHead,
-    TblPagination,
-    recordsAfterPagingAndSorting
-  } = useTable(schedule.employeeSchedules, headCells, filter)
+  if(schedule.employeeSchedules.length === 0) {
+    if(load) return <Loader />
+  }
   
   return (
     <>

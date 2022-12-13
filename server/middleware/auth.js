@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { ACCESS_DENIED } from '../errorMessages';
 
 dotenv.config()
 
@@ -12,7 +13,7 @@ const auth = async (req, res, next) => {
 
     next()
   } catch (error) {
-    return res.status(403).send("Access denied")
+    return res.status(403).send(ACCESS_DENIED)
   }
 }
 

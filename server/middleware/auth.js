@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { ACCESS_DENIED } from '../errorMessages';
+import { ACCESS_DENIED } from '../errorMessages.js';
 
 dotenv.config()
 

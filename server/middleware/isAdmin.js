@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import User from '../models/user.js';
-import { ACCESS_DENIED } from '../errorMessages';
+import { ACCESS_DENIED } from '../errorMessages.js';
 
 dotenv.config()
 

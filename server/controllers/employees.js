@@ -4,7 +4,6 @@ import EmployeeAbsence from "../models/employeeAbsence.js";
 import JobTitle from '../models/employeeJobTitle.js';
 import { OTHER_ERROR, EMPLOYEE_NOT_FOUND, ABSENCE_EXIST, ABSENCE_NOT_FOUND } from '../errorMessages.js';
 
-
 // Get all employees
 export const getEmployees = async (req, res) => {
   try {

@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Popup from "../Reusable/Popup";
 import { getUsers } from  '../../actions/auth';
 import Loader from "../Reusable/Loader";
+import ConfirmDialog from '../Reusable/ConfirmDialog';
 
 export default function AdminPanel ({ setNotify }) {
   const [openPopup, setOpenPopup] = useState(false)
   const { users, error, success, isLoading } = useSelector((state) => state.auth)
+  const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: '', subTitle: ''})
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -53,6 +55,8 @@ export default function AdminPanel ({ setNotify }) {
           setNotify={setNotify}
           error={error}
           success={success}
+          confirmDialog={confirmDialog}
+          setConfirmDialog={setConfirmDialog}
         />
       </Container>
 
@@ -63,6 +67,11 @@ export default function AdminPanel ({ setNotify }) {
       >
         <UserForm setNotify={setNotify} setOpenPopup={setOpenPopup}/>
       </Popup>
+      <ConfirmDialog
+            confirmDialog={confirmDialog}
+            setConfirmDialog={setConfirmDialog}
+          />
+
       {isLoading && <Loader />}
     </>
   )

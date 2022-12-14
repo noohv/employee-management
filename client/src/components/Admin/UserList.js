@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteUser } from  '../../actions/auth';
 import { useDispatch } from "react-redux";
 
-export default function UserList({ users }) {
+export default function UserList({ users, confirmDialog, setConfirmDialog }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
   const [filter, setFilter] = useState({fn: items => { return items }})
   const dispatch = useDispatch()
@@ -24,6 +24,14 @@ export default function UserList({ users }) {
     recordsAfterPagingAndSorting
   } = useTable(users, headCells, filter);
 
+  const onDelete = (item) => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false
+    })
+    dispatch(deleteUser(item._id))
+  }
+
   return (
     <>
       <TblContainer>
@@ -38,7 +46,14 @@ export default function UserList({ users }) {
                     <TableCell>{item.role === 'admin' ? "Administrators" : "Lietotājs"}</TableCell>
                     <TableCell align="center">
                     {item._id !== user?.result._id &&
-                      <IconButton onClick={() => dispatch(deleteUser(item._id))}>
+                      <IconButton onClick={() => { 
+                        setConfirmDialog({
+                          isOpen: true,
+                          title: 'Vai dzēst lietotāju?',
+                          subTitle: 'Dati tiks neatgriezeniski dzēsti',
+                          onConfirm: () => onDelete(item)
+                        })      
+                      }}>
                         <DeleteIcon />
                       </IconButton>
                     }

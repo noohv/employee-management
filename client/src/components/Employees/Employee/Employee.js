@@ -10,7 +10,6 @@ import AbsenceForm from './AbsenceForm';
 import AbsenceList from './AbsenceList';
 import Form from '../Form/Form';
 import ConfirmDialog from '../../Reusable/ConfirmDialog';
-import PageNotFound from '../../ErrorPages/PageNotFound';
 import Loader from '../../Reusable/Loader';
 
 export default function Employee({ setNotify }) {

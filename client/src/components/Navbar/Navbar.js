@@ -131,36 +131,42 @@ export default function Navbar({ setNotify }) {
               }}
             >
               
-
-                <MenuItem key='lapa1' onClick={handleCloseNavMenu} component={Link}  to='/'>
+                <MenuItem key='sakums' onClick={handleCloseNavMenu} component={Link}  to='/'>
                   <Typography>
                     Sākums
                   </Typography>
                 </MenuItem>
+              {user && 
+              <>
 
-                <MenuItem key='lapa1' onClick={handleCloseNavMenu} component={Link} to='/'>
+                <MenuItem key='darbinieki' onClick={handleCloseNavMenu} component={Link} to='/'>
                   <Typography>
                     Darbinieki
                   </Typography>
                 </MenuItem>
 
-                <MenuItem key='lapa1' onClick={handleCloseNavMenu} component={Link} to='/grafiki'>
+                <MenuItem key='grafiki' onClick={handleCloseNavMenu} component={Link} to='/grafiki'>
                   <Typography>
                     Grafiki
                   </Typography>
                 </MenuItem>
 
-                <MenuItem key='lapa1' onClick={handleCloseNavMenu} component={Link} to='/amati'>
+                <MenuItem key='amati' onClick={handleCloseNavMenu} component={Link} to='/amati'>
                   <Typography>
                     Amati
                   </Typography>
                 </MenuItem>
 
-                <MenuItem key='lapa1' onClick={handleCloseNavMenu} component={Link} to='/admin'>
-                  <Typography>
-                    Admin
-                  </Typography>
-                </MenuItem>
+                {user?.result.role === "admin" &&
+                  <MenuItem key='admin' onClick={handleCloseNavMenu} component={Link} to='/admin'>
+                    <Typography>
+                      Admin
+                    </Typography>
+                  </MenuItem>
+                }
+              </>
+              }
+
   
             </Menu>
           </Box>

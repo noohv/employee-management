@@ -59,6 +59,7 @@ export default function Navbar({ setNotify }) {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
 
+          {/* Navbar for small screens */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -126,6 +127,7 @@ export default function Navbar({ setNotify }) {
             </Menu>
           </Box>
 
+          {/* Navbar for medium to large screens*/}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <IconButton color='secondary' size='large' edge="start" component={Link}  to='/'>
               <HomeRoundedIcon />
@@ -159,8 +161,8 @@ export default function Navbar({ setNotify }) {
             }
           </Box>
 
+          {/* User menu */}
           <Box sx={{ flexGrow: 0 }}>
-
             {user && (
               <Tooltip title={user.result.name}>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

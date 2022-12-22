@@ -21,7 +21,7 @@ export default function AbsenceList({ setCurrentId, jobTitles, confirmDialog, se
     TblContainer,
     TblHead,
     TblPagination,
-    recordsAfterPagingAndSorting
+    finalRecords
   } = useTable(jobTitles, headCells, filter);
 
   const onDelete = (item) => {
@@ -38,7 +38,7 @@ export default function AbsenceList({ setCurrentId, jobTitles, confirmDialog, se
         <TblHead />
         <TableBody>
             {
-              recordsAfterPagingAndSorting().map(item => {
+              finalRecords().map(item => {
                 return (
                   <TableRow key={item._id}>
                     <TableCell>{item.name}</TableCell>

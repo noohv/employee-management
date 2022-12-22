@@ -36,7 +36,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
     TblContainer,
     TblHead,
     TblPagination,
-    recordsAfterPagingAndSorting
+    finalRecords
   } = useTable(employees, headCells, filter)
 
   const handleSearch = e => {
@@ -67,7 +67,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
           }}>
             <Button size="large" variant="contained" color="secondary" onClick={() => setOpenPopup(true)}>Pievienot</Button>
             <TextField label="Meklēt"
-              InputProps={{ startAdornment:(<InputAdornment position="start"><Search /></InputAdornment>) }}
+              InputProps={{startAdornment:(<InputAdornment position="start"><Search /></InputAdornment>)}}
               sx={{ width:'35%' }}
               onChange={handleSearch}
             />
@@ -76,7 +76,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
               <TblHead />
               <TableBody>
                 {
-                  recordsAfterPagingAndSorting().map(item => {
+                  finalRecords().map(item => {
                     return (
                       <TableRow key={item._id}>
                         <TableCell>

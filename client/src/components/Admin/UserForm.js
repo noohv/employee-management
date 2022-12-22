@@ -39,6 +39,10 @@ export default function UserForm({ setOpenPopup }) {
       return Object.values(temp).every(x => x === "")
   }
 
+  // Show or hide password in input field
+  const handleShowPassword = () => setShowPassword(prev => !prev)
+
+  // Handle form input change
   const handleChange = (e) => {
     const { name, value } = e.target
 
@@ -46,6 +50,7 @@ export default function UserForm({ setOpenPopup }) {
     validate({[name]: value})
   }
 
+  // Hande form submit
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -62,7 +67,6 @@ export default function UserForm({ setOpenPopup }) {
     setErrors({})
   }
 
-  const handleShowPassword = () => setShowPassword(prev => !prev)
 
   return (
     <Container sx={{ mt: 1 }} component='main' maxWidth='sm'>

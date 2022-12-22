@@ -74,7 +74,7 @@ export default function Schedules() {
     TblContainer,
     TblHead,
     TblPagination,
-    recordsAfterPagingAndSorting
+    finalRecords
   } = useTable(schedule.employeeSchedules, headCells, filter)
 
   const handleChange = (e, day) => {
@@ -122,7 +122,7 @@ export default function Schedules() {
             <TblHead />
             <TableBody >
               {
-                recordsAfterPagingAndSorting().map(item => {
+                finalRecords().map(item => {
                   const emp = employees.find(i => i?._id === item.employee?._id )
                   const checkDate = (day) => {
                     return emp?.absences.find(i => i.startDate <= day.toISOString() && i.endDate >= day.toISOString())?.absenceType

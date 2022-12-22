@@ -32,7 +32,7 @@ export default function Schedules({ setNotify }) {
     TblContainer,
     TblHead,
     TblPagination,
-    recordsAfterPagingAndSorting
+    finalRecords
   } = useTable(schedules, headCells, filter)
 
   const onDelete = (id) => {
@@ -59,7 +59,6 @@ export default function Schedules({ setNotify }) {
 
   return (
     <>
-      <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate(-1)}><ArrowBackRoundedIcon /></IconButton>
       <Container>
         <Typography sx={{mt:3, mb:3}} variant='h4'>Grafiku saraksts</Typography>
         <Divider/>
@@ -76,7 +75,7 @@ export default function Schedules({ setNotify }) {
         <TblHead />
         <TableBody>
           {
-            recordsAfterPagingAndSorting().map(item => {
+            finalRecords().map(item => {
               return (
                 <TableRow key={item._id}>
                   <TableCell>{item.startDate.slice(0,10)}</TableCell>

@@ -29,7 +29,7 @@ export default function AbsenceList({ empId, absences, confirmDialog , setConfir
     TblContainer,
     TblHead,
     TblPagination,
-    recordsAfterPagingAndSorting
+    finalRecords
   } = useTable(absences, headCells, filter)
 
   return (
@@ -38,7 +38,7 @@ export default function AbsenceList({ empId, absences, confirmDialog , setConfir
       <TblHead />
       <TableBody>
         {
-          recordsAfterPagingAndSorting().map(item => {
+          finalRecords().map(item => {
             return (
               <TableRow key={item._id}>
                 <TableCell>{item.absenceType === 'vacation' ? "Atvaļinājums" : item.absenceType === 'sick' ? "Slims" : "Cits"}</TableCell>

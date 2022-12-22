@@ -21,7 +21,7 @@ export default function UserList({ users, confirmDialog, setConfirmDialog }) {
     TblContainer,
     TblHead,
     TblPagination,
-    recordsAfterPagingAndSorting
+    finalRecords
   } = useTable(users, headCells, filter);
 
   const onDelete = (item) => {
@@ -38,7 +38,7 @@ export default function UserList({ users, confirmDialog, setConfirmDialog }) {
         <TblHead />
         <TableBody>
             {
-              recordsAfterPagingAndSorting().map(item => {
+              finalRecords().map(item => {
                 return (
                   <TableRow key={item._id}>
                     <TableCell>{item.name}</TableCell>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { AppBar, Container, Toolbar, Button, Avatar, Tooltip, IconButton, Stack, Typography, Box, Menu, MenuItem,  } from '@mui/material';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { AppBar, Container, Toolbar, Button, Avatar, Tooltip, IconButton, Typography, Box, Menu, MenuItem } from '@mui/material';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import MenuIcon from '@mui/icons-material/Menu'
 import { useDispatch } from 'react-redux';
@@ -9,28 +8,33 @@ import { useDispatch } from 'react-redux';
 export default function Navbar({ setNotify }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
   const [time, setTime] = useState(new Date())
+  const [anchorElNav, setAnchorElNav] = React.useState(null)
+  const [anchorElUser, setAnchorElUser] = React.useState(null)
   const dispatch = useDispatch()
   let navigate = useNavigate()
   let location = useLocation()
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null)
-  const [anchorElUser, setAnchorElUser] = React.useState(null)
-
+  // Function to handle burger menu openening
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
   }
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget)
-  }
-
+  
+  // Function to handle burger menu closing
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
   }
 
+  // Function to handle user menu opening
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget)
+  }
+
+  // Function to handle user menu closing
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
 
+  // Log out the user ar navigate to Log In screen
   const logout = () => {
     dispatch({ type: 'LOG_OUT' })
     dispatch({ type: 'DESTROY_SESSION'})
@@ -40,6 +44,7 @@ export default function Navbar({ setNotify }) {
     handleCloseUserMenu()
   }
 
+  // Update current time when page location is changed, get user data from local storage
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('profile')))
     setTime(new Date())
@@ -50,53 +55,6 @@ export default function Navbar({ setNotify }) {
   }, [location])
 
   return (
-    // <AppBar color='primary' position="static">
-    //   <Toolbar sx={{display: 'flex', justifyContent:'space-between'}}>
-    //     <Container sx={{m:0, display: 'flex', flexDirection:"row"}}>
-          // <IconButton color='secondary' size='large' edge="start" component={Link}  to='/'>
-          //   <HomeRoundedIcon />
-          // </IconButton>
-    //     {user && (
-    //       <Stack sx={{ml:3}} direction='row' spacing={2}>
-            // <Button variant='text' color={location.pathname === '/' || location.pathname.includes("/darbinieki") ? "white" : "lightgray"} component={Link} to='/'>
-            //   <Typography variant='body2' sx={location.pathname === '/' || location.pathname.includes("/darbinieki") ? {fontWeight: 'bold'} : null}>
-            //     Darbinieki
-            //   </Typography>
-            // </Button>
-    //         <Button variant='text' color={location.pathname === '/grafiki' ? "white" : "lightgray"} component={Link} to='/grafiki'>
-    //           <Typography variant='body2' sx={location.pathname === '/grafiki' ? {fontWeight: 'bold'} : null}>
-    //             Grafiki
-    //           </Typography>
-    //         </Button>
-    //         <Button variant='text' color={location.pathname === '/amati' ? "white" : "lightgray"} component={Link} to='/amati'>
-    //           <Typography variant='body2' sx={location.pathname === '/amati' ? {fontWeight: 'bold'} : null}>
-    //             Amati
-    //           </Typography>
-    //         </Button>
-    //         {user?.result.role === "admin" && 
-    //           <Button variant='text' color={location.pathname === '/admin' ? "white" : "lightgray"} component={Link} to='/admin'>
-    //             <Typography variant='body2' sx={location.pathname === '/admin' ? {fontWeight: 'bold'} : null}>
-    //               Admin
-    //             </Typography>
-    //           </Button>
-    //         }
-    //       </Stack>
-    //     )}
-    //     </Container>
-    //     {user && (
-    //       <Stack direction='row' spacing={2}>
-    //         <Tooltip title={user.result.name}>
-    //           <Avatar>
-    //             {user.result.name.charAt(0)}
-    //           </Avatar>
-    //         </Tooltip>
-    //         <IconButton color="secondary" onClick={logout}><LogoutIcon /></IconButton>
-    //       </Stack>
-    //     )}
-    //   </Toolbar>
-    // </AppBar>
-
-
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -104,16 +62,15 @@ export default function Navbar({ setNotify }) {
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
+              aria-controls="navbar-menu"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              color="secondary"
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
+              id="navbar-menu"
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
@@ -137,8 +94,7 @@ export default function Navbar({ setNotify }) {
                   </Typography>
                 </MenuItem>
               {user && 
-              <>
-
+              <div>
                 <MenuItem key='darbinieki' onClick={handleCloseNavMenu} component={Link} to='/'>
                   <Typography>
                     Darbinieki
@@ -164,9 +120,8 @@ export default function Navbar({ setNotify }) {
                     </Typography>
                   </MenuItem>
                 }
-              </>
+              </div>
               }
-
   
             </Menu>
           </Box>
@@ -175,13 +130,33 @@ export default function Navbar({ setNotify }) {
             <IconButton color='secondary' size='large' edge="start" component={Link}  to='/'>
               <HomeRoundedIcon />
             </IconButton>
-              <Button
-                key='lapa1'
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                Lapa1
-              </Button>
+            {user && 
+              <>
+                <Button sx={{ my: 2, ml: 5, display: 'block' }} color={location.pathname === '/' || location.pathname.includes("/darbinieki") ? "white" : "lightgray"} component={Link} to='/'>
+                  <Typography variant='body2' sx={location.pathname === '/' || location.pathname.includes("/darbinieki") ? {fontWeight: 'bold'} : null}>
+                    Darbinieki
+                  </Typography>
+                </Button>
+                <Button sx={{ my: 2, display: 'block' }} color={location.pathname === '/grafiki' ? "white" : "lightgray"} component={Link} to='/grafiki'>
+                  <Typography variant='body2' sx={location.pathname === '/grafiki' ? {fontWeight: 'bold'} : null}>
+                    Grafiki
+                  </Typography>
+                </Button>
+                <Button sx={{ my: 2, display: 'block' }} color={location.pathname === '/amati' ? "white" : "lightgray"} component={Link} to='/amati'>
+                  <Typography variant='body2' sx={location.pathname === '/amati' ? {fontWeight: 'bold'} : null}>
+                    Amati
+                  </Typography>
+                </Button>
+              
+                {user?.result.role === "admin" && 
+                  <Button sx={{ my: 2, display: 'block' }} color={location.pathname === '/admin' ? "white" : "lightgray"} component={Link} to='/admin'>
+                    <Typography variant='body2' sx={location.pathname === '/admin' ? {fontWeight: 'bold'} : null}>
+                      Admin
+                    </Typography>
+                  </Button>
+                }
+             </>
+            }
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -198,7 +173,7 @@ export default function Navbar({ setNotify }) {
 
             <Menu
               sx={{ mt: '45px' }}
-              id="menu-appbar"
+              id="navbar-menu"
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: 'top',

@@ -59,7 +59,6 @@ export default function Schedules({ setNotify }) {
 
   return (
     <>
-      <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate(-1)}><ArrowBackRoundedIcon /></IconButton>
       <Container>
         <Typography sx={{mt:3, mb:3}} variant='h4'>Grafiku saraksts</Typography>
         <Divider/>

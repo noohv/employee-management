@@ -35,7 +35,6 @@ export default function JobTitle({ setNotify }) {
 
   return (
     <>
-      <IconButton sx={{ mt:'1%', ml:'1%' }} onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>
       <Container>
         <Typography sx={{ mt:3, mb:3 }} variant='h4'>Darba amati</Typography>
         <Divider/>

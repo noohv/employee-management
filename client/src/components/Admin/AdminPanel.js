@@ -9,25 +9,25 @@ import Loader from "../Reusable/Loader";
 import ConfirmDialog from '../Reusable/ConfirmDialog';
 
 export default function AdminPanel ({ setNotify }) {
-  const [openPopup, setOpenPopup] = useState(false)
+  const [openPopup, setOpenPopup] = useState(false) // Popup open state
   const { users, error, success, isLoading } = useSelector((state) => state.auth)
   const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: '', subTitle: ''})
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getUsers())
+    document.title = "Sistēmas lietotāji"
+    dispatch(getUsers()) // Fetch users
     
     if(error) {
-      setNotify({ isOpen: true, message: error , type: 'error' })
-      dispatch({type: 'AUTH_CLEAR_MESSAGE'})
+      setNotify({ isOpen: true, message: error , type: 'error' }) // Show User error message
+      dispatch({type: 'AUTH_CLEAR_MESSAGE'}) // Clear Auth message from redux state
     }
 
     if(success) {
-      setNotify({ isOpen: true, message: success , type: 'success' })
-      dispatch({type: 'AUTH_CLEAR_MESSAGE'})
+      setNotify({ isOpen: true, message: success , type: 'success' }) // Show User success message
+      dispatch({type: 'AUTH_CLEAR_MESSAGE'}) // Clear Auth message from redux state
     }
 
-    document.title = "Sistēmas lietotāji"
   }, [error, success])
 
   return (
@@ -67,10 +67,11 @@ export default function AdminPanel ({ setNotify }) {
       >
         <UserForm setNotify={setNotify} setOpenPopup={setOpenPopup}/>
       </Popup>
+
       <ConfirmDialog
-            confirmDialog={confirmDialog}
-            setConfirmDialog={setConfirmDialog}
-          />
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
 
       {isLoading && <Loader />}
     </>

@@ -13,19 +13,19 @@ export default function Employees({ setNotify }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getEmployees())
-    dispatch(getJobTitles())
+    document.title = "Darbinieku saraksts"
+    dispatch(getEmployees()) // Get all employees
+    dispatch(getJobTitles()) // Get all job titles
     
     if(error) {
-      setNotify({ isOpen: true, message: error , type: 'error' })
-      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
+      setNotify({ isOpen: true, message: error , type: 'error' }) // Set error notification information
+      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'}) // Clear Employee message from redux state
     }
 
     if(success) {
-      setNotify({ isOpen: true, message: success , type: 'success' })
-      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'})
+      setNotify({ isOpen: true, message: success , type: 'success' }) // Set success notification information
+      dispatch({type: 'CLEAR_EMPLOYEES_MESSAGE'}) // Clear Employee message from redux state
     }
-    document.title = "Darbinieku saraksts"
   }, [error, success])
 
   return (

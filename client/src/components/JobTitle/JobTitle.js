@@ -16,18 +16,19 @@ export default function JobTitle({ setNotify }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getJobTitles())
     document.title = "Darbinieku Amati"
-
+    dispatch(getJobTitles()) // Fetch job titles
+    
     if(error) {
       setNotify({ isOpen: true, message: error , type: 'error' })
       dispatch({type: 'CLEAR_JOBTITLE_MESSAGE'})
     }
-
+    
     if(success) {
       setNotify({ isOpen: true, message: success , type: 'success' })
       dispatch({type: 'CLEAR_JOBTITLE_MESSAGE'})
     }
+    
   }, [error, success])
 
   return (

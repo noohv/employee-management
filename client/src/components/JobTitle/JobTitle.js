@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, IconButton, Container, Typography, Divider } from '@mui/material';
+import { Button, Container, Typography, Divider } from '@mui/material';
 import JobTitleForm from './JobTitleForm';
 import JobTitleList from './JobTitleList';
 import Popup from "../Reusable/Popup";
 import { getJobTitles } from '../../actions/jobTitle';
-import { useNavigate } from 'react-router-dom';
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import ConfirmDialog from '../Reusable/ConfirmDialog';
 
 export default function JobTitle({ setNotify }) {
@@ -16,7 +14,6 @@ export default function JobTitle({ setNotify }) {
   const [currentId, setCurrentId] = useState()
   const { data, error, success } = useSelector((state) => state.jobTitle)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(getJobTitles())

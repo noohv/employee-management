@@ -31,7 +31,7 @@ export default (state = initialState , action) => {
     case ADD_JOBTITLE_SUCCESS:
       return {
         data: [...state.data, action.payload],
-        success: 'Ieraksta pievienošana veiksmīga!'
+        success: 'Amats veiksmīgi pievienots!'
       }
     
     case ADD_JOBTITLE_ERROR:
@@ -62,7 +62,7 @@ export default (state = initialState , action) => {
       return {
         ...state,
         data: state.data.filter((i) => i._id !== action.payload),
-        success: 'Amats un saistītie dati dzēsti!'
+        success: 'Amata dati dzēsti!'
       }
 
     case DELETE_JOBTITLE_ERROR:

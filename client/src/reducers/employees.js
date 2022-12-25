@@ -57,7 +57,7 @@ export default (state = initialState , action) => {
         ...state,
         data: state.data.filter((i) => i._id !== action.payload),
         employee: null,
-        success: 'Lietotājs dzēsts!'
+        success: 'Darbinieks dzēsts!'
       }
     
     case DELETE_EMPLOYEE_ERROR:
@@ -69,7 +69,7 @@ export default (state = initialState , action) => {
     case ADD_EMPLOYEE_SUCCESS:
       return {
         data: [...state.data, action.payload],
-        success: 'Lietotājs veiksmīgi pievienots!'
+        success: 'Darbinieks veiksmīgi pievienots!'
       }
 
     case ADD_EMPLOYEE_ERROR:
@@ -88,7 +88,7 @@ export default (state = initialState , action) => {
           }
         }),
         employee: action.payload,
-        success: 'Lietotāja dati atjaunoti!'
+        success: 'Darbinieka dati atjaunoti!'
       }
 
     case UPDATE_EMPLOYEE_ERROR:

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormHelperText, Container } from '@mui/material';
 import { createAbsence, updateAbsence } from '../../../actions/employees';
+import { fieldRequired, endDateLargerThanStartDate } from '../../../Helpers/errorMessages'
 
 export default function AbsenceForm({ id, setOpenPopup, types, currentId, absences }) {
   const initialData = { absenceType:'', startDate:'', endDate: ''}
@@ -13,11 +14,11 @@ export default function AbsenceForm({ id, setOpenPopup, types, currentId, absenc
     let temp = {...errors}
 
     if('absenceType' in fieldValues)
-      temp.absenceType = fieldValues.absenceType.length !== 0 ? "" : "Šis lauks ir obligāts"
+      temp.absenceType = fieldValues.absenceType.length !== 0 ? "" : fieldRequired
     if('startDate' in fieldValues)
-      temp.startDate =  fieldValues.startDate ? "": "Šis lauks ir obligāts"
+      temp.startDate =  fieldValues.startDate ? "": fieldRequired
     if('endDate' in fieldValues)
-      temp.endDate = fieldValues.endDate < absenceData.startDate ? "Beigu datumam jābūt lielākam par sākuma datumu" : fieldValues.endDate ? "": "Šis lauks ir obligāts"
+      temp.endDate = fieldValues.endDate < absenceData.startDate ? endDateLargerThanStartDate : fieldValues.endDate ? "": fieldRequired
 
     setErrors({ ...temp })
 

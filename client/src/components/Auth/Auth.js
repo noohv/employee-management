@@ -77,7 +77,7 @@ export default function Auth({ setNotify }) {
           <Input name="password" label="Parole" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} error={errors.password} />
         </Grid>
         <Button sx={{mt:2}} type="submit" color="secondary" variant='contained' fullWidth>
-          Ielogoties
+          Pieteikties
         </Button>
       </form>
       { isLoading && <Loader /> }

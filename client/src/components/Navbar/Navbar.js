@@ -39,7 +39,7 @@ export default function Navbar({ setNotify }) {
     dispatch({ type: 'LOG_OUT' })
     dispatch({ type: 'DESTROY_SESSION'})
     navigate("/auth", { replace: true })
-    setNotify({ isOpen: true, message: "Jūs tikāt izlogots no profila!", type: 'error' })
+    setNotify({ isOpen: true, message: "Atteikšanās no sistēmas veiksmīga!", type: 'success' })
     setUser(null)
     handleCloseUserMenu()
   }

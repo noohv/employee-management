@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
 const absenceSchema = mongoose.Schema({
-  absenceType: String, 
-  startDate: Date,
-  endDate: Date, 
+  absenceType: { type: String, required: true }, 
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true }, 
   createdAt: { type: Date, default: new Date() }
 })
 

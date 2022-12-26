@@ -2,10 +2,10 @@ import mongoose from 'mongoose';
 
 const employeeSchema = mongoose.Schema({
   firstName: { type: String, required: true },
-  lastName: { type: String },
-  phone: { type: String }, 
-  email: { type: String },
-  address: { type: String },
+  lastName: { type: String, required: true },
+  phone: { type: String, required: true }, 
+  email: { type: String, required: true },
+  address: { type: String, required: true },
   jobTitle: { type: mongoose.Schema.Types.ObjectId, ref: "JobTitle" },
   absences: [{ type: mongoose.Schema.Types.ObjectId, ref: "Absence" }],
   startDate: { type: Date, required: true },

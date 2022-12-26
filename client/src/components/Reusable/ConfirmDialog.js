@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, Typography, Button } from '@mui/material';
 
-export default function ConfirmDialog({confirmDialog, setConfirmDialog}) {
+export default function ConfirmDialog({ confirmDialog, setConfirmDialog }) {
   return (
     <Dialog open={confirmDialog.isOpen}>
       <DialogContent>

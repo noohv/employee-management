@@ -12,9 +12,9 @@ import CircleIcon from '@mui/icons-material/Circle';
 
 export default function EmployeesList({ employees, jobTitles, setNotify }) {
   const showLoading = useSelector((state) => state.employees.isLoading)
-  const [filter, setFilter] = useState({ fn: items => { return items } })
-  const [openPopup, setOpenPopup] = useState(false)
-  const currentDate = new Date()
+  const [filter, setFilter] = useState({ fn: items => { return items } }) // Filtered items by search
+  const [openPopup, setOpenPopup] = useState(false) // Popup open state
+  const currentDate = new Date() // Get current date
 
   const headCells = [
     { id: 'status', label: 'Statuss', disableSorting: true},
@@ -32,6 +32,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
     else return "statusActive"
   }
 
+  // Deconstruct imported table
   const {
     TblContainer,
     TblHead,
@@ -39,19 +40,21 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
     finalRecords
   } = useTable(employees, headCells, filter)
 
+  // Handle search for employees list, searchable by name and/or jobtitle
   const handleSearch = e => {
     const { value } = e.target
 
     setFilter({
       fn: items => {
         if(value === "")
-          return items
+          return items // Return all records if no search query
         else if(value === " ")
-          return []
+          return [] // Return empty list if search query is space
         else
+          // Return filtered records
           return items.filter(x => {
-            const data = x.firstName.concat(" ", x.lastName).concat(" ", x.jobTitle.name || jobTitles.data.find(y => y._id === y.jobTitle)?.name)
-            return data.toLowerCase().includes(value.toLowerCase())
+            const data = x.firstName.concat(" ", x.lastName).concat(" ", x.jobTitle.name || jobTitles.data.find(y => y._id === y.jobTitle)?.name) // Concatenate item data into one string seperated by spaces
+            return data.toLowerCase().includes(value.toLowerCase()) // Check if data string includes searched query, both shifted to lower case
           })
       }
     })
@@ -72,8 +75,10 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
               onChange={handleSearch}
             />
           </Toolbar>
+
           <TblContainer>
               <TblHead />
+
               <TableBody>
                 {
                   finalRecords().map(item => {
@@ -98,7 +103,9 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
                 }
               </TableBody>
           </TblContainer>
+
           <TblPagination />
+          
           <Popup
             title="Pievienot darbinieku"
             openPopup={openPopup}

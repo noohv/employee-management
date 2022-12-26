@@ -74,7 +74,7 @@ export default (state = initialState , action) => {
             }
           }),
         },
-        success: 'Dati atjaunoti!'
+        success: 'Grafika dati atjaunoti!'
       }
     
     case UPDATE_SCHEDULE_ERROR:

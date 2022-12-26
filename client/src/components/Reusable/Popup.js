@@ -7,7 +7,7 @@ export default function Popup({ title, children, openPopup, setOpenPopup }) {
     <Dialog open={openPopup}>
       <DialogTitle>
         <div style={{display:'flex'}}>
-          <Typography variant='h6' style={{flexGrow:1}}>
+          <Typography variant='h6' style={{flexGrow: 1}}>
             {title}
           </Typography>
                 

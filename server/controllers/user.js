@@ -24,7 +24,6 @@ export const signin = async (req, res) => {
     
     res.status(200).json({ result: existingUser, token })
   } catch (error) {
-    console.log(error.message)
     res.status(500).json({ message: SIGNIN_ERROR })
   }
 }
@@ -34,7 +33,7 @@ export const getUsers = async (req, res) => {
     const users = await User.find()
     res.status(200).json(users)
   } catch (error) {
-    res.status(404).json({ message: error.message })  
+    res.status(404).json({ message: OTHER_ERROR })  
   }
 }
 
@@ -69,6 +68,6 @@ export const deleteUser = async (req, res) => {
     await user.remove()
     res.status(200).json(id)
   } catch (error) {
-    res.status(404).json({ message: OTHER_ERROR })
+    res.status(404).json({ message: USER_NOT_FOUND })
   }
 }

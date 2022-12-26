@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, TextField, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { createJobTitle, updateJobTitle } from "../../actions/jobTitle";
+import { fieldRequired, maxLength250 } from '../../Helpers/errorMessages'
 
 export default function Form({ setOpenPopup, currentId }) {
   const initialData = { name: '', description:''}
@@ -14,9 +15,9 @@ export default function Form({ setOpenPopup, currentId }) {
     let temp = {...errors}
 
     if('name' in fieldValues)
-      temp.name = fieldValues.name ? "": "Šis lauks ir obligāts"
+      temp.name = fieldValues.name ? "": fieldRequired
     if('description' in fieldValues)
-      temp.description = fieldValues.description ? (fieldValues.description.length > 250 ? "Apraksta maksimālais garums ir 250 rakstzīmes" : "") : "Šis lauks ir obligāts"
+      temp.description = fieldValues.description ? (fieldValues.description.length > 250 ? maxLength250 : "") : fieldRequired
 
     setErrors({ ...temp })
 

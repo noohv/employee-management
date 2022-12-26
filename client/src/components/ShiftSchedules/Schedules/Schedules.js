@@ -3,11 +3,9 @@ import ScheduleForm from './ScheduleForm'
 import Popup from "../../Reusable/Popup";
 import { Button, Container, TableBody, TableCell, TableRow, IconButton, Chip, Typography, Divider } from '@mui/material';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from "react-redux";
 import { deleteSchedule, getSchedules } from "../../../actions/schedule";
-import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import useTable from '../../Reusable/useTable';
 import ConfirmDialog from '../../Reusable/ConfirmDialog';
@@ -19,7 +17,6 @@ export default function Schedules({ setNotify }) {
   const schedules = useSelector((state) => state.schedule.data)
   const { error, success } = useSelector((state) => state.schedule)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const headCells = [
     { id: 'startDate', label: 'Sākuma datums' },

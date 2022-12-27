@@ -81,7 +81,7 @@ export const updateSchedule = async (req, res) => {
         }
      }, { new: true }).populate("shifts employeeSchedules.employee employeeSchedules.employee.absences")
 
-    res.json(updatedSchedule)
+    res.status(200).json(updatedSchedule)
   } catch (error) {
     res.status(404).json({ message: SCHEDULE_NOT_FOUND })
   }

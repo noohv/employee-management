@@ -51,7 +51,7 @@ export const updateEmployee = async (req, res) => {
   const data = req.body
 
   try {    
-    const updatedEmployee = await EmployeeProfile.findById(id) // Employee before
+    const updatedEmployee = await EmployeeProfile.findById(id).populate('absences jobTitle') // Employee before
     const oldJobTitle = await JobTitle.findById(updatedEmployee.jobTitle).populate('employees') // Previous job title
     const newJobTitle = await JobTitle.findById(data.jobTitle).populate('employees') // Newly selected job title
 
@@ -79,7 +79,7 @@ export const updateEmployee = async (req, res) => {
       }
     }
     
-    await updatedEmployee.updateOne(data, { new: true }).populate("absences jobTitle")
+    await updatedEmployee.updateOne(data, { new: true })
     res.status(200).json(updatedEmployee)
   } catch (error) {
     res.status(404).json({ message: EMPLOYEE_NOT_FOUND })

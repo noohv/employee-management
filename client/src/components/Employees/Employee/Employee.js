@@ -70,7 +70,7 @@ export default function Employee({ setNotify }) {
 
   return (
     <>
-      {!isLoading ?
+      {!isLoading && employee ?
         <> 
           <IconButton sx={{mt:'1%', ml:'1%'}} onClick={()=> navigate('/')}><ArrowBackRoundedIcon /></IconButton>
           <Container sx={{display: 'flex', justifyContent: 'space-between'}}>

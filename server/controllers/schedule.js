@@ -53,7 +53,7 @@ export const getSchedules = async (req, res) => {
     const schedules =  await Schedule.find().populate('shifts')
     res.status(200).json(schedules)
   } catch (error) {
-    res.status(404).json({ message: SCHEDULE_NOT_FOUND })
+    res.status(404).json({ message: OTHER_ERROR })
   }
 }
 

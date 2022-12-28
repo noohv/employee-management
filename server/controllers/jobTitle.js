@@ -6,22 +6,10 @@ import { JOBTITLE_NOT_FOUND, OTHER_ERROR } from '../errorMessages.js';
 // Get all job titles
 export const getJobTitles = async (req, res) => {
   try {
-    const jobTitles =  await JobTitle.find().populate('employees')
+    const jobTitles = await JobTitle.find().populate('employees')
     res.status(200).json(jobTitles)
   } catch (error) {
     res.status(404).json({ message: OTHER_ERROR })
-  }
-}
-
-// Get single job title
-export const getJobTitle = async (req, res) => {
-  const { id } = req.params
-    
-  try {
-    const jobTitle = await JobTitle.findById(id).populate('employees')
-    res.status(200).json(jobTitle)
-  } catch (error) {
-    res.status(404).json({ message: JOBTITLE_NOT_FOUND })
   }
 }
 
@@ -64,7 +52,6 @@ export const deleteJobTitle = async (req, res) => {
     await jobTitle.remove()
     res.status(200).json(id)
   } catch (error) {
-    console.log(error)
     res.status(404).json({ message: OTHER_ERROR })
   }
 }

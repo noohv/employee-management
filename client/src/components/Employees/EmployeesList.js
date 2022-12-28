@@ -25,7 +25,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
   ]
 
   const getStatus = (item) => {
-    const type = item.absences.filter(item => item.startDate < currentDate.toISOString() && item.endDate > currentDate.toISOString())[0]?.absenceType
+    const type = item.absences.filter(item => item.startDate.slice(0, 10) <= currentDate.toISOString().slice(0, 10) && item.endDate.slice(0, 10) >= currentDate.toISOString().slice(0, 10))[0]?.absenceType
     if(type === "vacation") return "statusVacation"
     else if(type === "sick") return "statusSick"
     else if(type === "other") return "statusOther"

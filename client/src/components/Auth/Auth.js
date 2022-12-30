@@ -73,7 +73,7 @@ export default function Auth({ setNotify }) {
       </Container>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Input name="email" label="Epasta Adrese" handleChange={handleChange} type="text" error={errors.email} />
+          <Input name="email" label="E-pasts" handleChange={handleChange} type="text" error={errors.email} />
           <Input name="password" label="Parole" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} error={errors.password} />
         </Grid>
         <Button sx={{mt:2}} type="submit" color="secondary" variant='contained' fullWidth>

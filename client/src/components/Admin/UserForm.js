@@ -74,7 +74,7 @@ export default function UserForm({ setOpenPopup }) {
         <Grid container spacing={1.5}>
           <Input name="firstName" label="Vārds" handleChange={handleChange} autoFocus half error={errors.firstName} />
           <Input name="lastName" label="Uzvārds" handleChange={handleChange} half error={errors.lastName} />
-          <Input name="email" label="Epasta Adrese" handleChange={handleChange} type="text" error={errors.email} />
+          <Input name="email" label="E-pasts" handleChange={handleChange} type="text" error={errors.email} />
           <Input name="password" label="Parole" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} error={errors.password} />
           <Input name="confirmPassword" label="Apstiprināt paroli" handleChange={handleChange} type="password" error={errors.confirmPassword} />
           <Grid item xs={12}>

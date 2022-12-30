@@ -139,20 +139,20 @@ export default function Navbar({ setNotify }) {
                     Darbinieki
                   </Typography>
                 </Button>
-                <Button sx={{ my: 2, display: 'block' }} color={location.pathname === '/grafiki' ? "white" : "lightgray"} component={Link} to='/grafiki'>
-                  <Typography variant='body2' sx={location.pathname === '/grafiki' ? {fontWeight: 'bold'} : null}>
+                <Button sx={{ my: 2, display: 'block' }} color={location.pathname.includes("/grafiki") ? "white" : "lightgray"} component={Link} to='/grafiki'>
+                  <Typography variant='body2' sx={location.pathname.includes("/grafiki") ? {fontWeight: 'bold'} : null}>
                     Grafiki
                   </Typography>
                 </Button>
-                <Button sx={{ my: 2, display: 'block' }} color={location.pathname === '/amati' ? "white" : "lightgray"} component={Link} to='/amati'>
-                  <Typography variant='body2' sx={location.pathname === '/amati' ? {fontWeight: 'bold'} : null}>
+                <Button sx={{ my: 2, display: 'block' }} color={location.pathname.includes("/amati") ? "white" : "lightgray"} component={Link} to='/amati'>
+                  <Typography variant='body2' sx={location.pathname.includes("/amati") ? {fontWeight: 'bold'} : null}>
                     Amati
                   </Typography>
                 </Button>
               
                 {user?.result.role === "admin" && 
-                  <Button sx={{ my: 2, display: 'block' }} color={location.pathname === '/admin' ? "white" : "lightgray"} component={Link} to='/admin'>
-                    <Typography variant='body2' sx={location.pathname === '/admin' ? {fontWeight: 'bold'} : null}>
+                  <Button sx={{ my: 2, display: 'block' }} color={location.pathname.includes("/admin") ? "white" : "lightgray"} component={Link} to='/admin'>
+                    <Typography variant='body2' sx={location.pathname.includes("/admin") ? {fontWeight: 'bold'} : null}>
                       Admin
                     </Typography>
                   </Button>

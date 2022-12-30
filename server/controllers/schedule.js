@@ -12,7 +12,7 @@ export const createSchedule = async (req, res) => {
   // Object with formatted data
   let formatData = {
     startDate: addHours(startOfWeek(selectedDate, {weekStartsOn: 1}), 2),
-    endDate: addHours(endOfWeek(selectedDate, {weekStartsOn: 1}), 2),
+    endDate: endOfWeek(selectedDate, {weekStartsOn: 1}),
     shifts: {
       morning: data.shifts.morning,
       evening: data.shifts.evening,

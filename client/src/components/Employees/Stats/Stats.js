@@ -8,25 +8,26 @@ export default function Stats({ employees }) {
 
   const activeEmp = () => { 
     return employees.filter(item => 
-      !item.absences.some(i => i.startDate <= current && i.endDate >= current)) 
+      !item.absences.some(i =>
+         i.startDate.slice(0, 10) <= current.slice(0, 10) && i.endDate.slice(0, 10) >= current.slice(0, 10))) 
   }
 
   const holidayLeaveEmp = () => {
     return employees.filter(item => 
       item.absences.some(i => 
-        (i.startDate <= current && i.endDate >= current) && (i.absenceType === 'vacation'))) 
+        (i.startDate.slice(0, 10) <= current.slice(0, 10) && i.endDate.slice(0, 10) >= current.slice(0, 10)) && (i.absenceType === 'vacation'))) 
   }
 
   const sickLeaveEmp = () => { 
     return employees.filter(item =>
       item.absences.some(i => 
-        (i.startDate <= current && i.endDate >= current) && (i.absenceType === 'sick'))) 
+        (i.startDate.slice(0, 10) <= current.slice(0, 10) && i.endDate.slice(0, 10) >= current.slice(0, 10)) && (i.absenceType === 'sick'))) 
   }
 
   const otherLeaveEmp = () => {
      return employees.filter(item =>
       item.absences.some(i =>
-        (i.startDate <= current && i.endDate >= current) && (i.absenceType === 'other'))) 
+        (i.startDate.slice(0, 10) <= current.slice(0, 10) && i.endDate.slice(0, 10) >= current.slice(0, 10)) && (i.absenceType === 'other'))) 
   }
 
   const data = [

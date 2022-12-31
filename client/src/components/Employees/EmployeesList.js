@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { InputAdornment, TableBody, TableCell, TableRow, Toolbar, IconButton, Button, TextField, Tooltip } from "@mui/material";
 import useTable from "../Reusable/useTable";
 import { Search } from "@mui/icons-material";
-import SettingsIcon from '@mui/icons-material/Settings';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import EmployeesLoadingSkeleton from "./EmployeesLoadingSkeleton";
 import Popup from "../Reusable/Popup";
 import Form from "./Form/Form";
@@ -94,7 +94,7 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
                         <TableCell>{item.jobTitle?.name || jobTitles.data.find(x => x._id === item.jobTitle)?.name}</TableCell>
                         <TableCell align="center">
                           <IconButton component={Link} to={`/darbinieki/${item._id}`}>
-                            <SettingsIcon />
+                            <KeyboardArrowRightIcon />
                           </IconButton>   
                         </TableCell>
                       </TableRow>

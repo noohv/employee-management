@@ -10,6 +10,7 @@ export default function AbsenceForm({ id, setOpenPopup, types, currentId, absenc
   const [errors, setErrors] = useState({})
   const dispatch = useDispatch()
 
+  // Absence form validation
   const validate = (fieldValues = absenceData) => {
     let temp = {...errors}
 
@@ -26,14 +27,16 @@ export default function AbsenceForm({ id, setOpenPopup, types, currentId, absenc
       return Object.values(temp).every(x => x === "")
   }
 
+  // Handle input field data change
   const handleChange = (e) => {
       const { name, value } = e.target
       setAbsenceData({ ...absenceData, [name]:value })
       validate({[name]: value})
   }
     
+  // Handle form submit
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault() // Prevent page from reloading
     
     if(validate()) {
       if(currentId) {
@@ -42,11 +45,12 @@ export default function AbsenceForm({ id, setOpenPopup, types, currentId, absenc
       else {
         dispatch(createAbsence(id, absenceData))
       }
-      setOpenPopup(false)
+      setOpenPopup(false) // Close form popup
       clear()
     }
   }
   
+  // Clear absence data state and errors
   const clear = () => { 
     setAbsenceData(initialData) 
     setErrors({})

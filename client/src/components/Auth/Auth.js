@@ -69,7 +69,7 @@ export default function Auth({ setNotify }) {
           <Avatar>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography sx={{ mb:2 }} variant="h5">Ielogoties</Typography>
+          <Typography sx={{ mb:2 }} variant="h5">Pieteikties</Typography>
       </Container>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>

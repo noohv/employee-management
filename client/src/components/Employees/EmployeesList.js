@@ -11,11 +11,12 @@ import { Link } from "react-router-dom";
 import CircleIcon from '@mui/icons-material/Circle';
 
 export default function EmployeesList({ employees, jobTitles, setNotify }) {
-  const showLoading = useSelector((state) => state.employees.isLoading)
+  const showLoading = useSelector((state) => state.employees.isLoading) // Loading state when data is fetched
   const [filter, setFilter] = useState({ fn: items => { return items } }) // Filtered items by search
   const [openPopup, setOpenPopup] = useState(false) // Popup open state
   const currentDate = new Date() // Get current date
 
+  // Head rows of table
   const headCells = [
     { id: 'status', label: 'Statuss', disableSorting: true},
     { id: 'firstName', label: 'Vārds' },
@@ -24,9 +25,14 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
     { id: 'actions', label: '', disableSorting: true }
   ]
 
+  // Get status type for employee
   const getStatus = (item) => {
-    const type = item.absences.filter(item => item.startDate.slice(0, 10) <= currentDate.toISOString().slice(0, 10) && item.endDate.slice(0, 10) >= currentDate.toISOString().slice(0, 10))[0]?.absenceType
-    if(type === "vacation") return "statusVacation"
+
+    // Find absence which overlays current date (today)
+    const type = item.absences.find(item => item.startDate.slice(0, 10) <= currentDate.toISOString().slice(0, 10) 
+      && item.endDate.slice(0, 10) >= currentDate.toISOString().slice(0, 10))?.absenceType
+    
+      if(type === "vacation") return "statusVacation"
     else if(type === "sick") return "statusSick"
     else if(type === "other") return "statusOther"
     else return "statusActive"
@@ -51,9 +57,12 @@ export default function EmployeesList({ employees, jobTitles, setNotify }) {
         else if(value === " ")
           return [] // Return empty list if search query is space
         else
-          // Return filtered records
+          // Filter records by searched value
           return items.filter(x => {
-            const data = x.firstName.concat(" ", x.lastName).concat(" ", x.jobTitle.name || jobTitles.data.find(y => y._id === y.jobTitle)?.name) // Concatenate item data into one string seperated by spaces
+            // Concatenate item data into one string seperated by spaces
+            const data = x.firstName.concat(" ", x.lastName).concat(" ", x.jobTitle.name || jobTitles.data.find(y => y._id === y.jobTitle)?.name)
+            
+            // Return data which includes searched value when shifted to lower case
             return data.toLowerCase().includes(value.toLowerCase()) // Check if data string includes searched query, both shifted to lower case
           })
       }
